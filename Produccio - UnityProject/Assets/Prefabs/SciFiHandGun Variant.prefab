@@ -40,7 +40,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100010, guid: 90c58c65f76dbe741b5dede2c0ac644d, type: 3}
       propertyPath: m_Name
-      value: SciFiHandGun
+      value: SciFiHandGun Variant
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 90c58c65f76dbe741b5dede2c0ac644d, type: 3}
       propertyPath: m_RootOrder
@@ -162,7 +162,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb814c78ef7d654dad3a65598c3fdfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObjects: []
-  objectToPool: {fileID: 7818005684930640585, guid: 4f45d4769d0293942ac7c3a6b137c2dd,
-    type: 3}
-  amountToPool: 15
+  bulletList: []
+  bullet: {fileID: 0}
+  amount: 0
+  initialPos: {fileID: 0}
+  bulletSpeed: 0
+--- !u!114 &8393765109051958981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9207345872005177396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9bfb36fc8352a4ca6cea5a8ab586ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
