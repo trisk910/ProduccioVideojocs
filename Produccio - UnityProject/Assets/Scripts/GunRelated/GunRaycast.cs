@@ -11,7 +11,7 @@ public class GunRaycast : MonoBehaviour
     public Transform gunEnd;                                            // Holds a reference to the gun end object, marking the muzzle location of the gun
 
     private Camera fpsCam;                                                // Holds a reference to the first person camera
-    private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);    // WaitForSeconds object used by our ShotEffect coroutine, determines time laser line will remain visible
+    private WaitForSeconds shotDuration = new WaitForSeconds(0.02f);    // WaitForSeconds object used by our ShotEffect coroutine, determines time laser line will remain visible
     //private AudioSource gunAudio;                                        // Reference to the audio source which will play our shooting sound effect
     private LineRenderer laserLine;                                        // Reference to the LineRenderer component which will display our laserline
     private float nextFire;                                                // Float to store the time the player will be allowed to fire again, after firing
