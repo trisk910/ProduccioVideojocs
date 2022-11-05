@@ -10,6 +10,8 @@ public class GunRaycast : MonoBehaviour
     public float hitForce = 400f;                                        // Amount of force which will be added to objects with a rigidbody shot by the player
     public Transform gunEnd;                                            // Holds a reference to the gun end object, marking the muzzle location of the gun
 
+    public ParticleSystem muzzleFlash;
+
     private Camera fpsCam;                                                // Holds a reference to the first person camera
     private WaitForSeconds shotDuration = new WaitForSeconds(0.02f);    // WaitForSeconds object used by our ShotEffect coroutine, determines time laser line will remain visible
     //private AudioSource gunAudio;                                        // Reference to the audio source which will play our shooting sound effect
@@ -90,7 +92,7 @@ public class GunRaycast : MonoBehaviour
 
         // Turn on our line renderer
         //laserLine.enabled = true;
-
+        muzzleFlash.Play();
         //Wait for .07 seconds
         yield return shotDuration;
 
