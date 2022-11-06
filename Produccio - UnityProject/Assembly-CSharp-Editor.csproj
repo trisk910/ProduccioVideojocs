@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
+     <None Include="Assets\EffectExamples\Editor\PackageManagerAssembly\PackageImportList.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -312,6 +313,9 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.IonicZip">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll</HintPath>
+    </Reference>
+    <Reference Include="PackageManagerAssembly">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Assets\EffectExamples\Editor\PackageManagerAssembly\PackageManagerAssembly.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Cecil.Pdb">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
@@ -715,26 +719,17 @@
     <Reference Include="System.Xml.XPath.XDocument">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.TestRunner">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Flow.Editor">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    <Reference Include="UnityEngine.TestRunner">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="PPv2URPConverters">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
@@ -745,38 +740,20 @@
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Core.Editor">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Editor">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Searcher.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Runtime">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProBuilder">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Flow">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
@@ -793,26 +770,74 @@
     <Reference Include="UnityEngine.UI">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Core">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.EditorCoroutines.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Flow.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="PPv2URPConverters">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualStudio.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Core.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.postprocessing.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\com.unity.postprocessing.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PlasticSCM.Editor">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Flow">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Services.Core">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Cinemachine">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+    <Reference Include="Unity.VisualScripting.Core">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Services.Core.Analytics">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
@@ -820,11 +845,11 @@
     <Reference Include="Unity.Burst">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
     </Reference>
+    <Reference Include="com.unity.postprocessing.Runtime">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\com.unity.postprocessing.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
@@ -832,17 +857,14 @@
     <Reference Include="Unity.Services.Core.Environments">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-        <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
         <HintPath>F:\Documents\GitHub\ProduccioVideojocs\Produccio - UnityProject\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
