@@ -1,9 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GunRaycast : MonoBehaviour
 {
+
+    public List<GameObject> bulletList;
+    public GameObject bullet;
+    public int amount;
+    public Transform initialPos;
+    public float bulletSpeed;
+    private float damage;
+    public int magazine = 15;
+    private float reloadTime = 3.0f;
+    private bool fireGun = true;
+
     public float gunDamage = 1.5f;                                            // Set the number of hitpoints that this gun will take away from shot objects with a health script
     public float fireRate = 0.25f;                                        // Number in seconds which controls how often the player can fire
     public float weaponRange = 50f;                                        // Distance in Unity units over which the player can fire
@@ -18,18 +30,35 @@ public class GunRaycast : MonoBehaviour
     //private LineRenderer laserLine;                                        // Reference to the LineRenderer component which will display our laserline
     private float nextFire;                                                // Float to store the time the player will be allowed to fire again, after firing
 
+    //public TMP_Text AmmoCountGUI;
+    /*[SerializeField]
+    public TextMeshPro AmmoCountGUI;
+    private int currentAmmo;*/
+
 
     void Start()
     {
+
+        bulletList = new List<GameObject>();
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject objBullet = (GameObject)Instantiate(bullet);
+            objBullet.SetActive(false);
+            bulletList.Add(objBullet);
+        }
+
         // Get and store a reference to our LineRenderer component
         //laserLine = GetComponent<LineRenderer>();
-      
+
 
         // Get and store a reference to our AudioSource component
         //gunAudio = GetComponent<AudioSource>();
 
         // Get and store a reference to our Camera by searching this GameObject and its parents
         fpsCam = GetComponentInParent<Camera>();
+
+       /* currentAmmo = magazine;
+        AmmoCountGUI = GetComponent<TextMeshPro>();*/
     }
 
 
@@ -40,10 +69,10 @@ public class GunRaycast : MonoBehaviour
         {
             // Update the time when our player can fire next
             nextFire = Time.time + fireRate;
-
+            Shoot();
             // Start our ShotEffect coroutine to turn our laser line on and off
             StartCoroutine(ShotEffect());
-
+            
             // Create a vector at the center of our camera's viewport
             Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
 
@@ -98,5 +127,31 @@ public class GunRaycast : MonoBehaviour
 
         // Deactivate our line renderer after waiting
         //laserLine.enabled = false;
+    }
+    void Shoot()
+    {
+        GameObject currentBullet = getBulletPool();
+        currentBullet.transform.position = initialPos.position;
+        currentBullet.transform.rotation = initialPos.rotation;
+        currentBullet.SetActive(true);
+        Rigidbody tempRigidBodyBullet = currentBullet.GetComponent<Rigidbody>();
+        tempRigidBodyBullet.angularVelocity = Vector3.zero;
+        tempRigidBodyBullet.velocity = Vector3.zero;
+        tempRigidBodyBullet.AddForce(tempRigidBodyBullet.transform.forward * bulletSpeed, ForceMode.Impulse);
+    }
+    private GameObject getBulletPool()
+    {
+        for (int i = 0; i < bulletList.Count; i++)
+        {
+            if (!bulletList[i].activeInHierarchy)
+            {
+                return bulletList[i];
+            }
+
+        }
+        GameObject objBullet = (GameObject)Instantiate(bullet);
+        objBullet.SetActive(false);
+        bulletList.Add(objBullet);
+        return objBullet;
     }
 }

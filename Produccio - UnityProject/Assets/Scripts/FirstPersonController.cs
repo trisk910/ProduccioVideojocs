@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -19,7 +20,8 @@ namespace StarterAssets
 		[Tooltip("Rotation speed of the character")]
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
-		public float SpeedChangeRate = 10.0f;
+		public float SpeedChangeRate = 10.0f; 
+				
 
 		[Space(10)]
 		[Tooltip("The height the player can jump")]
@@ -108,7 +110,10 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			
 		}
+	
 
 		private void Update()
 		{
