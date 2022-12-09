@@ -31519,7 +31519,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-31336
+  m_Name: pb_Mesh31278
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -32630,6 +32630,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1335392521}
   - component: {fileID: 1335392522}
+  - component: {fileID: 1335392523}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -32663,13 +32664,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335392520}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0cfcff656ad2654c873238f3fc24c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5376448847394454538, guid: 5bdfe2b9fd61a904ab95860024db721e,
     type: 3}
+--- !u!114 &1335392523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335392520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86cece63fbb8a644285cb00a892789c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1335903022
 PrefabInstance:
   m_ObjectHideFlags: 0
