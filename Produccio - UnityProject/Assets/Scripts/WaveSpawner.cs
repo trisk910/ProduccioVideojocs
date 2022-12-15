@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaveSpawner : MonoBehaviour
 {
 
-    public List<Enemy> enemies = new List<Enemy>();
+    public List<EnemyL> enemies = new List<EnemyL>();
     public int currWave;
     private int waveValue;
     public List<GameObject> enemiesToSpawn = new List<GameObject>();
@@ -85,10 +85,11 @@ public class WaveSpawner : MonoBehaviour
         // repeat... 
 
         //  -> if we have no points left, leave the loop
-
+        int flag = 1000;
         List<GameObject> generatedEnemies = new List<GameObject>();
-        while (waveValue > 0 || generatedEnemies.Count < 50)
+        while ((waveValue > 0 || generatedEnemies.Count < 50) && flag >0)
         {
+           
             int randEnemyId = Random.Range(0, enemies.Count);
             int randEnemyCost = enemies[randEnemyId].cost;
 
@@ -101,6 +102,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 break;
             }
+            flag--;
         }
         enemiesToSpawn.Clear();
         enemiesToSpawn = generatedEnemies;
@@ -109,9 +111,10 @@ public class WaveSpawner : MonoBehaviour
 }
 
 [System.Serializable]
-public class Enemy
+public class EnemyL
 {
     public GameObject enemyPrefab;
     public int cost;
 }
 
+//https://www.youtube.com/watch?v=7T-MTo8Uaio
