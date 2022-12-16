@@ -85,9 +85,9 @@ public class WaveSpawner : MonoBehaviour
         // repeat... 
 
         //  -> if we have no points left, leave the loop
-        int flag = 1000;
+        //int flag = 1000;
         List<GameObject> generatedEnemies = new List<GameObject>();
-        while ((waveValue > 0 || generatedEnemies.Count < 50) && flag >0)
+        while ((waveValue > 0 || generatedEnemies.Count < 50)/* && flag >0*/)
         {
            
             int randEnemyId = Random.Range(0, enemies.Count);
@@ -102,7 +102,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 break;
             }
-            flag--;
+            //flag--;
         }
         enemiesToSpawn.Clear();
         enemiesToSpawn = generatedEnemies;

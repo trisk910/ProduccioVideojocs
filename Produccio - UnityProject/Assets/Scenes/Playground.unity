@@ -32631,6 +32631,7 @@ GameObject:
   - component: {fileID: 1335392521}
   - component: {fileID: 1335392522}
   - component: {fileID: 1335392523}
+  - component: {fileID: 1335392524}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -32678,7 +32679,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335392520}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86cece63fbb8a644285cb00a892789c4, type: 3}
   m_Name: 
@@ -32697,6 +32698,25 @@ MonoBehaviour:
   spawnIndex: 1
   waveDuration: 30
   spawnedEnemies: []
+--- !u!114 &1335392524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335392520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421a61f2d86ce134387c0d7c2583fe3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies: []
+  currWave: 0
+  enemiesToSpawn: []
+  spawnLocation: []
+  spawnIndex: 0
+  spawnedEnemies: []
+  Currency: 0
 --- !u!1001 &1335903022
 PrefabInstance:
   m_ObjectHideFlags: 0
