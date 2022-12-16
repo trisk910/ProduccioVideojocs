@@ -14,10 +14,10 @@ public class IASpawner : MonoBehaviour
     public List<EnemyL> enemies = new List<EnemyL>();
     public int currWave;
     private int waveValue;
-    public List<GameObject> enemiesToSpawn = new List<GameObject>();
+    //public List<GameObject> enemiesToSpawn = new List<GameObject>();
 
     public Transform[] spawnLocation;
-    public int spawnIndex;
+    private int spawnIndex;
 
     /*public int waveDuration;
     private float waveTimer;
@@ -30,31 +30,50 @@ public class IASpawner : MonoBehaviour
 
     private int spawnTimerBetweenWaves;
 
-    public int Currency = 0;
+    public float Currency;
+    private float currencyMultiplyer;
 
     void Start()
     {
         canSpawn = true;
-        GenerateFirstWave();
-        Currency = 10;
+        SpawnEnemy();
+        Currency = 0f;
+        currencyMultiplyer = .05f;
     }
 
     // Update is called once per frame
     void Update()
     {
         //spawnIndex = Random.Range(0, count);
+        Currency += currencyMultiplyer * (Time.deltaTime * 1f);
+        if(canSpawn)
+            SpawnEnemy();
+
+        StartCoroutine(currencyMultiplyerTimer());
 
     }
 
-    void GenerateFirstWave()
+    void SpawnEnemy()
     {
-        GameObject enemy = (GameObject)Instantiate(enemiesToSpawn[0], spawnLocation[spawnLocation.Length].position, Quaternion.identity);
-        enemiesToSpawn.RemoveAt(0); 
-        spawnedEnemies.Add(enemy);
+        for(int i = 0; i < enemies.Count; i++) {
+            spawnIndex = Random.Range(0, spawnLocation.Length);
+            if (Currency >= enemies[i].cost) {
+                GameObject enemy = Instantiate<GameObject>(enemies[0].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                //enemiesToSpawn.RemoveAt(0);
+                spawnedEnemies.Add(enemy); 
+                Currency -= enemies[i].cost;
+            }
+        }
     }
 
     private IEnumerator SpawnerDelay()
     {
         yield return new WaitForSeconds(3);
+    }
+    private IEnumerator currencyMultiplyerTimer()
+    {
+        yield return new WaitForSeconds(10);
+        currencyMultiplyer += 0.01f;
+        //Debug.Log("CurrencyMultiplyer: " + currencyMultiplyer);
     }
 }
