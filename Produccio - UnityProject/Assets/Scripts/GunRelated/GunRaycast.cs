@@ -12,8 +12,9 @@ public class GunRaycast : MonoBehaviour
     public Transform initialPos;
     public float bulletSpeed;
     private float damage;
-    public int magazine = 15;
-    private float reloadTime = 3.0f;
+    public int maxBulletsPerMag = 15;
+    public int currentMagazine;
+    private float reloadTime = 1.5f;
     private bool fireGun = true;
 
     public float gunDamage = 1.5f;                                            // Set the number of hitpoints that this gun will take away from shot objects with a health script
@@ -35,6 +36,9 @@ public class GunRaycast : MonoBehaviour
     public TextMeshPro AmmoCountGUI;
     private int currentAmmo;*/
 
+    public TextMeshProUGUI currentMagazineUI;
+
+    private AudioSource audioS;
 
     void Start()
     {
@@ -46,6 +50,7 @@ public class GunRaycast : MonoBehaviour
             objBullet.SetActive(false);
             bulletList.Add(objBullet);
         }
+        currentMagazine = maxBulletsPerMag;
 
         // Get and store a reference to our LineRenderer component
         //laserLine = GetComponent<LineRenderer>();
@@ -57,16 +62,18 @@ public class GunRaycast : MonoBehaviour
         // Get and store a reference to our Camera by searching this GameObject and its parents
         fpsCam = GetComponentInParent<Camera>();
 
-       /* currentAmmo = magazine;
-        AmmoCountGUI = GetComponent<TextMeshPro>();*/
+        audioS = GetComponent<AudioSource>();
+       
+         //currentMagazineUI = GetComponent<TextMeshProUGUI>();
     }
 
 
     void Update()
     {
         // Check if the player has pressed the fire button and if enough time has elapsed since they last fired
-        if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
+        if ((Input.GetButtonDown("Fire1") && Time.time > nextFire) && fireGun)
         {
+            audioS.Play();
             // Update the time when our player can fire next
             nextFire = Time.time + fireRate;
             Shoot();
@@ -110,8 +117,39 @@ public class GunRaycast : MonoBehaviour
                 // If we did not hit anything, set the end of the line to a position directly in front of the camera at the distance of weaponRange
                 //laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * weaponRange));
             }
+            currentMagazine--;
+            upDateUIAmmo();
+            checkMagazine();
         }
     }
+
+    private void upDateUIAmmo()
+    {
+        currentMagazineUI.SetText(currentMagazine+"/"+maxBulletsPerMag);
+    }
+
+    private void checkMagazine()
+    {
+        if(currentMagazine <= 0)
+        {
+            fireGun = false;
+
+            StartCoroutine(ReloadGun());
+        }
+    }
+
+    private IEnumerator ReloadGun()
+    {
+        yield return new WaitForSeconds(reloadTime);
+        currentMagazine = maxBulletsPerMag;
+        upDateUIAmmo();
+        fireGun = true;
+    }
+   /* private IEnumerable ReloadGun()
+    {
+        fireGun = true;
+        yield return reloadTime;
+    }*/
 
 
     private IEnumerator ShotEffect()
@@ -122,7 +160,6 @@ public class GunRaycast : MonoBehaviour
         // Turn on our line renderer
         //laserLine.enabled = true;
         muzzleFlash.Play();
-        //Wait for .07 seconds
         yield return shotDuration;
 
         // Deactivate our line renderer after waiting

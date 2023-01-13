@@ -21,15 +21,20 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent nav;
 
+    private Animator IAanim;
+
     private PlayerEvents playerEvents;
      
     private GameObject player;
     private void Start(){
-         nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
-         player = GameObject.FindGameObjectWithTag("Player");
-        
+        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        IAanim = GetComponent<Animator>();
+
+
     }
 
+    //Die
     public void Damage(float damageAmount)
     {
         //subtract damage amount when Damage function is called
@@ -38,8 +43,15 @@ public class Enemy : MonoBehaviour
         //Check if health has fallen below zero
         if (currentHealth <= 0)
         {
-            //if health has fallen below zero, deactivate it 
-            gameObject.SetActive(false);
+            /* nav.speed = 0;
+             nav.SetDestination(transform.position);
+             IAanim.SetBool("isDead", true);
+            // IAanim.SetBool("isDead", false);
+
+             StartCoroutine(disableDeathDelayer());
+             //if health has fallen below zero, deactivate it */
+            stateValue = -1;
+           
         }
     }
     private void doDamage()
@@ -56,6 +68,14 @@ public class Enemy : MonoBehaviour
     }
     private void navStates()
     {
+        if(stateValue == -1)
+        {
+            nav.enabled = false;
+            nav.speed = 0;
+            //nav.SetDestination(transform.position);
+            IAanim.SetBool("isDead", true);
+            StartCoroutine(disableDeathDelayer());
+        }
         if (stateValue == 0)
         {
             nav.enabled = false;
@@ -67,6 +87,7 @@ public class Enemy : MonoBehaviour
             nav.SetDestination(player.transform.position);
             nav.speed = initialSpeed;
         }
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -87,10 +108,15 @@ public class Enemy : MonoBehaviour
         yield return damageDelay;
         stateValue = 1;
     }
-        /*private IEnumerator DamageDelayer(float damageDelay)
-        {
-            yield return damageDelay;
-            stateValue = 1;
-            canDoDamage = true;
-        }*/
+    /*private IEnumerator DamageDelayer(float damageDelay)
+    {
+        yield return damageDelay;
+        stateValue = 1;
+        canDoDamage = true;
+    }*/
+    private IEnumerator disableDeathDelayer()
+    {
+        yield return new WaitForSeconds(3.5f);
+        gameObject.SetActive(false);
     }
+}

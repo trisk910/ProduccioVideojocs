@@ -31,26 +31,33 @@ public class IASpawner : MonoBehaviour
     private int spawnTimerBetweenWaves;
 
     public float Currency;
-    private float currencyMultiplyer;
+    public float currencyMultiplyer;
+    public float initialCurrencyMultiplier;
+
+    private float multiplyerTimer;
 
     void Start()
     {
         canSpawn = true;
         SpawnEnemy();
-        Currency = 0f;
+        Currency = 20f;
         currencyMultiplyer = .05f;
+        initialCurrencyMultiplier = currencyMultiplyer;
+        //StartCoroutine(currencyMultiplyerTimer());
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         //spawnIndex = Random.Range(0, count);
-        Currency += currencyMultiplyer * (Time.deltaTime * 1f);
+        Currency += currencyMultiplyer * (Time.deltaTime );
         if(canSpawn)
             SpawnEnemy();
 
-        StartCoroutine(currencyMultiplyerTimer());
 
+        startMultiplyerTimer();
+        //Debug.Log("Timer: " + multiplyerTimer);
     }
 
     void SpawnEnemy()
@@ -70,10 +77,27 @@ public class IASpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
     }
-    private IEnumerator currencyMultiplyerTimer()
+    /*private IEnumerator currencyMultiplyerTimer()
     {
-        yield return new WaitForSeconds(10);
-        currencyMultiplyer += 0.01f;
+        yield return new WaitForSeconds(30);
+        float addCurrencyMultiplyer = currencyMultiplyer;
+        currencyMultiplyer = addCurrencyMultiplyer +  0.5f;
         //Debug.Log("CurrencyMultiplyer: " + currencyMultiplyer);
+    }*/
+
+    private void startMultiplyerTimer()
+    {
+        multiplyerTimer += Time.fixedDeltaTime;
+        
+        if (multiplyerTimer > 100f)
+        {
+            float addCurrencyMultiplyer = currencyMultiplyer;
+            currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
+            resetMultiplyerTimer();
+        }
+    }
+    private void resetMultiplyerTimer()
+    {
+        multiplyerTimer = 0;
     }
 }
