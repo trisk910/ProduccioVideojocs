@@ -31,8 +31,9 @@ public class IASpawner : MonoBehaviour
     private int spawnTimerBetweenWaves;
 
     public float Currency;
+    public float InitialCurrency;
     public float currencyMultiplyer;
-    public float initialCurrencyMultiplier;
+    private float initialCurrencyMultiplier;
 
     private float multiplyerTimer;
 
@@ -40,7 +41,8 @@ public class IASpawner : MonoBehaviour
     {
         canSpawn = true;
         SpawnEnemy();
-        Currency = 20f;
+        InitialCurrency = 25f;
+        Currency = InitialCurrency;
         currencyMultiplyer = .05f;
         initialCurrencyMultiplier = currencyMultiplyer;
         //StartCoroutine(currencyMultiplyerTimer());
@@ -51,7 +53,7 @@ public class IASpawner : MonoBehaviour
     void Update()
     {
         //spawnIndex = Random.Range(0, count);
-        Currency += currencyMultiplyer * (Time.deltaTime );
+        Currency += currencyMultiplyer * (Time.deltaTime);
         if(canSpawn)
             SpawnEnemy();
 
@@ -87,9 +89,9 @@ public class IASpawner : MonoBehaviour
 
     private void startMultiplyerTimer()
     {
-        multiplyerTimer += Time.fixedDeltaTime;
+        multiplyerTimer += Time.deltaTime;
         
-        if (multiplyerTimer > 100f)
+        if (multiplyerTimer > 30f)
         {
             float addCurrencyMultiplyer = currencyMultiplyer;
             currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
