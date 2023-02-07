@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
-public class PlayerMovementTutorial : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    public enum PlayerClass {Templar, Nun};
+    public PlayerClass currentClass;
+
     [Header("Movement")]
     public float moveSpeed;
 
@@ -18,8 +22,8 @@ public class PlayerMovementTutorial : MonoBehaviour
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
 
-    [Header("Keybinds")]
-    public KeyCode jumpKey = KeyCode.Space;
+    //[Header("Keybinds")]
+    private KeyCode jumpKey = KeyCode.Space;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -35,12 +39,42 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     Rigidbody rb;
 
+    [Header("Player Health")]
+    public Slider healthbar;
+    public float maxHP;
+    public float currentHP;
+    public float regenRate;
+    private float damageDelay = 15.0f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
         readyToJump = true;
+
+        switch(currentClass)
+        {
+            case PlayerClass.Templar:
+                maxHP = 100f;
+                moveSpeed = 6;
+                groundDrag = 5;
+                jumpForce = 6;
+                airMultiplier = 0.4f;
+                playerHeight = 2;
+                break;
+            case PlayerClass.Nun:
+                maxHP = 85f;
+                moveSpeed = 8;
+                groundDrag = 5;
+                jumpForce = 8;
+                airMultiplier = 0.4f;
+                playerHeight = 2;
+                break;
+        }
+        currentHP = maxHP;
+        healthbar.maxValue = maxHP;
+        healthbar.value = healthbar.maxValue;
     }
 
     private void Update()
@@ -115,5 +149,31 @@ public class PlayerMovementTutorial : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+
+    public void takeDamage(float damage)
+    {
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+        currentHP -= damage;
+        healthbar.value = currentHP - Time.time;
+        //StartCoroutine(DamageDelayer(damageDelay));
+    }
+    /*private IEnumerator DamageDelayer(float damageDelay)
+    {
+        yield return damageDelay;
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+    }*/
+
+    private void Die()
+    {
+        //deathScreen.SetActive(true);
+        Time.timeScale = 0f;
     }
 }

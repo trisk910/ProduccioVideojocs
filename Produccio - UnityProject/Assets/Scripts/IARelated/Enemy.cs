@@ -6,32 +6,36 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    //The box's current health point total
-    public float currentHealth = 5f;
-    public float movementSpeed = 5.0f;
-    public float attackDamage = 16f;
-    public float recoil = 5000f;
+    public enum MonsterClass { Saltarin};
+    public MonsterClass currentClass;
 
+    [Header("Health")]
+    public float currentHealth = 5f;
+
+    [Header("Movement")]
+    public float movementSpeed = 5.0f;
     private float initialSpeed = 3.5f;
+
+    [Header("Damage")]
+    public float attackDamage = 16f;
+    public float recoil = 5000f;    
 
     public float damageDelay = 15.0f;
     private bool canDoDamage = true;
 
+    [Header("IA Status")]
     private int stateValue = 1;
 
     private NavMeshAgent nav;
 
     private Animator IAanim;
 
-    private PlayerEvents playerEvents;
      
     private GameObject player;
     private void Start(){
-        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        nav = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         IAanim = GetComponent<Animator>();
-
-
     }
 
     //Die
@@ -43,22 +47,14 @@ public class Enemy : MonoBehaviour
         //Check if health has fallen below zero
         if (currentHealth <= 0)
         {
-            /* nav.speed = 0;
-             nav.SetDestination(transform.position);
-             IAanim.SetBool("isDead", true);
-            // IAanim.SetBool("isDead", false);
-
-             StartCoroutine(disableDeathDelayer());
-             //if health has fallen below zero, deactivate it */
-            stateValue = -1;
-           
+            stateValue = -1;           
         }
     }
     private void doDamage()
     {
         //if (canDoDamage)
         //{
-            player.GetComponent<PlayerEvents>().takeDamage(attackDamage);
+            player.GetComponent<Player>().takeDamage(attackDamage);
         //    StartCoroutine(DamageDelayer(damageDelay));
          //   canDoDamage = false;
        // }
@@ -95,7 +91,6 @@ public class Enemy : MonoBehaviour
         {
             stateValue = 0;
             doDamage();
-            Debug.Log("TOuch");
             this.GetComponent<Rigidbody>().AddForce(-transform.forward * recoil);
             this.GetComponent<Rigidbody>().AddForce(0,recoil,0);
             StartCoroutine(MoveDelay(4f));
