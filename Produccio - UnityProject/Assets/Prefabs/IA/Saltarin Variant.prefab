@@ -30,17 +30,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.5763006
+      value: 8.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.646
+      value: 53.11703
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.518906
+      value: -77.33
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
@@ -50,17 +50,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c210296b0454ace478e47c8e8cd04abc,
         type: 3}
@@ -122,8 +122,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.16, y: 2.7, z: 2.96}
-  m_Center: {x: 0, y: 1.29, z: -0.3}
+  m_Size: {x: 2.116842, y: 2.7046664, z: 2.7804317}
+  m_Center: {x: 0.07495386, y: 1.2923331, z: -0.38978425}
 --- !u!95 &942355942976233800
 Animator:
   serializedVersion: 4
@@ -156,8 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08fdf676f8d72c42b1a613ea2d59e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 3
-  movementSpeed: 5
+  currentClass: 0
   attackDamage: 16
   recoil: 200
   damageDelay: 15

@@ -10,18 +10,18 @@ public class Enemy : MonoBehaviour
     public MonsterClass currentClass;
 
     [Header("Health")]
-    public float currentHealth = 5f;
+    private float Health;
+    private float currentHealth;
 
     [Header("Movement")]
-    public float movementSpeed = 5.0f;
-    private float initialSpeed = 3.5f;
+    private float Speed;
 
     [Header("Damage")]
     public float attackDamage = 16f;
     public float recoil = 5000f;    
 
     public float damageDelay = 15.0f;
-    private bool canDoDamage = true;
+    
 
     [Header("IA Status")]
     private int stateValue = 1;
@@ -30,16 +30,28 @@ public class Enemy : MonoBehaviour
 
     private Animator IAanim;
 
+    private Rigidbody rb;
+
      
     private GameObject player;
     private void Start(){
         nav = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         IAanim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+        switch (currentClass)
+        {
+            case MonsterClass.Saltarin:
+                Health = 50f;
+                Speed = 3.5f;
+                break;
+        }
+        currentHealth = Health;
+
     }
 
     //Die
-    public void Damage(float damageAmount)
+    public void TakeDamage(float damageAmount, float knockbackForce)
     {
         //subtract damage amount when Damage function is called
         currentHealth -= damageAmount;
@@ -49,15 +61,17 @@ public class Enemy : MonoBehaviour
         {
             stateValue = -1;           
         }
+       
+        if (rb != null)
+        {
+            rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
+        }
     }
     private void doDamage()
-    {
-        //if (canDoDamage)
-        //{
-            player.GetComponent<Player>().takeDamage(attackDamage);
-        //    StartCoroutine(DamageDelayer(damageDelay));
-         //   canDoDamage = false;
-       // }
+    {        
+       player.GetComponent<Player>().takeDamage(attackDamage);
+       rb.AddForce(-transform.forward * 20f, ForceMode.Impulse);
+
     }
     private void Update(){
         navStates();
@@ -70,6 +84,9 @@ public class Enemy : MonoBehaviour
             nav.speed = 0;
             //nav.SetDestination(transform.position);
             IAanim.SetBool("isDead", true);
+            this.gameObject.GetComponent<Rigidbody>().isKinematic= true;
+            this.gameObject.GetComponent<BoxCollider>().enabled = false;
+            
             StartCoroutine(disableDeathDelayer());
         }
         if (stateValue == 0)
@@ -81,7 +98,7 @@ public class Enemy : MonoBehaviour
         {
             nav.enabled = true;
             nav.SetDestination(player.transform.position);
-            nav.speed = initialSpeed;
+            nav.speed = Speed;
         }
         
     }
@@ -91,8 +108,8 @@ public class Enemy : MonoBehaviour
         {
             stateValue = 0;
             doDamage();
-            this.GetComponent<Rigidbody>().AddForce(-transform.forward * recoil);
-            this.GetComponent<Rigidbody>().AddForce(0,recoil,0);
+           /* this.GetComponent<Rigidbody>().AddForce(-transform.forward * recoil);
+            this.GetComponent<Rigidbody>().AddForce(0,recoil,0);*/
             StartCoroutine(MoveDelay(4f));
             //player.GetComponent<Rigidbody>().AddForce(-transform.forward * recoil);
 

@@ -102,7 +102,7 @@ public class GunRaycast : MonoBehaviour
                 if (health != null)
                 {
                     // Call the damage function of that script, passing in our gunDamage variable
-                    health.Damage(gunDamage);
+                    health.TakeDamage(gunDamage,0);
                 }
 
                 // Check if the object we hit has a rigidbody attached
