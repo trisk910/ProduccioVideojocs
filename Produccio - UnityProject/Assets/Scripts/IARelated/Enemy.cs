@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour
 
      
     private GameObject player;
+
+    private GameObject IaSpawner;
     private void Start(){
         nav = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -47,7 +49,7 @@ public class Enemy : MonoBehaviour
                 break;
         }
         currentHealth = Health;
-
+        IaSpawner = GameObject.FindGameObjectWithTag("Spawner");
     }
 
     //Die
@@ -88,6 +90,7 @@ public class Enemy : MonoBehaviour
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
             
             StartCoroutine(disableDeathDelayer());
+            removeFromList();
         }
         if (stateValue == 0)
         {
@@ -130,5 +133,15 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
         gameObject.SetActive(false);
+    }
+
+    private void removeFromList()
+    {
+        switch (currentClass)
+        {
+            case MonsterClass.Saltarin:
+                IaSpawner.GetComponent<IASpawner>().substractEnemySaltarin();
+                break;
+        }
     }
 }

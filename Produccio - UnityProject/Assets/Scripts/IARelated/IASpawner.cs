@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class IASpawner : MonoBehaviour
@@ -9,33 +11,33 @@ public class IASpawner : MonoBehaviour
     {
         public GameObject enemyPrefab;
         public int cost;
+        public int maxPerRound;
     }
-
+    [Header("List of Enemies")]
     public List<EnemyL> enemies = new List<EnemyL>();
-    public int currWave;
-    private int waveValue;
+    
     //public List<GameObject> enemiesToSpawn = new List<GameObject>();
 
     public Transform[] spawnLocation;
     private int spawnIndex;
 
-    /*public int waveDuration;
-    private float waveTimer;
-    private float spawnInterval;
-    private float spawnTimer;*/
-
-    public List<GameObject> spawnedEnemies = new List<GameObject>();
 
     private bool canSpawn;
 
     private int spawnTimerBetweenWaves;
-
+    [Header("Spawner Currency")]
     public float Currency;
     public float InitialCurrency;
-    public float currencyMultiplyer;
-    private float initialCurrencyMultiplier;
+    public float currencyMultiplyer;  
 
     private float multiplyerTimer;
+
+    [Header("Rounds")]
+    public int currentRound = 1;
+    public TextMeshProUGUI currentRoundText;
+    public TextMeshProUGUI enemiesLeftText;
+    public List<GameObject> spawnedSaltarin = new List<GameObject>();
+
 
     void Start()
     {
@@ -44,9 +46,6 @@ public class IASpawner : MonoBehaviour
         InitialCurrency = 25f;
         Currency = InitialCurrency;
         currencyMultiplyer = .05f;
-        initialCurrencyMultiplier = currencyMultiplyer;
-        //StartCoroutine(currencyMultiplyerTimer());
-        
     }
 
     // Update is called once per frame
@@ -56,36 +55,32 @@ public class IASpawner : MonoBehaviour
         Currency += currencyMultiplyer * (Time.deltaTime);
         if(canSpawn)
             SpawnEnemy();
-
-
+        currentRoundText.SetText("Round: " + currentRound);
+        enemiesLeftText.SetText("Enemies left: " + enemies.Count);
+    
         startMultiplyerTimer();
-        //Debug.Log("Timer: " + multiplyerTimer);
+        
     }
 
     void SpawnEnemy()
     {
         for(int i = 0; i < enemies.Count; i++) {
             spawnIndex = Random.Range(0, spawnLocation.Length);
-            if (Currency >= enemies[i].cost) {
+         
+            if ((Currency >= enemies[i].cost) && (spawnedSaltarin.Count < enemies[0].maxPerRound) )//saltarin
+            {
                 GameObject enemy = Instantiate<GameObject>(enemies[0].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
-                //enemiesToSpawn.RemoveAt(0);
-                spawnedEnemies.Add(enemy); 
+                spawnedSaltarin.Add(enemy);
                 Currency -= enemies[i].cost;
             }
+           
         }
     }
 
     private IEnumerator SpawnerDelay()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(10);
     }
-    /*private IEnumerator currencyMultiplyerTimer()
-    {
-        yield return new WaitForSeconds(30);
-        float addCurrencyMultiplyer = currencyMultiplyer;
-        currencyMultiplyer = addCurrencyMultiplyer +  0.5f;
-        //Debug.Log("CurrencyMultiplyer: " + currencyMultiplyer);
-    }*/
 
     private void startMultiplyerTimer()
     {
@@ -101,5 +96,17 @@ public class IASpawner : MonoBehaviour
     private void resetMultiplyerTimer()
     {
         multiplyerTimer = 0;
+    }
+
+    public void substractEnemySaltarin()
+    {
+        int saltarinSize = spawnedSaltarin.Count() - 1;
+        if(saltarinSize >= 0)
+        {
+            GameObject lastGameObject = spawnedSaltarin[saltarinSize];
+            spawnedSaltarin.Remove(lastGameObject);
+            Destroy(lastGameObject);
+        }
+       
     }
 }
