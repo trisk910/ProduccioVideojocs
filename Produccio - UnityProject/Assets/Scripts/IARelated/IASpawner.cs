@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class IASpawner : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class IASpawner : MonoBehaviour
     }
     [Header("List of Enemies")]
     public List<EnemyL> enemies = new List<EnemyL>();
+    
     
     //public List<GameObject> enemiesToSpawn = new List<GameObject>();
 
@@ -37,7 +39,9 @@ public class IASpawner : MonoBehaviour
     public TextMeshProUGUI currentRoundText;
     public TextMeshProUGUI enemiesLeftText;
     public List<GameObject> spawnedSaltarin = new List<GameObject>();
-
+    public int maxPerWave;
+    public int enemiesAlive;
+    public int totalSpwanedEnemies;
 
     void Start()
     {
@@ -46,23 +50,28 @@ public class IASpawner : MonoBehaviour
         InitialCurrency = 25f;
         Currency = InitialCurrency;
         currencyMultiplyer = .05f;
+        maxPerWave = 18;
     }
 
     // Update is called once per frame
     void Update()
     {
         //spawnIndex = Random.Range(0, count);
-        Currency += currencyMultiplyer * (Time.deltaTime);
-        if(canSpawn)
-            SpawnEnemy();
+
+        if (canSpawn){
+            Currency += currencyMultiplyer * (Time.deltaTime);
+            SpawnEnemy();            
+        }
+
+
         currentRoundText.SetText("Round: " + currentRound);
-        enemiesLeftText.SetText("Enemies left: " + enemies.Count);
+        enemiesLeftText.SetText("Enemies alive: " + enemiesAlive);
     
         startMultiplyerTimer();
-        
+        roundStatus();
     }
 
-    void SpawnEnemy()
+    private void SpawnEnemy()
     {
         for(int i = 0; i < enemies.Count; i++) {
             spawnIndex = Random.Range(0, spawnLocation.Length);
@@ -71,17 +80,36 @@ public class IASpawner : MonoBehaviour
             {
                 GameObject enemy = Instantiate<GameObject>(enemies[0].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
                 spawnedSaltarin.Add(enemy);
+                enemiesAlive++;
+                totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
-            }
-           
+            }           
         }
     }
-
-    private IEnumerator SpawnerDelay()
+    private void roundStatus()
     {
-        yield return new WaitForSeconds(10);
+        if(totalSpwanedEnemies>= maxPerWave)
+        {
+            canSpawn= false;
+            increaseMaxPerRound();
+        }
     }
-
+    private void increaseMaxPerRound()
+    {
+        maxPerWave += 10;
+        totalSpwanedEnemies = 0;
+        currentRound++;
+        for(int x = 0; x < enemies.Count; x++)
+        {
+            enemies[x].maxPerRound += 5;
+        }
+        StartCoroutine(roundFinish());
+    }
+    private IEnumerator roundFinish()
+    {
+        yield return new WaitForSeconds(5);
+        canSpawn = true;
+    }
     private void startMultiplyerTimer()
     {
         multiplyerTimer += Time.deltaTime;
@@ -100,12 +128,10 @@ public class IASpawner : MonoBehaviour
 
     public void substractEnemySaltarin()
     {
-        int saltarinSize = spawnedSaltarin.Count() - 1;
-        if(saltarinSize >= 0)
+        if (spawnedSaltarin.Count >= 0)
         {
-            GameObject lastGameObject = spawnedSaltarin[saltarinSize];
-            spawnedSaltarin.Remove(lastGameObject);
-            Destroy(lastGameObject);
+            spawnedSaltarin.RemoveAt(spawnedSaltarin.Count - 1);
+            enemiesAlive--;
         }
        
     }

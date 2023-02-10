@@ -164,17 +164,12 @@ public class Player : MonoBehaviour
             Die();
         }
         currentHP -= damage;
-        //healthbar.value = currentHP - Time.time;
-        //StartCoroutine(DamageDelayer(damageDelay));
     }
-    /*private IEnumerator DamageDelayer(float damageDelay)
+   
+    private void SkillShotgun()
     {
-        yield return damageDelay;
-        if (currentHP <= 0)
-        {
-            Die();
-        }
-    }*/
+
+    }
 
     private void Die()
     {

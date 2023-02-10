@@ -49,14 +49,14 @@ public class GunType : MonoBehaviour
                 reloadTime = 1.5f;
                 gunDammage = 24.5f;
                 fireRate = 0.25f;
-                knockBackForce = 4f;
+                knockBackForce = 5f;
                 break;
             case WeaponType.Shotgun:
                 maxAmmo = 8;
                 reloadTime = 1.5f;
                 gunDammage = 9.5f;
                 fireRate = 0.25f;
-                knockBackForce = 2f;
+                knockBackForce = 5f;
                 break;
             case WeaponType.Rifle:
                 maxAmmo = 30;

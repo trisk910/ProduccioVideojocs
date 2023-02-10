@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
             
             StartCoroutine(disableDeathDelayer());
-            removeFromList();
+            
         }
         if (stateValue == 0)
         {
@@ -133,6 +133,7 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
         gameObject.SetActive(false);
+        removeFromList();
     }
 
     private void removeFromList()
