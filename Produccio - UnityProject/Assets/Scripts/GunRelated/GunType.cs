@@ -34,7 +34,7 @@ public class GunType : MonoBehaviour
     private bool isReloading = false;
     private float gunDammage;
 
-    public float bulletForce = 1600f;
+    public float bulletForce = 22000f;
     private float knockBackForce;
 
     private Animator ac;

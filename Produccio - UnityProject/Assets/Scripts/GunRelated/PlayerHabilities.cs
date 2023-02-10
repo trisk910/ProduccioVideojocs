@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerHabilities : MonoBehaviour
@@ -13,9 +14,12 @@ public class PlayerHabilities : MonoBehaviour
     public GameObject pistol;
     public GameObject shotgun;
     public GameObject sword;
+    public GameObject shotgunSkillIcon;
+    private bool shotgunIconrecover = false;
 
     private bool shotgunActive = false;
     private bool shotgunIsInCD = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +31,8 @@ public class PlayerHabilities : MonoBehaviour
     void Update()
     {
         shotgunSkill();
+        if(shotgunIconrecover)
+            shotgunIconRecovery();
     }
 
     private void shotgunSkill()
@@ -36,6 +42,7 @@ public class PlayerHabilities : MonoBehaviour
             pistol.SetActive(false);
             shotgun.SetActive(true);
             shotgunActive = true;
+            shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
             StartCoroutine(useShotgunTimeOut());
         }
     }
@@ -47,10 +54,18 @@ public class PlayerHabilities : MonoBehaviour
         shotgunIsInCD = true;
         shotgunActive = false;
         StartCoroutine(shotgunCooldown());
+        shotgunIconrecover = true;
     }
     private IEnumerator shotgunCooldown()
     {
         yield return new WaitForSeconds(cooldown);
         shotgunIsInCD = false;
+    }
+    private void shotgunIconRecovery()
+    {
+        if (shotgunSkillIcon.GetComponent<CanvasGroup>().alpha < 1)
+            shotgunSkillIcon.GetComponent<CanvasGroup>().alpha += Time.deltaTime * 0.015f;
+        else
+            shotgunIconrecover = false;
     }
 }

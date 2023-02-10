@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
                 jumpForce = 6;
                 airMultiplier = 0.4f;
                 playerHeight = 2;
-                regenRate = 0.2f;
+                //regenRate = 0.2f;
                 break;
             case PlayerClass.Nun:
                 maxHP = 85f;
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
                 jumpForce = 8;
                 airMultiplier = 0.4f;
                 playerHeight = 2;
-                regenRate = 0.6f;
+                //regenRate = 0.6f;
                 break;
         }
         currentHP = maxHP;
@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
         else
             rb.drag = 0;
 
-        RegenHp();
+        //RegenHp();
         healthbar.value = currentHP;
     }
 
@@ -176,11 +176,15 @@ public class Player : MonoBehaviour
         //deathScreen.SetActive(true);
         Time.timeScale = 0f;
     }
-    private void RegenHp()
+    public void RegenHp()
     {
-        if (currentHP < maxHP)
+        /*if (currentHP < maxHP)
         {
             currentHP += regenRate * Time.deltaTime;
-        }
+        }*/
+        if (currentHP < maxHP * 2 / 3)
+            currentHP += maxHP * 1 / 3;
+        else
+            currentHP = maxHP;
     }
 }

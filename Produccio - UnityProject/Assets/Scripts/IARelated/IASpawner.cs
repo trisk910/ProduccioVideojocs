@@ -43,6 +43,9 @@ public class IASpawner : MonoBehaviour
     public int enemiesAlive;
     public int totalSpwanedEnemies;
 
+    private GameObject Player;
+    public GameObject UpGradeMenu;
+
     void Start()
     {
         canSpawn = true;
@@ -51,6 +54,8 @@ public class IASpawner : MonoBehaviour
         Currency = InitialCurrency;
         currencyMultiplyer = .05f;
         maxPerWave = 18;
+        UpGradeMenu.SetActive(false);
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -104,6 +109,21 @@ public class IASpawner : MonoBehaviour
             enemies[x].maxPerRound += 5;
         }
         StartCoroutine(roundFinish());
+        ShowUpgradeMenu();
+    }
+    public void ShowUpgradeMenu()
+    {
+        Time.timeScale = 0f;
+        UpGradeMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    public void ResumeGame()
+    {
+        UpGradeMenu.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     private IEnumerator roundFinish()
     {
