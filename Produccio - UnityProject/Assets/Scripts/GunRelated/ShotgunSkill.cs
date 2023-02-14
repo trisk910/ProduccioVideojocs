@@ -18,6 +18,7 @@ public class ShotgunSkill : MonoBehaviour
     public float bulletForce = 22000f;
     private float knockBackForce = 5f;
 
+    public ParticleSystem blooodEffect;
     public ParticleSystem muzzleFlash;
     void Start()
     {
@@ -54,6 +55,8 @@ public class ShotgunSkill : MonoBehaviour
                 if (hit.collider.gameObject.GetComponent<Enemy>() != null)
                 {
                     hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
+                    Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                    blooodEffect.Play();
                 }
             }
         }

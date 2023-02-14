@@ -22,6 +22,8 @@ public class GunType : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public TextMeshProUGUI currentMagazineUI;
 
+    public ParticleSystem blooodEffect;
+
     private AudioSource audioS;
 
     public int pelletCount = 10;
@@ -124,6 +126,8 @@ public class GunType : MonoBehaviour
             if (hit.collider.gameObject.GetComponent<Enemy>() != null)
             {
                 hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
+                Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                blooodEffect.Play();
             }
         }
     }

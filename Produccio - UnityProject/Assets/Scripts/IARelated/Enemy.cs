@@ -145,4 +145,12 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Sword")
+        {
+            TakeDamage(100, 10);
+        }
+    }
 }
