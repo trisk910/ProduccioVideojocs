@@ -17,8 +17,6 @@ public class IASpawner : MonoBehaviour
     [Header("List of Enemies")]
     public List<EnemyL> enemies = new List<EnemyL>();
     
-    
-    //public List<GameObject> enemiesToSpawn = new List<GameObject>();
 
     public Transform[] spawnLocation;
     private int spawnIndex;
@@ -74,6 +72,7 @@ public class IASpawner : MonoBehaviour
     
         startMultiplyerTimer();
         roundStatus();
+        XrayEnabler();
     }
 
     private void SpawnEnemy()
@@ -152,7 +151,24 @@ public class IASpawner : MonoBehaviour
         {
             spawnedSaltarin.RemoveAt(spawnedSaltarin.Count - 1);
             enemiesAlive--;
+        }       
+    }
+
+    private void XrayEnabler()
+    {
+        if(enemiesAlive <= 4)
+        {
+            //hacer bucle por cada tipo de enemigo
+            for (int x = 0; x < spawnedSaltarin.Count; x++)
+            {
+                spawnedSaltarin[x].GetComponent<Enemy>().EnableLastAlive(true);
+            }
+        }else
+        {
+            for (int x = 0; x < spawnedSaltarin.Count; x++)
+            {
+                spawnedSaltarin[x].GetComponent<Enemy>().EnableLastAlive(false);
+            }
         }
-       
     }
 }

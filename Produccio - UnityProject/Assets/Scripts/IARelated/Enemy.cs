@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     public float damageDelay = 15.0f;
     
 
-    [Header("IA Status")]
+   
     private int stateValue = 1;
 
     private NavMeshAgent nav;
@@ -36,6 +36,9 @@ public class Enemy : MonoBehaviour
     private GameObject player;
 
     private GameObject IaSpawner;
+
+    [Header("Ui")]
+    public GameObject Xray;
     private void Start(){
         nav = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -50,6 +53,7 @@ public class Enemy : MonoBehaviour
         }
         currentHealth = Health;
         IaSpawner = GameObject.FindGameObjectWithTag("Spawner");
+        Xray.SetActive(false);
     }
 
     //Die
@@ -152,5 +156,13 @@ public class Enemy : MonoBehaviour
         {
             TakeDamage(100, 10);
         }
+    }
+
+    public void EnableLastAlive(bool activate)
+    {
+        if(activate)
+            Xray.SetActive(true);
+        else
+            Xray.SetActive(false);
     }
 }
