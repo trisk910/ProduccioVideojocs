@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public enum MonsterClass { Saltarin};
+    public enum MonsterClass {Saltarin,Demonio};
     public MonsterClass currentClass;
 
     [Header("Health")]
@@ -49,6 +49,10 @@ public class Enemy : MonoBehaviour
             case MonsterClass.Saltarin:
                 Health = 50f;
                 Speed = 3.5f;
+                break;
+            case MonsterClass.Demonio:
+                Health = 100f;
+                Speed = 2.5f;
                 break;
         }
         currentHealth = Health;

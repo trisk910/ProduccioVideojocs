@@ -26,11 +26,12 @@ public class GunType : MonoBehaviour
 
     private AudioSource audioS;
 
-    public int pelletCount = 10;
-    public float fireRate = 0.5f;
-    public float spread = 10f;
+
+
+    [Header("Gun Stats")]
     private int maxAmmo;
     public int currentAmmo;
+    public float fireRate = 0.5f;
     public float reloadTime = 2f;
     private float nextFireTime = 0f;
     private bool isReloading = false;
@@ -38,6 +39,10 @@ public class GunType : MonoBehaviour
 
     public float bulletForce = 22000f;
     private float knockBackForce;
+
+    [Header("Shotgun")]
+    public int pelletCount = 10;
+    public float spread = 10f;
 
     private Animator ac;
 
@@ -96,7 +101,9 @@ public class GunType : MonoBehaviour
         }
         audioS.Play();
         muzzleFlash.Play();
-        ac.SetBool("Shoot", true);
+        ac.SetTrigger("Shoot");
+        //ac.SetBool("Shoot", true);
+        //ac.GetComponent<Animator>().SetBool("Shoot", true);
         currentAmmo--;
         switch (currentWeapon)
         {
@@ -110,7 +117,9 @@ public class GunType : MonoBehaviour
                 FireRifle();
                 break;
         }
-        ac.SetBool("Shoot", false);
+        ac.SetTrigger("Shoot");
+       
+        //ac.GetComponent<Animator>().SetBool("Shoot", false);
     }
 
     void FirePistol()
