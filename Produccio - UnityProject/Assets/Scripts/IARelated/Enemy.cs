@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Health")]
     private float Health;
-    private float currentHealth;
+    public float currentHealth;
 
     [Header("Movement")]
     private float Speed;
@@ -21,7 +21,8 @@ public class Enemy : MonoBehaviour
     public float recoil = 5000f;    
 
     public float damageDelay = 15.0f;
-    
+
+    public bool attacking = false;   
 
    
     private int stateValue = 1;
@@ -71,7 +72,13 @@ public class Enemy : MonoBehaviour
         {
             stateValue = -1;           
         }
-       
+
+        switch (currentClass)
+        {
+            case MonsterClass.Demonio:
+                IAanim.SetTrigger("isDamaged");
+                break;
+        }
         if (rb != null)
         {
             rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
@@ -92,8 +99,7 @@ public class Enemy : MonoBehaviour
         {
             nav.enabled = false;
             nav.speed = 0;
-            //nav.SetDestination(transform.position);
-            IAanim.SetBool("isDead", true);
+            IAanim.SetTrigger("isDead");
             this.gameObject.GetComponent<Rigidbody>().isKinematic= true;
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
             
@@ -111,19 +117,30 @@ public class Enemy : MonoBehaviour
             nav.SetDestination(player.transform.position);
             nav.speed = Speed;
         }
+        if(stateValue == 2)
+        {
+            nav.enabled = false;
+            nav.speed = 0;
+            IAanim.SetTrigger("isAttacking");
+            attacking = true;
+        }
         
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            stateValue = 0;
-            doDamage();
-           /* this.GetComponent<Rigidbody>().AddForce(-transform.forward * recoil);
-            this.GetComponent<Rigidbody>().AddForce(0,recoil,0);*/
-            StartCoroutine(MoveDelay(4f));
-            //player.GetComponent<Rigidbody>().AddForce(-transform.forward * recoil);
-
+            switch (currentClass)
+            {
+                case MonsterClass.Saltarin:
+                    stateValue = 0;
+                    doDamage();
+                    break;
+                case MonsterClass.Demonio:
+                    stateValue = 2; 
+                    break;
+            }          
+            StartCoroutine(MoveDelay(5f));
         }
     }
     private IEnumerator MoveDelay(float damageDelay)
@@ -131,12 +148,6 @@ public class Enemy : MonoBehaviour
         yield return damageDelay;
         stateValue = 1;
     }
-    /*private IEnumerator DamageDelayer(float damageDelay)
-    {
-        yield return damageDelay;
-        stateValue = 1;
-        canDoDamage = true;
-    }*/
     private IEnumerator disableDeathDelayer()
     {
         yield return new WaitForSeconds(3.5f);
@@ -151,14 +162,26 @@ public class Enemy : MonoBehaviour
             case MonsterClass.Saltarin:
                 IaSpawner.GetComponent<IASpawner>().substractEnemySaltarin();
                 break;
+            case MonsterClass.Demonio:
+                IaSpawner.GetComponent<IASpawner>().substractEnemyDemonio();
+                break;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Sword")
+        if (other.gameObject.tag == "Sword")
         {
             TakeDamage(100, 10);
+            rb.AddForce(-transform.forward * 20f, ForceMode.Impulse);
+        }
+        if (other.gameObject.tag == "Player")
+        {
+            if (attacking)
+            {
+                doDamage();
+                attacking = false;
+            }
         }
     }
 

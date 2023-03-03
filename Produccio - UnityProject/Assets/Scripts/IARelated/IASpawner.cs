@@ -37,6 +37,7 @@ public class IASpawner : MonoBehaviour
     public TextMeshProUGUI currentRoundText;
     public TextMeshProUGUI enemiesLeftText;
     public List<GameObject> spawnedSaltarin = new List<GameObject>();
+    public List<GameObject> spawnedDemonio = new List<GameObject>();
     public int maxPerWave;
     public int enemiesAlive;
     public int totalSpwanedEnemies;
@@ -152,6 +153,14 @@ public class IASpawner : MonoBehaviour
             spawnedSaltarin.RemoveAt(spawnedSaltarin.Count - 1);
             enemiesAlive--;
         }       
+    }
+    public void substractEnemyDemonio()
+    {
+        if (spawnedDemonio.Count >= 0)
+        {
+            spawnedDemonio.RemoveAt(spawnedDemonio.Count - 1);
+            enemiesAlive--;
+        }
     }
 
     private void XrayEnabler()

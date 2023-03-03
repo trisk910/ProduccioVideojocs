@@ -127,17 +127,26 @@ public class GunType : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * bulletForce);
 
-        // Use raycasting to detect and interact with objects in the scene
+        
         RaycastHit hit;
         if (Physics.Raycast(bulletSpawnPoint.position, bulletSpawnPoint.forward, out hit))
         {
             Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
+            if (hit.collider.gameObject.GetComponentInParent<Enemy>())
+            {
+                hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
+                Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                blooodEffect.Play();
+                //StartCoroutine(DisableBloodEffect(blooodEffect));
+            }
             if (hit.collider.gameObject.GetComponent<Enemy>() != null)
             {
                 hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
                 Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 blooodEffect.Play();
+                //StartCoroutine(DisableBloodEffect(blooodEffect));
             }
+
         }
     }
 
@@ -150,7 +159,7 @@ public class GunType : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(bulletDirection));
             bullet.GetComponent<Rigidbody>().AddForce(bulletDirection * bulletForce);
 
-            // Use raycasting to detect and interact with objects in the scene
+           
             RaycastHit hit;
             if (Physics.Raycast(bulletSpawnPoint.position, bulletDirection, out hit))
             {
@@ -179,6 +188,11 @@ public class GunType : MonoBehaviour
             }
         }
     }
+        IEnumerable DisableBloodEffect(ParticleSystem bloodE)
+        {
+            yield return new WaitForSeconds(2f);
+            bloodE.gameObject.SetActive(false);
+        }
 
     IEnumerator Reload()
     {
