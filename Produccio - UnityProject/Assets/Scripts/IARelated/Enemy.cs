@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     public float damageDelay = 15.0f;
 
-    public bool attacking = false;   
+    private bool canDoDamage = false;   //demonio
 
    
     private int stateValue = 1;
@@ -79,16 +79,21 @@ public class Enemy : MonoBehaviour
                 IAanim.SetTrigger("isDamaged");
                 break;
         }
-        if (rb != null)
-        {
-            rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
-        }
+        rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
     }
-    private void doDamage()
+    public void doDamage()
     {        
-       player.GetComponent<Player>().takeDamage(attackDamage);
-       rb.AddForce(-transform.forward * 20f, ForceMode.Impulse);
-
+        switch (currentClass)
+        {
+            case MonsterClass.Saltarin:
+                rb.AddForce(-transform.forward * 10f, ForceMode.Impulse);
+                player.GetComponent<Player>().takeDamage(attackDamage);
+                break;
+                case MonsterClass.Demonio:
+                if(canDoDamage)
+                    player.GetComponent<Player>().takeDamage(attackDamage);
+                break;
+        }
     }
     private void Update(){
         navStates();
@@ -101,8 +106,12 @@ public class Enemy : MonoBehaviour
             nav.speed = 0;
             IAanim.SetTrigger("isDead");
             this.gameObject.GetComponent<Rigidbody>().isKinematic= true;
-            this.gameObject.GetComponent<BoxCollider>().enabled = false;
-            
+            //this.gameObject.GetComponent<Collider>().enabled = false;
+            foreach (Collider c in GetComponents<Collider>())
+            {
+                c.enabled = false;
+            }
+
             StartCoroutine(disableDeathDelayer());
             
         }
@@ -117,33 +126,23 @@ public class Enemy : MonoBehaviour
             nav.SetDestination(player.transform.position);
             nav.speed = Speed;
         }
-        if(stateValue == 2)
+        if(stateValue == 2)//demonio
         {
             nav.enabled = false;
             nav.speed = 0;
             IAanim.SetTrigger("isAttacking");
-            attacking = true;
+            gameObject.GetComponent<SphereCollider>().enabled = false;
+            StartCoroutine(enableAttackCollider());
         }
         
     }
-    private void OnCollisionEnter(Collision collision)
+    private IEnumerator enableAttackCollider() //para evitar dobles ataques
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            switch (currentClass)
-            {
-                case MonsterClass.Saltarin:
-                    stateValue = 0;
-                    doDamage();
-                    break;
-                case MonsterClass.Demonio:
-                    stateValue = 2; 
-                    break;
-            }          
-            StartCoroutine(MoveDelay(5f));
-        }
+        yield return new WaitForSeconds(5f);
+        gameObject.GetComponent<SphereCollider>().enabled = true;
     }
-    private IEnumerator MoveDelay(float damageDelay)
+
+        private IEnumerator MoveDelay(float damageDelay)
     {
         yield return damageDelay;
         stateValue = 1;
@@ -167,21 +166,45 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+    //Colisiones
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            switch (currentClass)
+            {
+                case MonsterClass.Saltarin:
+                    stateValue = 0;
+                    doDamage();
+                    StartCoroutine(MoveDelay(5f));
+                    break;
+            }           
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Sword")
         {
-            TakeDamage(100, 10);
-            rb.AddForce(-transform.forward * 20f, ForceMode.Impulse);
+            TakeDamage(100, 25);
         }
         if (other.gameObject.tag == "Player")
         {
-            if (attacking)
+            switch (currentClass)
             {
-                doDamage();
-                attacking = false;
+                case MonsterClass.Demonio:
+                    stateValue = 2;
+                    break;
             }
+            StartCoroutine(MoveDelay(5f));
+            canDoDamage = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            canDoDamage = false;
         }
     }
 

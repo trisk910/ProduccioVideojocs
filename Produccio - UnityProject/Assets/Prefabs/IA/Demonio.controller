@@ -22,8 +22,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4552515205397978273, guid: 90c6a102b770b684b9578a401e7e84a1,
-    type: 3}
+  m_Motion: {fileID: -4552515205397978273, guid: 90c6a102b770b684b9578a401e7e84a1, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -76,8 +75,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -1127403504006264357, guid: 90c6a102b770b684b9578a401e7e84a1,
-    type: 3}
+  m_Motion: {fileID: -1127403504006264357, guid: 90c6a102b770b684b9578a401e7e84a1, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -193,8 +191,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -7551964380084998518, guid: 90c6a102b770b684b9578a401e7e84a1,
-    type: 3}
+  m_Motion: {fileID: -7551964380084998518, guid: 90c6a102b770b684b9578a401e7e84a1, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -220,8 +217,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -982115091633673366, guid: 90c6a102b770b684b9578a401e7e84a1,
-    type: 3}
+  m_Motion: {fileID: -982115091633673366, guid: 90c6a102b770b684b9578a401e7e84a1, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -310,10 +306,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 674966283919057497}
-    m_Position: {x: 20, y: 310, z: 0}
+    m_Position: {x: 150, y: 330, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5722742083929945405}
-    m_Position: {x: -120, y: 130, z: 0}
+    m_Position: {x: -70, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1593133685796745819}
     m_Position: {x: 140, y: 80, z: 0}
@@ -325,8 +321,8 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: -40, z: 0}
-  m_EntryPosition: {x: -30, y: 440, z: 0}
+  m_AnyStatePosition: {x: 170, y: -40, z: 0}
+  m_EntryPosition: {x: 200, y: 460, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 674966283919057497}

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class IASpawner : MonoBehaviour
 {
@@ -88,7 +87,15 @@ public class IASpawner : MonoBehaviour
                 enemiesAlive++;
                 totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
-            }           
+            }
+            if ((Currency >= enemies[i].cost) && (spawnedDemonio.Count < enemies[1].maxPerRound))//Demonio
+            {
+                GameObject enemy = Instantiate<GameObject>(enemies[1].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                spawnedDemonio.Add(enemy);
+                enemiesAlive++;
+                totalSpwanedEnemies++;
+                Currency -= enemies[i].cost;
+            }
         }
     }
     private void roundStatus()
@@ -172,11 +179,20 @@ public class IASpawner : MonoBehaviour
             {
                 spawnedSaltarin[x].GetComponent<Enemy>().EnableLastAlive(true);
             }
-        }else
+            for (int z = 0; z < spawnedDemonio.Count; z++)
+            {
+                spawnedDemonio[z].GetComponent<Enemy>().EnableLastAlive(true);
+            }
+        }
+        else
         {
             for (int x = 0; x < spawnedSaltarin.Count; x++)
             {
                 spawnedSaltarin[x].GetComponent<Enemy>().EnableLastAlive(false);
+            }
+            for (int z = 0; z < spawnedDemonio.Count; z++)
+            {
+                spawnedDemonio[z].GetComponent<Enemy>().EnableLastAlive(false);
             }
         }
     }
