@@ -7,9 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 56222736, guid: 4ccb280bb8c71cb44bd37b4212b46105, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 476457776, guid: 4ccb280bb8c71cb44bd37b4212b46105, type: 3}
       propertyPath: m_Name
       value: LastAliveD
+      objectReference: {fileID: 0}
+    - target: {fileID: 476457776, guid: 4ccb280bb8c71cb44bd37b4212b46105, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 943774504, guid: 4ccb280bb8c71cb44bd37b4212b46105, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 943774506, guid: 4ccb280bb8c71cb44bd37b4212b46105, type: 3}
       propertyPath: m_BlockingMask.m_Bits

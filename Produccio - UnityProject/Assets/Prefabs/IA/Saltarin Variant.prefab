@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 311185217}
   - component: {fileID: 311185218}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LastAliveIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 1300924851}
   - component: {fileID: 1300924853}
   - component: {fileID: 1300924852}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: LastAliveS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 1465728373}
   - component: {fileID: 1465728372}
   - component: {fileID: 1465728371}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

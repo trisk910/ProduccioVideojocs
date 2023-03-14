@@ -8,7 +8,6 @@ public class PlayerEvents : MonoBehaviour
     public Slider healthbar;
     private float maxHP = 100;
     public float currentHP;
-    private bool canTakeDamage = true;
     public float damageDelay = 15.0f;
 
     public GameObject deathScreen;

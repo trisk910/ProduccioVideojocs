@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
 
     private GameObject IaSpawner;
 
+    private GameObject Radar;
+
     [Header("Ui")]
     public GameObject Xray;
     private void Start(){
@@ -59,6 +61,7 @@ public class Enemy : MonoBehaviour
         currentHealth = Health;
         IaSpawner = GameObject.FindGameObjectWithTag("Spawner");
         Xray.SetActive(false);
+        Radar = GameObject.FindGameObjectWithTag("Radar");
     }
 
     //Die
@@ -165,6 +168,7 @@ public class Enemy : MonoBehaviour
                 IaSpawner.GetComponent<IASpawner>().substractEnemyDemonio();
                 break;
         }
+        Radar.GetComponent<RadarController>().RemoveEnemy(this.gameObject.transform);
     }
     //Colisiones
     private void OnCollisionEnter(Collision collision)

@@ -44,6 +44,8 @@ public class IASpawner : MonoBehaviour
     private GameObject Player;
     public GameObject UpGradeMenu;
 
+    private GameObject Radar;
+
     void Start()
     {
         canSpawn = true;
@@ -54,6 +56,7 @@ public class IASpawner : MonoBehaviour
         maxPerWave = 18;
         UpGradeMenu.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
+        Radar = GameObject.FindGameObjectWithTag("Radar");
     }
 
     // Update is called once per frame
@@ -87,6 +90,7 @@ public class IASpawner : MonoBehaviour
                 enemiesAlive++;
                 totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
+                Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
             }
             if ((Currency >= enemies[i].cost) && (spawnedDemonio.Count < enemies[1].maxPerRound))//Demonio
             {
@@ -95,6 +99,7 @@ public class IASpawner : MonoBehaviour
                 enemiesAlive++;
                 totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
+                Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
             }
         }
     }

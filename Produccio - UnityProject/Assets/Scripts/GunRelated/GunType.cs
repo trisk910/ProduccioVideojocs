@@ -137,13 +137,16 @@ public class GunType : MonoBehaviour
                 hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
                 Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 blooodEffect.Play();
-                //StartCoroutine(DisableBloodEffect(blooodEffect));
+                
+               
             }
             if (hit.collider.gameObject.GetComponent<Enemy>() != null)
             {
                 hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
                 Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 blooodEffect.Play();
+                Destroy(blooodEffect.gameObject,2f);
+
                 //StartCoroutine(DisableBloodEffect(blooodEffect));
             }
 
@@ -188,11 +191,6 @@ public class GunType : MonoBehaviour
             }
         }
     }
-        IEnumerable DisableBloodEffect(ParticleSystem bloodE)
-        {
-            yield return new WaitForSeconds(2f);
-            bloodE.gameObject.SetActive(false);
-        }
 
     IEnumerator Reload()
     {
@@ -204,6 +202,12 @@ public class GunType : MonoBehaviour
     private void upDateUIAmmo()
     {
         currentMagazineUI.SetText(currentAmmo + "/" + maxAmmo);
+    }
+
+    void OnDisable()
+    {
+        isReloading = false;
+        currentAmmo = maxAmmo;
     }
 }
 

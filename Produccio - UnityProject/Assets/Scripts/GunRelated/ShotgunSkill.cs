@@ -13,7 +13,7 @@ public class ShotgunSkill : MonoBehaviour
     public float fireRate = 0.5f;
     public float spread = 10f;
     private float nextFireTime = 0f;
-    private float gunDammage = 9.5f;
+    private float gunDammage = 10f;
 
     public float bulletForce = 22000f;
     private float knockBackForce = 5f;

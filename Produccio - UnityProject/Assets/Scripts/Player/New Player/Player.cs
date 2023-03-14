@@ -44,7 +44,6 @@ public class Player : MonoBehaviour
     public float maxHP;
     public float currentHP;
     public float regenRate;
-    private float damageDelay = 15.0f;
 
     private void Start()
     {
