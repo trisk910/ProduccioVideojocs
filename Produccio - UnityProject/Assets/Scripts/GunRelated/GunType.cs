@@ -22,7 +22,7 @@ public class GunType : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public TextMeshProUGUI currentMagazineUI;
 
-    public ParticleSystem blooodEffect;
+    public GameObject blooodEffect;
 
     private AudioSource audioS;
 
@@ -135,20 +135,23 @@ public class GunType : MonoBehaviour
             if (hit.collider.gameObject.GetComponentInParent<Enemy>())
             {
                 hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
-                Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
-                blooodEffect.Play();
-                
-               
+
+                GameObject bloodParticle = Instantiate<GameObject>(blooodEffect);
+                bloodParticle.transform.position = hit.point;
+                bloodParticle.transform.rotation =Quaternion.FromToRotation(Vector3.forward, hit.normal);
+                bloodParticle.GetComponent<ParticleSystem>().Play();
+                Destroy(bloodParticle, 2f);
+
             }
-            if (hit.collider.gameObject.GetComponent<Enemy>() != null)
+          /*  if (hit.collider.gameObject.GetComponent<Enemy>() != null)
             {
                 hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
-                Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
-                blooodEffect.Play();
-                Destroy(blooodEffect.gameObject,2f);
+                GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                bloodParticle.GetComponent<ParticleSystem>().Play();
+                Destroy(bloodParticle, 2f);
 
                 //StartCoroutine(DisableBloodEffect(blooodEffect));
-            }
+            }*/
 
         }
     }

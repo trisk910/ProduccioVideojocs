@@ -12,6 +12,7 @@ public class PlayerHabilities : MonoBehaviour
 
     private float FirstSkillUseTime ;
     private float FirstSkillCooldown;
+    public float timeRecoverMultiplyer = 0.015f;
 
     private float SecondSkillUseTime ;
     private float SecondSkillCooldown;
@@ -32,6 +33,8 @@ public class PlayerHabilities : MonoBehaviour
     private bool swordIsInCD = false;
 
 
+    private float elapsedTime = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,12 +54,17 @@ public class PlayerHabilities : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        shotgunSkill();        
-        if (shotgunIconrecover)
-            shotgunIconRecovery();
-        swordSkill();
-        if (swordIconrecover)
-            swordIconRecovery();
+        switch (currentSet)
+        {
+            case HabilitiesClassSet.Templar:
+                shotgunSkill();
+                if (shotgunIconrecover)
+                    shotgunIconRecovery();
+                swordSkill();
+                if (swordIconrecover)
+                    swordIconRecovery();
+                break;
+        }
     }
 
     private void shotgunSkill()
@@ -65,8 +73,8 @@ public class PlayerHabilities : MonoBehaviour
         {
             pistol.SetActive(false);
             templarShotgun.SetActive(true);
-            shotgunActive = true;
             shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
+            shotgunActive = true;
             StartCoroutine(useShotgunTimeOut());
         }
     }
@@ -80,6 +88,7 @@ public class PlayerHabilities : MonoBehaviour
         shotgunActive = false;
         StartCoroutine(shotgunCooldown());
         shotgunIconrecover = true;
+        elapsedTime = 0f;
     }
     private IEnumerator shotgunCooldown()
     {
@@ -89,7 +98,11 @@ public class PlayerHabilities : MonoBehaviour
     private void shotgunIconRecovery()
     {
         if (shotgunSkillIcon.GetComponent<CanvasGroup>().alpha < 1)
-            shotgunSkillIcon.GetComponent<CanvasGroup>().alpha += Time.deltaTime * 0.015f;
+        {
+            // shotgunSkillIcon.GetComponent<CanvasGroup>().alpha += Time.deltaTime * timeRecoverMultiplyer;
+            shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, elapsedTime / FirstSkillCooldown);
+            elapsedTime += Time.deltaTime;
+        }
         else
             shotgunIconrecover = false;
     }
@@ -102,6 +115,7 @@ public class PlayerHabilities : MonoBehaviour
             swordActive = true;
             swordSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
             StartCoroutine(useSwordTimeOut());
+            elapsedTime = 0f;
         }
     }
     private IEnumerator useSwordTimeOut()
@@ -122,8 +136,19 @@ public class PlayerHabilities : MonoBehaviour
     private void swordIconRecovery()
     {
         if (swordSkillIcon.GetComponent<CanvasGroup>().alpha < 1)
-            swordSkillIcon.GetComponent<CanvasGroup>().alpha += Time.deltaTime * 0.08f;
+        {
+            swordSkillIcon.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, elapsedTime / SecondSkillCooldown);
+            elapsedTime += Time.deltaTime;
+        }
         else
             swordIconrecover = false;
+    }
+
+    public void reduceCD()
+    {
+        if(FirstSkillCooldown > 5f) //limite the cd, hay que ajustarlo y desactivar la opcion cuando sea inferior
+            FirstSkillCooldown -= 0.5f;
+        if (SecondSkillCooldown > 2f)
+            SecondSkillCooldown -= 0.2f;
     }
 }
