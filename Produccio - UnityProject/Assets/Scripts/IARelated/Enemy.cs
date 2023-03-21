@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public enum MonsterClass {Saltarin,Demonio};
+    public enum MonsterClass {Saltarin,Demonio,Tank};
     public MonsterClass currentClass;
 
     [Header("Health")]
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     private float Speed;
 
     [Header("Damage")]
-    public float attackDamage = 16f;
+    private float attackDamage = 16f;
     public float recoil = 5000f;    
 
     public float damageDelay = 15.0f;
@@ -52,10 +52,16 @@ public class Enemy : MonoBehaviour
             case MonsterClass.Saltarin:
                 Health = 50f;
                 Speed = 3.5f;
+                attackDamage = 16f;
                 break;
             case MonsterClass.Demonio:
                 Health = 100f;
                 Speed = 2.5f;
+                attackDamage = 20f;
+                break;
+            case MonsterClass.Tank:
+                Health = 150f;
+                Speed = 2f;
                 break;
         }
         currentHealth = Health;
@@ -67,10 +73,9 @@ public class Enemy : MonoBehaviour
     //Die
     public void TakeDamage(float damageAmount, float knockbackForce)
     {
-        //subtract damage amount when Damage function is called
+        
         currentHealth -= damageAmount;
 
-        //Check if health has fallen below zero
         if (currentHealth <= 0)
         {
             stateValue = -1;           
@@ -89,7 +94,7 @@ public class Enemy : MonoBehaviour
         switch (currentClass)
         {
             case MonsterClass.Saltarin:
-                rb.AddForce(-transform.forward * 10f, ForceMode.Impulse);
+                rb.AddForce(-transform.forward * 15f, ForceMode.Impulse);
                 player.GetComponent<Player>().takeDamage(attackDamage);
                 break;
                 case MonsterClass.Demonio:
@@ -129,7 +134,7 @@ public class Enemy : MonoBehaviour
             nav.SetDestination(player.transform.position);
             nav.speed = Speed;
         }
-        if(stateValue == 2)//demonio
+        if(stateValue == 2)//demonio y tanke
         {
             nav.enabled = false;
             nav.speed = 0;
@@ -167,6 +172,9 @@ public class Enemy : MonoBehaviour
             case MonsterClass.Demonio:
                 IaSpawner.GetComponent<IASpawner>().substractEnemyDemonio();
                 break;
+            case MonsterClass.Tank:
+                IaSpawner.GetComponent<IASpawner>().substractEnemyTank();
+                break;
         }
         Radar.GetComponent<RadarController>().RemoveEnemy(this.gameObject.transform);
     }
@@ -188,10 +196,10 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Sword")
+       /* if (other.gameObject.tag == "Sword")
         {
             TakeDamage(100, 25);
-        }
+        }*/
         if (other.gameObject.tag == "Player")
         {
             switch (currentClass)

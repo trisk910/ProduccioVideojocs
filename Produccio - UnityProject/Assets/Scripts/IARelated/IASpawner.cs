@@ -37,6 +37,7 @@ public class IASpawner : MonoBehaviour
     public TextMeshProUGUI enemiesLeftText;
     public List<GameObject> spawnedSaltarin = new List<GameObject>();
     public List<GameObject> spawnedDemonio = new List<GameObject>();
+    public List<GameObject> spawnedTank = new List<GameObject>();
     public int maxPerWave;
     public int enemiesAlive;
     public int totalSpwanedEnemies;
@@ -96,6 +97,15 @@ public class IASpawner : MonoBehaviour
             {
                 GameObject enemy = Instantiate<GameObject>(enemies[1].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
                 spawnedDemonio.Add(enemy);
+                enemiesAlive++;
+                totalSpwanedEnemies++;
+                Currency -= enemies[i].cost;
+                Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+            }
+            if ((Currency >= enemies[i].cost) && (spawnedDemonio.Count < enemies[2].maxPerRound))//Tank
+            {
+                GameObject enemy = Instantiate<GameObject>(enemies[1].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                spawnedTank.Add(enemy);
                 enemiesAlive++;
                 totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
@@ -174,10 +184,18 @@ public class IASpawner : MonoBehaviour
             enemiesAlive--;
         }
     }
+    public void substractEnemyTank()
+    {
+        if (spawnedTank.Count >= 0)
+        {
+            spawnedTank.RemoveAt(spawnedTank.Count - 1);
+            enemiesAlive--;
+        }
+    }
 
     private void XrayEnabler()
     {
-        if(enemiesAlive <= 4)
+        if(enemiesAlive <= 3)
         {
             //hacer bucle por cada tipo de enemigo
             for (int x = 0; x < spawnedSaltarin.Count; x++)
@@ -187,6 +205,10 @@ public class IASpawner : MonoBehaviour
             for (int z = 0; z < spawnedDemonio.Count; z++)
             {
                 spawnedDemonio[z].GetComponent<Enemy>().EnableLastAlive(true);
+            }
+            for (int y = 0; y < spawnedTank.Count; y++)
+            {
+                spawnedTank[y].GetComponent<Enemy>().EnableLastAlive(true);
             }
         }
         else
@@ -198,6 +220,10 @@ public class IASpawner : MonoBehaviour
             for (int z = 0; z < spawnedDemonio.Count; z++)
             {
                 spawnedDemonio[z].GetComponent<Enemy>().EnableLastAlive(false);
+            }
+            for (int y = 0; y < spawnedTank.Count; y++)
+            {
+                spawnedTank[y].GetComponent<Enemy>().EnableLastAlive(true);
             }
         }
     }

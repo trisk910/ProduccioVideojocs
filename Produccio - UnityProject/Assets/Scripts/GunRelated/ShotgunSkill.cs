@@ -52,10 +52,9 @@ public class ShotgunSkill : MonoBehaviour
             if (Physics.Raycast(bulletSpawnPoint.position, bulletDirection, out hit))
             {
                 Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
-                if (hit.collider.gameObject.GetComponent<Enemy>() != null)
+                if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
                 {
-                    hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
-
+                    enemy.TakeDamage(gunDammage, knockBackForce);
                     GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     bloodParticle.GetComponent<ParticleSystem>().Play();
                     Destroy(bloodParticle, 2f);

@@ -37,6 +37,8 @@ public class GunType : MonoBehaviour
     private bool isReloading = false;
     private float gunDammage;
 
+    private float weakSpotMultiplyer;
+
     public float bulletForce = 22000f;
     private float knockBackForce;
 
@@ -110,12 +112,12 @@ public class GunType : MonoBehaviour
             case WeaponType.Pistol:              
                 FirePistol();
                 break;
-            case WeaponType.Shotgun:              
+           /* case WeaponType.Shotgun:              
                 FireShotgun();
                 break;
             case WeaponType.Rifle:                
                 FireRifle();
-                break;
+                break;*/
         }
         ac.SetTrigger("Shoot");
        
@@ -132,31 +134,33 @@ public class GunType : MonoBehaviour
         if (Physics.Raycast(bulletSpawnPoint.position, bulletSpawnPoint.forward, out hit))
         {
             Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
-            if (hit.collider.gameObject.GetComponentInParent<Enemy>())
+          
+            if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
             {
-                hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
+                /* enemy.TakeDamage(gunDammage, knockBackForce);
+                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                 bloodParticle.GetComponent<ParticleSystem>().Play();
+                 Destroy(bloodParticle, 2f);*/
+                weakSpotMultiplyer = 1.0f;
+                if (hit.collider.tag == "WeakSpot")
+                {
+                    weakSpotMultiplyer = 1.5f;
+                    Debug.Log("Crit");
 
-                GameObject bloodParticle = Instantiate<GameObject>(blooodEffect);
-                bloodParticle.transform.position = hit.point;
-                bloodParticle.transform.rotation =Quaternion.FromToRotation(Vector3.forward, hit.normal);
-                bloodParticle.GetComponent<ParticleSystem>().Play();
-                Destroy(bloodParticle, 2f);
+                }
 
-            }
-          /*  if (hit.collider.gameObject.GetComponent<Enemy>() != null)
-            {
-                hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
+                float totalDamage = gunDammage * weakSpotMultiplyer;
+                enemy.TakeDamage(totalDamage, knockBackForce);
+
                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 bloodParticle.GetComponent<ParticleSystem>().Play();
                 Destroy(bloodParticle, 2f);
-
-                //StartCoroutine(DisableBloodEffect(blooodEffect));
-            }*/
+            }
 
         }
     }
 
-    void FireShotgun()
+   /* void FireShotgun()
     {
         for (int i = 0; i < pelletCount; i++)
         {
@@ -193,7 +197,7 @@ public class GunType : MonoBehaviour
                 hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
             }
         }
-    }
+    }*/
 
     IEnumerator Reload()
     {
