@@ -926,6 +926,7 @@ MonoBehaviour:
   currentClass: 2
   currentHealth: 0
   recoil: 200
+  SaltarinChargeForce: 10000
   damageDelay: 15
   Xray: {fileID: 92176403}
 --- !u!4 &6060806274314056861 stripped

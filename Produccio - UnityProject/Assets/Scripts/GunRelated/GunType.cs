@@ -48,6 +48,8 @@ public class GunType : MonoBehaviour
 
     private Animator ac;
 
+    [Header("Camera")]
+    public Camera mainCamera;
 
     void Start()
     {
@@ -128,19 +130,14 @@ public class GunType : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * bulletForce);
-
-        
         RaycastHit hit;
-        if (Physics.Raycast(bulletSpawnPoint.position, bulletSpawnPoint.forward, out hit))
+        
+        if (mainCamera != null && Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit))
         {
-            Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
-          
-            if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
+            Debug.DrawLine(mainCamera.transform.position, hit.point, Color.red, 2f);
+
+            if (/*hit.collider.gameObject.TryGetComponent(out Enemy enemy)*/ hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
             {
-                /* enemy.TakeDamage(gunDammage, knockBackForce);
-                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
-                 bloodParticle.GetComponent<ParticleSystem>().Play();
-                 Destroy(bloodParticle, 2f);*/
                 weakSpotMultiplyer = 1.0f;
                 if (hit.collider.tag == "WeakSpot")
                 {
@@ -150,7 +147,8 @@ public class GunType : MonoBehaviour
                 }
 
                 float totalDamage = gunDammage * weakSpotMultiplyer;
-                enemy.TakeDamage(totalDamage, knockBackForce);
+                //enemy.TakeDamage(totalDamage, knockBackForce);
+                hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
 
                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 bloodParticle.GetComponent<ParticleSystem>().Play();

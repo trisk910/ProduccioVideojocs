@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 //using static UnityEditor.Experimental.GraphView.GraphView;
@@ -18,7 +19,13 @@ public class Enemy : MonoBehaviour
 
     [Header("Damage")]
     private float attackDamage = 16f;
-    public float recoil = 5000f;    
+    public float recoil = 100f;
+
+    public float SaltarinChargeForce;
+    private float SaltarinDistance;
+    public float SaltarinChargeDistance = 5f;
+    private bool isCharging;
+    private bool canCharge = true;
 
     public float damageDelay = 15.0f;
 
@@ -40,6 +47,8 @@ public class Enemy : MonoBehaviour
 
     private GameObject Radar;
 
+    
+
     [Header("Ui")]
     public GameObject Xray;
     private void Start(){
@@ -60,8 +69,8 @@ public class Enemy : MonoBehaviour
                 attackDamage = 20f;
                 break;
             case MonsterClass.Tank:
-                Health = 150f;
-                Speed = 2f;
+                Health = 300f;
+                Speed = 1.5f;
                 break;
         }
         currentHealth = Health;
@@ -78,7 +87,7 @@ public class Enemy : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            stateValue = -1;           
+            stateValue = -1;
         }
 
         switch (currentClass)
@@ -94,7 +103,7 @@ public class Enemy : MonoBehaviour
         switch (currentClass)
         {
             case MonsterClass.Saltarin:
-                rb.AddForce(-transform.forward * 15f, ForceMode.Impulse);
+                rb.AddForce(-transform.forward * recoil, ForceMode.Impulse);
                 player.GetComponent<Player>().takeDamage(attackDamage);
                 break;
                 case MonsterClass.Demonio:
@@ -105,6 +114,16 @@ public class Enemy : MonoBehaviour
     }
     private void Update(){
         navStates();
+        switch (currentClass)
+        {
+            case MonsterClass.Saltarin:
+                if(!isCharging && canCharge)
+                {
+                    SaltarinDistance = CalcularSaltarinSDistancia();
+                    SaltarinAttack();
+                }                
+                break;
+        }
     }
     private void navStates()
     {
@@ -119,9 +138,8 @@ public class Enemy : MonoBehaviour
             {
                 c.enabled = false;
             }
-
+            rb.isKinematic = true;
             StartCoroutine(disableDeathDelayer());
-            
         }
         if (stateValue == 0)
         {
@@ -140,24 +158,75 @@ public class Enemy : MonoBehaviour
             nav.speed = 0;
             IAanim.SetTrigger("isAttacking");
             gameObject.GetComponent<SphereCollider>().enabled = false;
-            StartCoroutine(enableAttackCollider());
+            StartCoroutine(enableAttackCollider());            
+        }
+        if(stateValue == 3)//ataque saltarin
+        {
+            //////
+            nav.enabled = false;
+            nav.speed = 0;
+            StartCoroutine(saltarinChargeAttack());
+            stateValue = 0;
+           
         }
         
     }
-    private IEnumerator enableAttackCollider() //para evitar dobles ataques
+    private float CalcularSaltarinSDistancia()
+    {
+        float distance = Vector3.Distance(this.transform.position, player.transform.position);
+        return distance;
+    }
+
+    private void SaltarinAttack()
+    {
+        if ((SaltarinDistance <= SaltarinChargeDistance) && !isCharging)
+        {
+            //GeneratePlayerTransform();
+            stateValue = 3;
+            isCharging = true;
+            canCharge = false;
+        }
+    }
+    /*private void GeneratePlayerTransform()
+    {
+        Transform PlayerTransform = player.transform;
+        stateValue = 3;        
+    }*/
+
+    private IEnumerator saltarinChargeAttack() //para evitar dobles ataques
+    {
+        yield return new WaitForSeconds(1f);
+        //rb.AddForce(transform.forward * SaltarinChargeForce, ForceMode.Impulse);
+        rb.AddForce(transform.forward * SaltarinChargeForce, ForceMode.VelocityChange);
+        StartCoroutine(MoveDelay(15f));  
+    }
+    private IEnumerator resetChargeSkill()
+    {
+        yield return new WaitForSeconds(10f);
+        canCharge = true;
+    }
+
+        private IEnumerator enableAttackCollider() //para evitar dobles ataques
     {
         yield return new WaitForSeconds(5f);
         gameObject.GetComponent<SphereCollider>().enabled = true;
     }
 
-        private IEnumerator MoveDelay(float damageDelay)
+    private IEnumerator MoveDelay(float damageDelay)
     {
         yield return damageDelay;
         stateValue = 1;
+        switch (currentClass)
+        {
+            case MonsterClass.Saltarin:
+                isCharging = false;
+                StartCoroutine(resetChargeSkill());
+                break;
+        }
     }
     private IEnumerator disableDeathDelayer()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(4f);
         gameObject.SetActive(false);
         removeFromList();
     }

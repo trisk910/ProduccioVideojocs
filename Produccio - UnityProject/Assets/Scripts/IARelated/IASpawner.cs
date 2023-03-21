@@ -77,6 +77,7 @@ public class IASpawner : MonoBehaviour
         startMultiplyerTimer();
         roundStatus();
         XrayEnabler();
+        addCurrencyShortCut();
     }
 
     private void SpawnEnemy()
@@ -226,5 +227,11 @@ public class IASpawner : MonoBehaviour
                 spawnedTank[y].GetComponent<Enemy>().EnableLastAlive(true);
             }
         }
+    }
+
+    private void addCurrencyShortCut()
+    {
+        if (Input.GetKey(KeyCode.P))
+            Currency *= 10f;
     }
 }

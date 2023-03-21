@@ -110,7 +110,7 @@ ModelImporter:
     second: Run
   - first:
       74: 8028308834326230684
-    second: Armature|Tank_Runv2
+    second: Runv2
   - first:
       74: -1174873514172094963
     second: Armature|Tank_Runv2.001
@@ -1159,7 +1159,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Tank_Runv2
+      name: Runv2
       takeName: Armature|Tank_Runv2
       internalID: 0
       firstFrame: 0
@@ -1170,7 +1170,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

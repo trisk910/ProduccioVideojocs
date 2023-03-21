@@ -20,6 +20,7 @@ public class ShotgunSkill : MonoBehaviour
 
     public GameObject blooodEffect;
     public ParticleSystem muzzleFlash;
+    public Camera mainCamera;
     void Start()
     {
         audioS = GetComponent<AudioSource>();
@@ -49,12 +50,19 @@ public class ShotgunSkill : MonoBehaviour
 
             // Use raycasting to detect and interact with objects in the scene
             RaycastHit hit;
-            if (Physics.Raycast(bulletSpawnPoint.position, bulletDirection, out hit))
+            if (mainCamera != null && Physics.Raycast(mainCamera.transform.position, /*mainCamera.transform.forward*/bulletDirection, out hit))
             {
-                Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
-                if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
+                Debug.DrawLine(mainCamera.transform.position, hit.point, Color.red, 2f);
+
+                if (/*hit.collider.gameObject.TryGetComponent(out Enemy enemy)*/hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
                 {
-                    enemy.TakeDamage(gunDammage, knockBackForce);
+                    /* if (Physics.Raycast(bulletSpawnPoint.position, bulletDirection, out hit))
+                     {
+                         Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
+                         if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
+                         {*/
+                    //enemy.TakeDamage(gunDammage, knockBackForce);
+                    hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
                     GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     bloodParticle.GetComponent<ParticleSystem>().Play();
                     Destroy(bloodParticle, 2f);
