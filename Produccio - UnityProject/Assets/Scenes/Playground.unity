@@ -35915,13 +35915,13 @@ MonoBehaviour:
   enemies:
   - enemyPrefab: {fileID: 4811371228032630570, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
     cost: 6
-    maxPerRound: 6
+    maxPerRound: 4
   - enemyPrefab: {fileID: 346246121445233775, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
-    cost: 4
-    maxPerRound: 12
+    cost: 5
+    maxPerRound: 6
   - enemyPrefab: {fileID: 5248997472559067011, guid: 66e5c09d1230a9d478e084e1e0f22dc1, type: 3}
     cost: 8
-    maxPerRound: 0
+    maxPerRound: 1
   spawnLocation:
   - {fileID: 484887413}
   - {fileID: 1824188578}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -107,14 +108,14 @@ public class Player : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+       /* if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
 
             Jump();
 
             Invoke(nameof(ResetJump), jumpCooldown);
-        }
+        }*/
     }
 
     private void MovePlayer()
@@ -143,7 +144,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Jump()
+    /*private void Jump()
     {
         // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -153,7 +154,7 @@ public class Player : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
-    }
+    }*/
 
 
     public void takeDamage(float damage)
@@ -169,6 +170,7 @@ public class Player : MonoBehaviour
     {
         //deathScreen.SetActive(true);
         Time.timeScale = 0f;
+        SceneManager.LoadScene("CharacterSelection");
     }
 
     //Upgrades

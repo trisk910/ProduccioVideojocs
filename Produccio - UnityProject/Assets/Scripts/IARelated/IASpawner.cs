@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEngine;
 
 public class IASpawner : MonoBehaviour
@@ -55,7 +54,7 @@ public class IASpawner : MonoBehaviour
         InitialCurrency = 25f;
         Currency = InitialCurrency;
         currencyMultiplyer = 1.5f;
-        maxPerWave = 18;
+        maxPerWave = 11;
         UpGradeMenu.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
         Radar = GameObject.FindGameObjectWithTag("Radar");
@@ -236,14 +235,14 @@ public class IASpawner : MonoBehaviour
     }
     private void increaseMaxPerRound()
     {
-        maxPerWave += 15;
+        maxPerWave += 6;
         //maxPerWave += 12;
         totalSpwanedEnemies = 0;
         currentRound++;
         Currency = 0;
         for (int x = 0; x < enemies.Count; x++)
         {
-            enemies[x].maxPerRound += 5;
+            enemies[x].maxPerRound += 2;
         }
         /*enemies[0].maxPerRound =+ 3; //saltarin
         enemies[1].maxPerRound =+ 5; //demonio
