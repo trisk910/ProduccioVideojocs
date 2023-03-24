@@ -13,7 +13,8 @@ public class ShotgunSkill : MonoBehaviour
     public float fireRate = 0.5f;
     public float spread = 10f;
     private float nextFireTime = 0f;
-    private float gunDammage = 10f;
+    private float damagePerPellet = 20f;
+    public float maxDistance = 50f;
 
     public float bulletForce = 22000f;
     private float knockBackForce = 5f;
@@ -43,33 +44,75 @@ public class ShotgunSkill : MonoBehaviour
         //ac.SetBool("Shoot", true);
         for (int i = 0; i < pelletCount; i++)
         {
-            Vector3 bulletDirection = bulletSpawnPoint.forward;
+           Vector3 bulletDirection = bulletSpawnPoint.forward;
             bulletDirection = Quaternion.Euler(Random.Range(-spread, spread), Random.Range(-spread, spread), 0) * bulletDirection;
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(bulletDirection));
-            bullet.GetComponent<Rigidbody>().AddForce(bulletDirection * bulletForce);
+            /*GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(bulletDirection));
+            bullet.GetComponent<Rigidbody>().AddForce(bulletDirection * bulletForce);*/
 
-            // Use raycasting to detect and interact with objects in the scene
+            float remainingDistance = maxDistance;
             RaycastHit hit;
-            if (mainCamera != null && Physics.Raycast(mainCamera.transform.position, /*mainCamera.transform.forward*/bulletDirection, out hit))
+            /*if (mainCamera != null && Physics.Raycast(mainCamera.transform.position, bulletDirection, out hit))
             {
                 Debug.DrawLine(mainCamera.transform.position, hit.point, Color.red, 2f);
 
-                if (/*hit.collider.gameObject.TryGetComponent(out Enemy enemy)*/hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
+                if (hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
                 {
-                    /* if (Physics.Raycast(bulletSpawnPoint.position, bulletDirection, out hit))
-                     {
-                         Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
-                         if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
-                         {*/
-                    //enemy.TakeDamage(gunDammage, knockBackForce);
-                    hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
+                    float weakSpotMultiplyer = 1.0f;
+                    if (hit.collider.tag == "WeakSpot")
+                    {
+                        weakSpotMultiplyer = 1.5f;
+                        Debug.Log("Crit");
+
+                    }
+
+                    float totalDamage = damagePerPellet * weakSpotMultiplyer;
+                    //enemy.TakeDamage(totalDamage, knockBackForce);
+                    hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(damagePerPellet, knockBackForce);
+
                     GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     bloodParticle.GetComponent<ParticleSystem>().Play();
                     Destroy(bloodParticle, 2f);
+                }
+            }*/
+            while (remainingDistance > 0f && Physics.Raycast(mainCamera.transform.position, bulletDirection, out hit, remainingDistance))
+            {
+                Debug.DrawLine(mainCamera.transform.position, hit.point, Color.red, 2f);
+
+                float distanceTraveled = hit.distance;
+                remainingDistance -= distanceTraveled;
+
+                if (hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
+                {
+                    float weakSpotMultiplyer = 1.0f;
+                    if (hit.collider.tag == "WeakSpot")
+                    {
+                        weakSpotMultiplyer = 2f;
+                        //Debug.Log("Crit");
+                    }
+
+                    float distanceReduction = distanceTraveled / maxDistance;
+                    float totalDamage = damagePerPellet * weakSpotMultiplyer * (1f - distanceReduction);
+                    if (distanceTraveled > 0f)
+                    {
+                        totalDamage *= 0.2f; // reduce damage if the ray went through an object
+                    }
+
+                    hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(totalDamage, knockBackForce);
+
+                    GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                    bloodParticle.GetComponent<ParticleSystem>().Play();
+                    Destroy(bloodParticle, 2f);
+                }
+
+                if (remainingDistance > 0f)
+                {
+                    Vector3 newOrigin = hit.point + bulletDirection * 0.001f;
+                    remainingDistance -= 0.001f;
                 }
             }
         }
         //ac.SetBool("Shoot", false);
 
     }
+  
 }

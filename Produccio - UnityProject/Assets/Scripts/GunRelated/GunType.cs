@@ -10,12 +10,15 @@ public class GunType : MonoBehaviour
     public enum WeaponType
     {
         Pistol,
-        Shotgun,
-        Rifle
+        Shotgun
     }
 
     public WeaponType currentWeapon = WeaponType.Pistol;
 
+
+    [Header("Bullet Pool")]
+    public List<GameObject> bulletList;
+    public int amount;
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
 
@@ -69,17 +72,18 @@ public class GunType : MonoBehaviour
                 fireRate = 0.25f;
                 knockBackForce = 5f;
                 break;
-            case WeaponType.Rifle:
-                maxAmmo = 30;
-                reloadTime = 1.5f;
-                gunDammage = 45.0f;
-                fireRate = 0.25f;
-                knockBackForce = 7f;
-                break;
         }
         currentAmmo = maxAmmo;
         audioS = GetComponent<AudioSource>();
         ac = GetComponent<Animator>();
+        // Create bullet pool
+        bulletList = new List<GameObject>();
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject objBullet = (GameObject)Instantiate(bulletPrefab);
+            objBullet.SetActive(false);
+            bulletList.Add(objBullet);
+        }
     }
 
     void Update()
@@ -128,8 +132,15 @@ public class GunType : MonoBehaviour
 
     void FirePistol()
     {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * bulletForce);
+        GameObject currentBullet = getBulletPool();
+        currentBullet.transform.position = bulletSpawnPoint.position;
+        currentBullet.transform.rotation = bulletSpawnPoint.rotation;
+        currentBullet.SetActive(true);
+        Rigidbody tempRigidBodyBullet = currentBullet.GetComponent<Rigidbody>();
+        tempRigidBodyBullet.angularVelocity = Vector3.zero;
+        tempRigidBodyBullet.velocity = Vector3.zero;
+        tempRigidBodyBullet.AddForce(tempRigidBodyBullet.transform.forward * bulletForce, ForceMode.Impulse);
+
         RaycastHit hit;
         
         if (mainCamera != null && Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit))
@@ -141,8 +152,8 @@ public class GunType : MonoBehaviour
                 weakSpotMultiplyer = 1.0f;
                 if (hit.collider.tag == "WeakSpot")
                 {
-                    weakSpotMultiplyer = 1.5f;
-                    Debug.Log("Crit");
+                    weakSpotMultiplyer = 2.0f;
+                    //Debug.Log("Crit");
 
                 }
 
@@ -158,44 +169,20 @@ public class GunType : MonoBehaviour
         }
     }
 
-   /* void FireShotgun()
+    private GameObject getBulletPool()
     {
-        for (int i = 0; i < pelletCount; i++)
+        for (int i = 0; i < bulletList.Count; i++)
         {
-            Vector3 bulletDirection = bulletSpawnPoint.forward;
-            bulletDirection = Quaternion.Euler(Random.Range(-spread, spread), Random.Range(-spread, spread), 0) * bulletDirection;
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(bulletDirection));
-            bullet.GetComponent<Rigidbody>().AddForce(bulletDirection * bulletForce);
-
-           
-            RaycastHit hit;
-            if (Physics.Raycast(bulletSpawnPoint.position, bulletDirection, out hit))
+            if (!bulletList[i].activeInHierarchy)
             {
-                Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
-                if (hit.collider.gameObject.GetComponent<Enemy>() != null)
-                {
-                    hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
-                }
+                return bulletList[i];
             }
         }
+        GameObject objBullet = (GameObject)Instantiate(bulletPrefab);
+        objBullet.SetActive(false);
+        bulletList.Add(objBullet);
+        return objBullet;
     }
-
-    void FireRifle()
-    {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * bulletForce);
-
-        // Use raycasting to detect and interact with objects in the scene
-        RaycastHit hit;
-        if (Physics.Raycast(bulletSpawnPoint.position, bulletSpawnPoint.forward, out hit))
-        {
-            Debug.DrawLine(bulletSpawnPoint.position, hit.point, Color.red, 2f);
-            if (hit.collider.gameObject.GetComponent<Enemy>() != null)
-            {
-                hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(gunDammage, knockBackForce);
-            }
-        }
-    }*/
 
     IEnumerator Reload()
     {
@@ -207,6 +194,11 @@ public class GunType : MonoBehaviour
     private void upDateUIAmmo()
     {
         currentMagazineUI.SetText(currentAmmo + "/" + maxAmmo);
+    }
+
+    public void IncreasePistolDamage()
+    {
+        gunDammage += 5f;
     }
 
     void OnDisable()

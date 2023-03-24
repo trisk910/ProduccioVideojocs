@@ -69,8 +69,9 @@ public class Enemy : MonoBehaviour
                 attackDamage = 20f;
                 break;
             case MonsterClass.Tank:
-                Health = 300f;
+                Health = 400f;
                 Speed = 1.5f;
+                attackDamage = 35f;
                 break;
         }
         currentHealth = Health;
@@ -110,6 +111,10 @@ public class Enemy : MonoBehaviour
                 if(canDoDamage)
                     player.GetComponent<Player>().takeDamage(attackDamage);
                 break;
+            case MonsterClass.Tank:
+                if (canDoDamage)
+                    player.GetComponent<Player>().takeDamage(attackDamage);
+                break;
         }
     }
     private void Update(){
@@ -132,9 +137,9 @@ public class Enemy : MonoBehaviour
             nav.enabled = false;
             nav.speed = 0;
             IAanim.SetTrigger("isDead");
-            this.gameObject.GetComponent<Rigidbody>().isKinematic= true;
+            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             //this.gameObject.GetComponent<Collider>().enabled = false;
-            foreach (Collider c in GetComponents<Collider>())
+            foreach (Collider c in GetComponentsInChildren<Collider>())
             {
                 c.enabled = false;
             }
@@ -221,7 +226,7 @@ public class Enemy : MonoBehaviour
             case MonsterClass.Saltarin:
                 isCharging = false;
                 StartCoroutine(resetChargeSkill());
-                break;
+                break;            
         }
     }
     private IEnumerator disableDeathDelayer()
@@ -257,7 +262,7 @@ public class Enemy : MonoBehaviour
                 case MonsterClass.Saltarin:
                     stateValue = 0;
                     doDamage();
-                    StartCoroutine(MoveDelay(5f));
+                    StartCoroutine(MoveDelay(8f));
                     break;
             }           
         }
@@ -276,8 +281,11 @@ public class Enemy : MonoBehaviour
                 case MonsterClass.Demonio:
                     stateValue = 2;
                     break;
+                case MonsterClass.Tank:
+                    stateValue = 2;
+                    break;
             }
-            StartCoroutine(MoveDelay(5f));
+            StartCoroutine(MoveDelay(15f));
             canDoDamage = true;
         }
     }

@@ -163,19 +163,16 @@ public class Player : MonoBehaviour
             Die();
         }
         currentHP -= damage;
-    }
-   
-    private void SkillShotgun()
-    {
-
-    }
+    }  
 
     private void Die()
     {
         //deathScreen.SetActive(true);
         Time.timeScale = 0f;
     }
-    public void RegenHp()
+
+    //Upgrades
+    public void HealHp()
     {
         /*if (currentHP < maxHP)
         {
@@ -185,5 +182,14 @@ public class Player : MonoBehaviour
             currentHP += maxHP * 1 / 3;
         else
             currentHP = maxHP;
+    }
+    public void FullHealHp()
+    {
+        currentHP = maxHP;
+    }
+
+    public void IncreaseBaseSpeed()
+    {
+        moveSpeed += 2f;
     }
 }

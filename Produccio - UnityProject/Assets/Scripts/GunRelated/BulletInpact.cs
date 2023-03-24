@@ -13,15 +13,15 @@ public class BulletInpact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Destroy(this.gameObject, 15f);//temporal
     }
     private void OnTriggerEnter(Collider other)
     {
         gameObject.SetActive(false);
     }
 
-   /* private void OnCollisionEnter(Collision collision)
+     private void OnCollisionEnter(Collision collision)
     {
         gameObject.SetActive(false);
-    }*/
+    }
 }

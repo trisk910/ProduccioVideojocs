@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEngine;
 
 public class IASpawner : MonoBehaviour
@@ -39,7 +40,7 @@ public class IASpawner : MonoBehaviour
     public List<GameObject> spawnedDemonio = new List<GameObject>();
     public List<GameObject> spawnedTank = new List<GameObject>();
     public int maxPerWave;
-    public int enemiesAlive;
+    public int enemiesAlive = 0;
     public int totalSpwanedEnemies;
 
     private GameObject Player;
@@ -53,7 +54,7 @@ public class IASpawner : MonoBehaviour
         SpawnEnemy();
         InitialCurrency = 25f;
         Currency = InitialCurrency;
-        currencyMultiplyer = .05f;
+        currencyMultiplyer = 1.5f;
         maxPerWave = 18;
         UpGradeMenu.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -72,65 +73,184 @@ public class IASpawner : MonoBehaviour
 
 
         currentRoundText.SetText("Round: " + currentRound);
+        countEnemiesAlive();
         enemiesLeftText.SetText("Enemies alive: " + enemiesAlive);
     
-        startMultiplyerTimer();
+        //startMultiplyerTimer();
         roundStatus();
-        XrayEnabler();
+        //XrayEnabler();
         addCurrencyShortCut();
     }
 
     private void SpawnEnemy()
     {
-        for(int i = 0; i < enemies.Count; i++) {
+        /*for(int i = 0; i < enemies.Count; i++) {
             spawnIndex = Random.Range(0, spawnLocation.Length);
-         
-            if ((Currency >= enemies[i].cost) && (spawnedSaltarin.Count < enemies[0].maxPerRound) )//saltarin
+            if ((Currency >= enemies[i].cost) && (spawnedTank.Count < enemies[2].maxPerRound))//Tank
             {
-                GameObject enemy = Instantiate<GameObject>(enemies[0].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
-                spawnedSaltarin.Add(enemy);
-                enemiesAlive++;
+                GameObject enemy = Instantiate<GameObject>(enemies[2].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                spawnedTank.Add(enemy);
+                //enemiesAlive++;
                 totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
                 Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
             }
+
             if ((Currency >= enemies[i].cost) && (spawnedDemonio.Count < enemies[1].maxPerRound))//Demonio
             {
                 GameObject enemy = Instantiate<GameObject>(enemies[1].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
                 spawnedDemonio.Add(enemy);
-                enemiesAlive++;
+                //enemiesAlive++;
                 totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
                 Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
             }
-            if ((Currency >= enemies[i].cost) && (spawnedDemonio.Count < enemies[2].maxPerRound))//Tank
+
+            if ((Currency >= enemies[i].cost) && (spawnedSaltarin.Count < enemies[0].maxPerRound) )//saltarin
             {
-                GameObject enemy = Instantiate<GameObject>(enemies[1].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
-                spawnedTank.Add(enemy);
-                enemiesAlive++;
+                GameObject enemy = Instantiate<GameObject>(enemies[0].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                spawnedSaltarin.Add(enemy);
+                //enemiesAlive++;
                 totalSpwanedEnemies++;
                 Currency -= enemies[i].cost;
                 Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+            }       
+        }*/
+        /*List<EnemyL> availableEnemies = new List<EnemyL>();
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (Currency >= enemies[i].cost)
+            {
+                switch (enemies[i].enemyPrefab.name)
+                {
+                    case "Saltarin":
+                        if (spawnedSaltarin.Count < enemies[i].maxPerRound)
+                        {
+                            availableEnemies.Add(enemies[i]);
+                        }
+                        break;
+                    case "Demonio":
+                        if (spawnedDemonio.Count < enemies[i].maxPerRound)
+                        {
+                            availableEnemies.Add(enemies[i]);
+                        }
+                        break;
+                    case "Tank":
+                        if (spawnedTank.Count < enemies[i].maxPerRound)
+                        {
+                            availableEnemies.Add(enemies[i]);
+                        }
+                        break;
+                }
             }
         }
+
+        if (availableEnemies.Count > 0)
+        {
+            int randomIndex = Random.Range(0, availableEnemies.Count);
+            EnemyL enemyType = availableEnemies[randomIndex];
+
+            int spawnIndex = Random.Range(0, spawnLocation.Length);
+            GameObject enemy = Instantiate(enemyType.enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+            Currency -= enemyType.cost;
+            totalSpwanedEnemies++;
+
+            switch (enemyType.enemyPrefab.name)
+            {
+                case "Saltarin":
+                    spawnedSaltarin.Add(enemy);
+                    break;
+                case "Demonio":
+                    spawnedDemonio.Add(enemy);
+                    break;
+                case "Tank":
+                    spawnedTank.Add(enemy);
+                    break;
+            }
+
+            Radar.GetComponent<RadarController>().AddEnemy(enemy.transform);
+        }*/
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (Currency >= enemies[i].cost)
+            {
+                int spawnIndex = Random.Range(0, spawnLocation.Length);
+
+                switch (enemies[i].enemyPrefab.name)
+                {
+                    case "Saltarin":
+                        if (spawnedSaltarin.Count < enemies[i].maxPerRound)
+                        {
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                            spawnedSaltarin.Add(enemy);
+                            Currency -= enemies[i].cost;
+                            totalSpwanedEnemies++;
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                        }
+                        break;
+
+                    case "Demonio":
+                        if (spawnedDemonio.Count < enemies[i].maxPerRound)
+                        {
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                            spawnedDemonio.Add(enemy);
+                            Currency -= enemies[i].cost;
+                            totalSpwanedEnemies++;
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                        }
+                        break;
+
+                    case "Tank":
+                        if (spawnedTank.Count < enemies[i].maxPerRound)
+                        {
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                            spawnedTank.Add(enemy);
+                            Currency -= enemies[i].cost;
+                            totalSpwanedEnemies++;
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                        }
+                        break;
+
+                    default:
+                        Debug.LogWarning("Unknown enemy type: " + enemies[i].enemyPrefab.name);
+                        break;
+                }
+            }
+        }
+    }
+    private void countEnemiesAlive()
+    {
+        enemiesAlive = spawnedDemonio.Count + spawnedSaltarin.Count + spawnedTank.Count;
     }
     private void roundStatus()
     {
         if(totalSpwanedEnemies>= maxPerWave)
         {
             canSpawn= false;
-            increaseMaxPerRound();
+            if (enemiesAlive < 1)
+            {
+                increaseMaxPerRound();
+                enemiesAlive = 0;
+            }
         }
     }
     private void increaseMaxPerRound()
     {
-        maxPerWave += 10;
+        maxPerWave += 15;
+        //maxPerWave += 12;
         totalSpwanedEnemies = 0;
         currentRound++;
-        for(int x = 0; x < enemies.Count; x++)
+        Currency = 0;
+        for (int x = 0; x < enemies.Count; x++)
         {
             enemies[x].maxPerRound += 5;
         }
+        /*enemies[0].maxPerRound =+ 3; //saltarin
+        enemies[1].maxPerRound =+ 5; //demonio
+        enemies[2].maxPerRound =+ 4; //tank*/
+
+        float addCurrencyMultiplyer = currencyMultiplyer;
+        currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
         StartCoroutine(roundFinish());
         ShowUpgradeMenu();
     }
@@ -153,17 +273,20 @@ public class IASpawner : MonoBehaviour
         yield return new WaitForSeconds(5);
         canSpawn = true;
     }
-    private void startMultiplyerTimer()
+    /*private void startMultiplyerTimer()
     {
-        multiplyerTimer += Time.deltaTime;
-        
-        if (multiplyerTimer > 30f)
+        if (canSpawn)
         {
-            float addCurrencyMultiplyer = currencyMultiplyer;
-            currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
-            resetMultiplyerTimer();
+            multiplyerTimer += Time.deltaTime;
+
+            if (multiplyerTimer > 30f)
+            {
+                float addCurrencyMultiplyer = currencyMultiplyer;
+                currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
+                resetMultiplyerTimer();
+            }
         }
-    }
+    }*/
     private void resetMultiplyerTimer()
     {
         multiplyerTimer = 0;
@@ -171,7 +294,7 @@ public class IASpawner : MonoBehaviour
 
     public void substractEnemySaltarin()
     {
-        if (spawnedSaltarin.Count >= 0)
+        if (spawnedSaltarin.Count > 0)
         {
             spawnedSaltarin.RemoveAt(spawnedSaltarin.Count - 1);
             enemiesAlive--;
@@ -179,7 +302,7 @@ public class IASpawner : MonoBehaviour
     }
     public void substractEnemyDemonio()
     {
-        if (spawnedDemonio.Count >= 0)
+        if (spawnedDemonio.Count > 0)
         {
             spawnedDemonio.RemoveAt(spawnedDemonio.Count - 1);
             enemiesAlive--;
@@ -187,14 +310,14 @@ public class IASpawner : MonoBehaviour
     }
     public void substractEnemyTank()
     {
-        if (spawnedTank.Count >= 0)
+        if (spawnedTank.Count > 0)
         {
             spawnedTank.RemoveAt(spawnedTank.Count - 1);
             enemiesAlive--;
         }
     }
 
-    private void XrayEnabler()
+    /*private void XrayEnabler()
     {
         if(enemiesAlive <= 3)
         {
@@ -227,11 +350,11 @@ public class IASpawner : MonoBehaviour
                 spawnedTank[y].GetComponent<Enemy>().EnableLastAlive(true);
             }
         }
-    }
-
+    }*/
+    //cheats
     private void addCurrencyShortCut()
     {
-        if (Input.GetKey(KeyCode.P))
-            Currency *= 10f;
+        if (Input.GetKeyUp(KeyCode.P))
+            Currency += 10f;
     }
 }
