@@ -97,7 +97,7 @@ Material:
     - _WindQuality: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.027732285, g: 0.38679248, b: 0.012771457, a: 1}
+    - _Color: {r: 0.10980393, g: 0.16078432, b: 0.007843138, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}

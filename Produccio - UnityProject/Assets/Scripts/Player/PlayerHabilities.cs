@@ -43,7 +43,7 @@ public class PlayerHabilities : MonoBehaviour
             case HabilitiesClassSet.Templar:
                 FirstSkillUseTime = 10.0f;
                 FirstSkillCooldown = 15.0f;
-                SecondSkillUseTime = 0.4f;
+                SecondSkillUseTime = 0.3f;
                 SecondSkillCooldown = 8.0f;
                 break;
         }
