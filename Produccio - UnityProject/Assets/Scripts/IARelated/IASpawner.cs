@@ -29,7 +29,7 @@ public class IASpawner : MonoBehaviour
     public float InitialCurrency;
     public float currencyMultiplyer;  
 
-    private float multiplyerTimer;
+    //private float multiplyerTimer;
 
     [Header("Rounds")]
     public int currentRound = 1;
@@ -43,6 +43,8 @@ public class IASpawner : MonoBehaviour
     public int totalSpwanedEnemies;
 
     private GameObject Player;
+
+    [Header("UI")]
     public GameObject UpGradeMenu;
 
     private GameObject Radar;
@@ -54,7 +56,7 @@ public class IASpawner : MonoBehaviour
         InitialCurrency = 25f;
         Currency = InitialCurrency;
         currencyMultiplyer = 1.5f;
-        maxPerWave = 11;
+        maxPerWave = 10;
         UpGradeMenu.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
         Radar = GameObject.FindGameObjectWithTag("Radar");
@@ -286,10 +288,10 @@ public class IASpawner : MonoBehaviour
             }
         }
     }*/
-    private void resetMultiplyerTimer()
+    /*private void resetMultiplyerTimer()
     {
         multiplyerTimer = 0;
-    }
+    }*/
 
     public void substractEnemySaltarin()
     {

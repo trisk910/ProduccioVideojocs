@@ -411,7 +411,7 @@ MonoBehaviour:
   currentClass: 0
   currentHealth: 0
   recoil: 200
-  SaltarinChargeForce: 100
+  SaltarinChargeForce: 120
   SaltarinChargeDistance: 5
   damageDelay: 15
   Xray: {fileID: 1300924850}

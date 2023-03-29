@@ -18,13 +18,13 @@ public class Player : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump;
+    //bool readyToJump;
 
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
 
     //[Header("Keybinds")]
-    private KeyCode jumpKey = KeyCode.Space;
+    //private KeyCode jumpKey = KeyCode.Space;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -45,13 +45,14 @@ public class Player : MonoBehaviour
     public float maxHP;
     public float currentHP;
     public float regenRate;
+    public bool enableRegen = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        readyToJump = true;
+        //readyToJump = true;
 
         switch(currentClass)
         {
@@ -92,8 +93,8 @@ public class Player : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
-
-        //RegenHp();
+        if(enableRegen)
+            regenHP();
         healthbar.value = currentHP;
     }
 
@@ -169,21 +170,35 @@ public class Player : MonoBehaviour
     private void Die()
     {
         //deathScreen.SetActive(true);
-        Time.timeScale = 0f;
+        Time.timeScale = 0.5f;
+        StartCoroutine(BackToMenu());
+        
+    }
+    IEnumerator BackToMenu()
+    {
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadScene("CharacterSelection");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     //Upgrades
-    public void HealHp()
+    public void EnablePassiveRegen()
     {
-        /*if (currentHP < maxHP)
+        /* if (currentHP < maxHP * 2 / 3)
+             currentHP += maxHP * 1 / 3;
+         else
+             currentHP = maxHP;*/
+        if(!enableRegen)
+            enableRegen = true;
+        regenRate += 0.2f;
+    }
+    private void regenHP()
+    {
+        if (currentHP < maxHP)
         {
             currentHP += regenRate * Time.deltaTime;
-        }*/
-        if (currentHP < maxHP * 2 / 3)
-            currentHP += maxHP * 1 / 3;
-        else
-            currentHP = maxHP;
+        }
     }
     public void FullHealHp()
     {
@@ -193,5 +208,9 @@ public class Player : MonoBehaviour
     public void IncreaseBaseSpeed()
     {
         moveSpeed += 2f;
+    }
+    public void IncreaseMaxHP()
+    {
+        maxHP =+ 10f;
     }
 }

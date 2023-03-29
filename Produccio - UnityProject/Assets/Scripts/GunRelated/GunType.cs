@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -53,6 +55,9 @@ public class GunType : MonoBehaviour
     [Header("Camera")]
     public Camera mainCamera;
 
+    [Header("UI")]
+    public GameObject reloadingText;
+
     void Start()
     {
         switch (currentWeapon)
@@ -83,6 +88,7 @@ public class GunType : MonoBehaviour
             objBullet.SetActive(false);
             bulletList.Add(objBullet);
         }
+        reloadingText.SetActive(false);
     }
 
     void Update()
@@ -93,7 +99,7 @@ public class GunType : MonoBehaviour
             Fire();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading)
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && (currentAmmo != maxAmmo))
         {
             StartCoroutine(Reload());
         }
@@ -104,6 +110,7 @@ public class GunType : MonoBehaviour
     {
         if (currentAmmo <= 0)
         {
+            StartCoroutine(Reload());
             return;
         }
         audioS.Play();
@@ -128,6 +135,7 @@ public class GunType : MonoBehaviour
        
         //ac.GetComponent<Animator>().SetBool("Shoot", false);
     }
+  
 
     void FirePistol()
     {
@@ -146,7 +154,7 @@ public class GunType : MonoBehaviour
         {
             Debug.DrawLine(mainCamera.transform.position, hit.point, Color.red, 2f);
 
-            if (/*hit.collider.gameObject.TryGetComponent(out Enemy enemy)*/ hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
+            if ( hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
             {
                 weakSpotMultiplyer = 1.0f;
                 if (hit.collider.tag == "WeakSpot")
@@ -157,7 +165,7 @@ public class GunType : MonoBehaviour
                 }
 
                 float totalDamage = gunDammage * weakSpotMultiplyer;
-                //enemy.TakeDamage(totalDamage, knockBackForce);
+                
                 hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
 
                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
@@ -186,9 +194,11 @@ public class GunType : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
+        reloadingText.SetActive(true);
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
         isReloading = false;
+        reloadingText.SetActive(false);
     }
     private void upDateUIAmmo()
     {
@@ -203,7 +213,8 @@ public class GunType : MonoBehaviour
     void OnDisable()
     {
         isReloading = false;
-        currentAmmo = maxAmmo;
+        //currentAmmo = maxAmmo;
+        reloadingText.SetActive(false);
     }
 }
 

@@ -35,6 +35,10 @@ public class PlayerHabilities : MonoBehaviour
 
     private float elapsedTime = 0;
 
+    [Header("UI")]
+    public GameObject QSkill;
+    public GameObject ESkill;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +80,7 @@ public class PlayerHabilities : MonoBehaviour
             shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
             shotgunActive = true;
             StartCoroutine(useShotgunTimeOut());
+            QSkill.SetActive(false);
         }
     }
     
@@ -94,6 +99,7 @@ public class PlayerHabilities : MonoBehaviour
     {
         yield return new WaitForSeconds(FirstSkillCooldown);
         shotgunIsInCD = false;
+        QSkill.SetActive(true);
     }
     private void shotgunIconRecovery()
     {
@@ -116,6 +122,7 @@ public class PlayerHabilities : MonoBehaviour
             swordSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
             StartCoroutine(useSwordTimeOut());
             elapsedTime = 0f;
+            ESkill.SetActive(false);
         }
     }
     private IEnumerator useSwordTimeOut()
@@ -132,6 +139,7 @@ public class PlayerHabilities : MonoBehaviour
     {
         yield return new WaitForSeconds(SecondSkillCooldown);
         swordIsInCD = false;
+        ESkill.SetActive(true);
     }
     private void swordIconRecovery()
     {
