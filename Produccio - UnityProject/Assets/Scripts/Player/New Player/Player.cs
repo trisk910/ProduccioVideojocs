@@ -170,16 +170,17 @@ public class Player : MonoBehaviour
     private void Die()
     {
         //deathScreen.SetActive(true);
-        Time.timeScale = 0.5f;
+        Time.timeScale = 0.02f;
         StartCoroutine(BackToMenu());
         
     }
     IEnumerator BackToMenu()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(0.15f);
         SceneManager.LoadScene("CharacterSelection");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        Time.timeScale = 1f;
     }
 
     //Upgrades
