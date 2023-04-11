@@ -8,9 +8,10 @@ public class SwordSkill : MonoBehaviour
     public float swordDamage;
     public float knockBackForce;
     public GameObject bloodHit;
+    private AudioSource impactSound;
     void Start()
     {
-        
+        impactSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -42,6 +43,8 @@ public class SwordSkill : MonoBehaviour
             GameObject bloodParticle = Instantiate(bloodHit, contactPoint, contactRotation);
             bloodParticle.GetComponent<ParticleSystem>().Play();
             Destroy(bloodParticle, 2f);
+
+            impactSound.Play();
         }
     }
 

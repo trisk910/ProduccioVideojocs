@@ -45,9 +45,12 @@ public class Enemy : MonoBehaviour
 
     private GameObject IaSpawner;
 
-    private GameObject Radar;
+    private GameObject Radar;    
 
-    
+    [Header("Sounds")]
+    private AudioSource Asc;
+    public AudioClip deathSound;
+    public AudioClip bulletImpact;
 
     [Header("Ui")]
     public GameObject Xray;
@@ -78,6 +81,7 @@ public class Enemy : MonoBehaviour
         IaSpawner = GameObject.FindGameObjectWithTag("Spawner");
         Xray.SetActive(false);
         Radar = GameObject.FindGameObjectWithTag("Radar");
+        Asc = GetComponent<AudioSource>();
     }
 
     //Die
@@ -89,6 +93,7 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             stateValue = -1;
+            Asc.PlayOneShot(deathSound);
         }
 
         switch (currentClass)
@@ -98,6 +103,7 @@ public class Enemy : MonoBehaviour
                 break;
         }
         rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
+        Asc.PlayOneShot(bulletImpact);
     }
     public void doDamage()
     {        
@@ -143,8 +149,13 @@ public class Enemy : MonoBehaviour
             {
                 c.enabled = false;
             }
-            rb.isKinematic = true;
+            rb.isKinematic = false;
             StartCoroutine(disableDeathDelayer());
+        // GetComponent<Animator>().enabled = false;
+       // https://www.youtube.com/watch?v=zjuI5Jdzjxo
+            EnableRagdoll();
+
+           
         }
         if (stateValue == 0)
         {
@@ -236,7 +247,12 @@ public class Enemy : MonoBehaviour
         removeFromList();
     }
 
-    private void removeFromList()
+
+    private void EnableRagdoll()
+    { 
+    
+    }
+        private void removeFromList()
     {
         switch (currentClass)
         {

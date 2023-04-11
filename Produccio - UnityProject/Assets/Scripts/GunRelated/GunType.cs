@@ -27,6 +27,7 @@ public class GunType : MonoBehaviour
     public TextMeshProUGUI currentMagazineUI;
 
     public GameObject blooodEffect;
+    public GameObject impactEffect;
 
     private AudioSource audioS;
 
@@ -163,7 +164,6 @@ public class GunType : MonoBehaviour
                     //Debug.Log("Crit");
 
                 }
-
                 float totalDamage = gunDammage * weakSpotMultiplyer;
                 
                 hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
@@ -171,6 +171,13 @@ public class GunType : MonoBehaviour
                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 bloodParticle.GetComponent<ParticleSystem>().Play();
                 Destroy(bloodParticle, 2f);
+            }
+            else if (hit.collider.gameObject.GetComponentInParent<Enemy>() == null)
+            {
+                
+                GameObject impactParticle = Instantiate(impactEffect,hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                impactParticle.GetComponent<ParticleSystem>().Play();
+                Destroy(impactParticle, 2f);
             }
 
         }

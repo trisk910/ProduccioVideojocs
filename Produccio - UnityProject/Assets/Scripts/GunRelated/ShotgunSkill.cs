@@ -20,6 +20,7 @@ public class ShotgunSkill : MonoBehaviour
     private float knockBackForce = 5f;
 
     public GameObject blooodEffect;
+    public GameObject impactEffect;
     public ParticleSystem muzzleFlash;
     public Camera mainCamera;
     void Start()
@@ -102,6 +103,12 @@ public class ShotgunSkill : MonoBehaviour
                     GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     bloodParticle.GetComponent<ParticleSystem>().Play();
                     Destroy(bloodParticle, 2f);
+                }else if (hit.collider.gameObject.GetComponentInParent<Enemy>() == null)
+                {
+
+                    GameObject impactParticle = Instantiate(impactEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                    impactParticle.GetComponent<ParticleSystem>().Play();
+                    Destroy(impactParticle, 2f);
                 }
 
                 if (remainingDistance > 0f)

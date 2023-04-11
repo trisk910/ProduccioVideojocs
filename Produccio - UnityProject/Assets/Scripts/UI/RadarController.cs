@@ -10,17 +10,22 @@ public class RadarController : MonoBehaviour
     public GameObject enemyIconPrefab;
     public List<Transform> enemies;
     private List<GameObject> enemyIcons;
-    public float radarRange = 50f;
-    public float enemyIconScale = 0.5f;
+    private Canvas enemyIconsCanvas;
 
     void Start()
     {
         // Initialize the list of enemies and enemy icons
         enemies = new List<Transform>();
         enemyIcons = new List<GameObject>();
+
+        // Create a new canvas for the enemy icons
+        enemyIconsCanvas = new GameObject("EnemyIconsCanvas").AddComponent<Canvas>();
+        enemyIconsCanvas.gameObject.AddComponent<CanvasScaler>();
+        enemyIconsCanvas.gameObject.AddComponent<GraphicRaycaster>();
+        enemyIconsCanvas.transform.SetParent(radarImage.transform, false);
     }
 
-    void LateUpdate()
+    void Update()
     {
         // Remove all enemy icons from the previous frame
         foreach (GameObject enemyIcon in enemyIcons)
@@ -28,36 +33,49 @@ public class RadarController : MonoBehaviour
             Destroy(enemyIcon);
         }
 
+        // Get the player's look direction
+        Vector3 playerLookDirection = playerTransform.forward;
+        playerLookDirection.y = 0f; // Set y direction to 0 to prevent rotation on y-axis
+
+        // Calculate the rotation angle based on the player's look direction
+        float angle = Mathf.Atan2(playerLookDirection.x, playerLookDirection.z) * Mathf.Rad2Deg;
+
+        // Rotate the radar image to match the player's look direction
+        radarImage.rectTransform.rotation = Quaternion.Euler(new Vector3(0f, 0f, -angle));
+
         // Loop through all enemies and update their position and rotation on the radar
         foreach (Transform enemy in enemies)
         {
             Vector3 direction = enemy.position - playerTransform.position;
-            float angle = Vector3.SignedAngle(direction, playerTransform.forward, Vector3.up);
             float distance = direction.magnitude;
 
             // Check if enemy is within the radar's range
-            if (distance <= radarRange)
+            if (distance <= radarImage.rectTransform.rect.width / 2)
             {
                 // Calculate the position of the enemy icon on the radar
-                float xPos = direction.normalized.x * distance * (radarImage.rectTransform.rect.width / (2 * radarRange));
-                float yPos = direction.normalized.z * distance * (radarImage.rectTransform.rect.width / (2 * radarRange));
+                float xPos = direction.normalized.x * distance;
+                float yPos = direction.normalized.z * distance;
 
-                // Calculate the rotation of the radar image
-                float zAngle = -playerTransform.eulerAngles.y;
+                // Instantiate a new enemy icon under the enemy icons canvas
+                GameObject enemyIcon = Instantiate(enemyIconPrefab, enemyIconsCanvas.transform);
 
-                // Instantiate a new enemy icon and set its position, rotation, and scale
-                GameObject enemyIcon = Instantiate(enemyIconPrefab, radarImage.transform);
+                // Set the position of the enemy icon on the radar
                 enemyIcon.transform.localPosition = new Vector3(xPos, yPos, 0f);
-                enemyIcon.transform.localEulerAngles = new Vector3(0f, 0f, angle + zAngle);
-                enemyIcon.transform.localScale = Vector3.one * enemyIconScale;
+
+                // Set the scale of the enemy icon
+                float iconSize = .1f; // Change this value to adjust the size of the enemy icons
+                enemyIcon.transform.localScale = new Vector3(iconSize, iconSize, iconSize);
+
+                // Calculate the rotation angle of the enemy icon based on the player's look direction
+                float iconAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+                // Rotate the enemy icon to face towards the player
+                enemyIcon.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, iconAngle));
 
                 // Add the enemy icon to the list of enemy icons
                 enemyIcons.Add(enemyIcon);
             }
         }
-
-        // Set the rotation of the radar image
-        radarImage.transform.localEulerAngles = new Vector3(0f, 0f, -playerTransform.eulerAngles.y);
     }
 
     // Method to add a new enemy to the radar
