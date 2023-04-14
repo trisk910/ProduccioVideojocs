@@ -39,8 +39,9 @@ public class Enemy : MonoBehaviour
     private Animator IAanim;
 
     private Rigidbody rb;
+    private Rigidbody[] rbs;//
 
-     
+
     private GameObject player;
 
     private GameObject IaSpawner;
@@ -59,6 +60,7 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         IAanim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        rbs = transform.GetComponentsInChildren<Rigidbody>();//
         switch (currentClass)
         {
             case MonsterClass.Saltarin:
@@ -142,20 +144,20 @@ public class Enemy : MonoBehaviour
         {
             nav.enabled = false;
             nav.speed = 0;
-            IAanim.SetTrigger("isDead");
+            //IAanim.SetTrigger("isDead");
             this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             //this.gameObject.GetComponent<Collider>().enabled = false;
-            foreach (Collider c in GetComponentsInChildren<Collider>())
+            /*foreach (Collider c in GetComponentsInChildren<Collider>())
             {
                 c.enabled = false;
-            }
+            }*/
             rb.isKinematic = false;
             StartCoroutine(disableDeathDelayer());
-        // GetComponent<Animator>().enabled = false;
+        GetComponent<Animator>().enabled = false;
        // https://www.youtube.com/watch?v=zjuI5Jdzjxo
             EnableRagdoll();
+            //https://www.youtube.com/watch?v=sCcerKKQhsQ
 
-           
         }
         if (stateValue == 0)
         {
@@ -250,7 +252,12 @@ public class Enemy : MonoBehaviour
 
     private void EnableRagdoll()
     { 
-    
+        foreach(Rigidbody rigidbody in rbs)
+        {
+            rigidbody.isKinematic = false;
+        }
+
+        //this.GetComponent<Rigidbody>().isKinematic = false;
     }
         private void removeFromList()
     {

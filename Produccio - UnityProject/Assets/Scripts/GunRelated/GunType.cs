@@ -68,7 +68,7 @@ public class GunType : MonoBehaviour
                 reloadTime = 1.5f;
                 gunDammage = 24.5f;
                 fireRate = 0.25f;
-                knockBackForce = 5f;
+                knockBackForce = /*5f*/2f;
                 break;
             case WeaponType.Shotgun:
                 maxAmmo = 8;
