@@ -144,19 +144,33 @@ public class Enemy : MonoBehaviour
         {
             nav.enabled = false;
             nav.speed = 0;
-            //IAanim.SetTrigger("isDead");
-            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //this.gameObject.GetComponent<Collider>().enabled = false;
-            /*foreach (Collider c in GetComponentsInChildren<Collider>())
+            switch (currentClass)
             {
-                c.enabled = false;
-            }*/
-            rb.isKinematic = false;
+                case MonsterClass.Saltarin:
+                    IaSpawner.GetComponent<IASpawner>().substractEnemySaltarin();
+                    IAanim.SetTrigger("isDead");
+                    this.gameObject.GetComponent<Collider>().enabled = false;
+                    foreach (Collider c in GetComponentsInChildren<Collider>())
+                    {
+                        c.enabled = false;
+                    }
+                    this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                    break;
+
+                case MonsterClass.Demonio:
+                    BipedDeath();
+                    break;
+
+                case MonsterClass.Tank:
+                    BipedDeath();
+                    break;
+            }
+                   
+
+            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             StartCoroutine(disableDeathDelayer());
-        GetComponent<Animator>().enabled = false;
-       // https://www.youtube.com/watch?v=zjuI5Jdzjxo
-            EnableRagdoll();
-            //https://www.youtube.com/watch?v=sCcerKKQhsQ
+
+
 
         }
         if (stateValue == 0)
@@ -249,12 +263,27 @@ public class Enemy : MonoBehaviour
         removeFromList();
     }
 
+    private void BipedDeath()
+    {
+        // Set the target layer
+        int targetLayer = LayerMask.NameToLayer("IgnorePlayer");
+        // Set the layer recursively
+        SetLayerRecursively(gameObject, targetLayer);
+        rb.isKinematic = false;
+
+
+        GetComponent<Animator>().enabled = false;
+        // https://www.youtube.com/watch?v=zjuI5Jdzjxo
+        EnableRagdoll();
+        //https://www.youtube.com/watch?v=sCcerKKQhsQ
+    }
 
     private void EnableRagdoll()
     { 
         foreach(Rigidbody rigidbody in rbs)
         {
             rigidbody.isKinematic = false;
+            rigidbody.drag = 1.0f;
         }
 
         //this.GetComponent<Rigidbody>().isKinematic = false;
@@ -326,5 +355,17 @@ public class Enemy : MonoBehaviour
             Xray.SetActive(true);
         else
             Xray.SetActive(false);
+    }
+
+
+    //Layers Collisions
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
     }
 }
