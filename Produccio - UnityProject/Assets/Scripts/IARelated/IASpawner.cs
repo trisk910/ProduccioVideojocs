@@ -19,6 +19,7 @@ public class IASpawner : MonoBehaviour
 
     public Transform[] spawnLocation;
     private int spawnIndex;
+    public SphereCollider spawnLocationS;
 
 
     private bool canSpawn;
@@ -48,6 +49,9 @@ public class IASpawner : MonoBehaviour
     public GameObject UpGradeMenu;
 
     private GameObject Radar;
+
+
+   
 
     void Start()
     {
@@ -175,14 +179,18 @@ public class IASpawner : MonoBehaviour
         {
             if (Currency >= enemies[i].cost)
             {
-                int spawnIndex = Random.Range(0, spawnLocation.Length);
+                //int spawnIndex = Random.Range(0, spawnLocation.Length);
+                //int spawnIndex = Random.Range(0, spawnLocationsSpheres.Length);
 
                 switch (enemies[i].enemyPrefab.name)
                 {
                     case "Saltarin":
                         if (spawnedSaltarin.Count < enemies[i].maxPerRound)
                         {
-                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                            Vector3 spawnPosition = new Vector3(Random.insideUnitSphere.x * spawnLocationS.radius, transform.position.y, Random.insideUnitSphere.z * spawnLocationS.radius);
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
+
+                            //GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
                             spawnedSaltarin.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;
@@ -193,7 +201,10 @@ public class IASpawner : MonoBehaviour
                     case "Demonio":
                         if (spawnedDemonio.Count < enemies[i].maxPerRound)
                         {
-                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                           Vector3 spawnPosition = new Vector3(Random.insideUnitSphere.x * spawnLocationS.radius, transform.position.y, Random.insideUnitSphere.z * spawnLocationS.radius);
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
+
+                            //GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
                             spawnedDemonio.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;
@@ -204,7 +215,10 @@ public class IASpawner : MonoBehaviour
                     case "Tank":
                         if (spawnedTank.Count < enemies[i].maxPerRound)
                         {
-                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
+                            Vector3 spawnPosition = new Vector3(Random.insideUnitSphere.x * spawnLocationS.radius, transform.position.y, Random.insideUnitSphere.z * spawnLocationS.radius);
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
+
+                            //GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnLocation[spawnIndex].position, Quaternion.identity);
                             spawnedTank.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;

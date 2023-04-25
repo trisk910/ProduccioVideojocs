@@ -506,7 +506,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentClass: 0
   currentHealth: 0
-  recoil: 200
+  recoil: 100
+  moveDelaySaltarin: 4
   SaltarinChargeForce: 120
   SaltarinChargeDistance: 5
   damageDelay: 15
