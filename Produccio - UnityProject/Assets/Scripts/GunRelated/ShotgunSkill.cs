@@ -10,10 +10,10 @@ public class ShotgunSkill : MonoBehaviour
     private AudioSource audioS;
 
     public int pelletCount = 10;
-    public float fireRate = 0.5f;
+    public float fireRate;
     public float spread = 10f;
     private float nextFireTime = 0f;
-    private float damagePerPellet = 20f;
+    public float damagePerPellet;
     public float maxDistance = 50f;
 
     public float bulletForce = 22000f;

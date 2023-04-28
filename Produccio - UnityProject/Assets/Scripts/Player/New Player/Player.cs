@@ -214,4 +214,19 @@ public class Player : MonoBehaviour
     {
         maxHP =+ 10f;
     }
+
+    //Get Functions For Upgrade Menu
+
+    public float GetHP()
+    {
+        return maxHP;
+    }
+    public float GetRegenRate()
+    {
+        return regenRate;
+    }
+    public float GetBaseSpeed()
+    {
+           return moveSpeed;
+    }
 }

@@ -45,7 +45,7 @@ public class PlayerHabilities : MonoBehaviour
         switch (currentSet)
         {
             case HabilitiesClassSet.Templar:
-                FirstSkillUseTime = 10.0f;
+                FirstSkillUseTime = 5.0f;
                 FirstSkillCooldown = 15.0f;
                 SecondSkillUseTime = 0.3f;
                 SecondSkillCooldown = 8.0f;
@@ -76,6 +76,7 @@ public class PlayerHabilities : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && !shotgunActive && !shotgunIsInCD)
         {
             pistol.SetActive(false);
+           //crida funcio de disable de guntype
             templarShotgun.SetActive(true);
             shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
             shotgunActive = true;
@@ -158,5 +159,13 @@ public class PlayerHabilities : MonoBehaviour
             FirstSkillCooldown -= 0.5f;
         if (SecondSkillCooldown > 2f)
             SecondSkillCooldown -= 0.2f;
+    }
+    public float GetCooldownValue1()
+    {
+        return FirstSkillCooldown;
+    }
+    public float GetCooldownValue2()
+    {
+        return SecondSkillCooldown;
     }
 }

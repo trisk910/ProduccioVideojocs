@@ -19,7 +19,7 @@ public class IASpawner : MonoBehaviour
 
     public Transform[] spawnLocation;
     private int spawnIndex;
-    public SphereCollider spawnLocationS;
+    public BoxCollider spawnLocationS;
 
 
     private bool canSpawn;
@@ -186,7 +186,7 @@ public class IASpawner : MonoBehaviour
                 switch (enemies[i].enemyPrefab.name)
                 {
                     case "Saltarin":
-                        if (spawnedSaltarin.Count < enemies[i].maxPerRound)
+                        /*if (spawnedSaltarin.Count < enemies[i].maxPerRound)
                         {
                             Vector3 spawnPosition = GetRandomSpawnPoint(spawnLocationS.transform.position, spawnLocationS.radius, transform.position.y, enemies[i].enemyPrefab.transform.localScale.magnitude);
                             GameObject enemy = Instantiate(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
@@ -199,18 +199,40 @@ public class IASpawner : MonoBehaviour
                             GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
                             spawnParticle.GetComponent<ParticleSystem>().Play();
                             Destroy(spawnParticle, 2f);
+                        }*/
+                        if (spawnedSaltarin.Count < enemies[i].maxPerRound)
+                        {
+                            BoxCollider spawnArea = spawnLocationS.GetComponent<BoxCollider>();
+                            Vector3 spawnPosition = new Vector3(
+                                Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
+                                transform.position.y,
+                                Random.Range(spawnArea.bounds.min.z, spawnArea.bounds.max.z)
+                            );
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
+                            spawnedSaltarin.Add(enemy);
+                            Currency -= enemies[i].cost;
+                            totalSpwanedEnemies++;
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+
+                            GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
+                            spawnParticle.GetComponent<ParticleSystem>().Play();
+                            Destroy(spawnParticle, 2f);
                         }
                         break;
                     case "Demonio":
                         if (spawnedDemonio.Count < enemies[i].maxPerRound)
                         {
-                            Vector3 spawnPosition = GetRandomSpawnPoint(spawnLocationS.transform.position, spawnLocationS.radius, transform.position.y, enemies[i].enemyPrefab.transform.localScale.magnitude);
-                            GameObject enemy = Instantiate(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
-
+                            BoxCollider spawnArea = spawnLocationS.GetComponent<BoxCollider>();
+                            Vector3 spawnPosition = new Vector3(
+                                Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
+                                transform.position.y,
+                                Random.Range(spawnArea.bounds.min.z, spawnArea.bounds.max.z)
+                            );
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
                             spawnedDemonio.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;
-                            Radar.GetComponent<RadarController>().AddEnemy(enemy.transform);
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
 
                             GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
                             spawnParticle.GetComponent<ParticleSystem>().Play();
@@ -218,15 +240,19 @@ public class IASpawner : MonoBehaviour
                         }
                         break;
                     case "Tank":
-                        if (spawnedDemonio.Count < enemies[i].maxPerRound)
+                        if (spawnedTank.Count < enemies[i].maxPerRound)
                         {
-                            Vector3 spawnPosition = GetRandomSpawnPoint(spawnLocationS.transform.position, spawnLocationS.radius, transform.position.y, enemies[i].enemyPrefab.transform.localScale.magnitude);
-                            GameObject enemy = Instantiate(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
-
+                            BoxCollider spawnArea = spawnLocationS.GetComponent<BoxCollider>();
+                            Vector3 spawnPosition = new Vector3(
+                                Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
+                                transform.position.y,
+                                Random.Range(spawnArea.bounds.min.z, spawnArea.bounds.max.z)
+                            );
+                            GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
                             spawnedTank.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;
-                            Radar.GetComponent<RadarController>().AddEnemy(enemy.transform);
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
 
                             GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
                             spawnParticle.GetComponent<ParticleSystem>().Play();
@@ -289,12 +315,12 @@ public class IASpawner : MonoBehaviour
 
         Collider[] hitColliders = Physics.OverlapSphere(spawnPoint, objectScale);
         int attempts = 0;
-        while (hitColliders.Length > 0 && attempts < 10)
+        while (hitColliders.Length > 0 && attempts < 20)
         {
             spawnPoint = center + Random.insideUnitSphere * radius;
             spawnPoint.y = yLevel;
             hitColliders = Physics.OverlapSphere(spawnPoint, objectScale);
-            attempts++;
+           // attempts++;
         }
 
         if (attempts == 10)
@@ -322,23 +348,31 @@ public class IASpawner : MonoBehaviour
     }
     private void increaseMaxPerRound()
     {
-        maxPerWave += 6;
-        //maxPerWave += 12;
-        totalSpwanedEnemies = 0;
-        currentRound++;
-        Currency = 0;
-        for (int x = 0; x < enemies.Count; x++)
+        if (currentRound <= 20)
         {
-            enemies[x].maxPerRound += 2;
-        }
-        /*enemies[0].maxPerRound =+ 3; //saltarin
-        enemies[1].maxPerRound =+ 5; //demonio
-        enemies[2].maxPerRound =+ 4; //tank*/
+            maxPerWave += 6;
+            //maxPerWave += 12;
+            totalSpwanedEnemies = 0;
+            currentRound++;
+            Currency = 0;
+            for (int x = 0; x < enemies.Count; x++)
+            {
+                enemies[x].maxPerRound += 2;
+            }
+            /*enemies[0].maxPerRound =+ 3; //saltarin
+            enemies[1].maxPerRound =+ 5; //demonio
+            enemies[2].maxPerRound =+ 4; //tank*/
 
-        float addCurrencyMultiplyer = currencyMultiplyer;
-        currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
-        StartCoroutine(roundFinish());
-        ShowUpgradeMenu();
+            float addCurrencyMultiplyer = currencyMultiplyer;
+            currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
+            StartCoroutine(roundFinish());
+            ShowUpgradeMenu();
+        }
+        else
+        {
+            EndGame();
+        }
+       
     }
     public void ShowUpgradeMenu()
     {
@@ -437,6 +471,13 @@ public class IASpawner : MonoBehaviour
             }
         }
     }*/
+
+
+    private void EndGame()
+    {
+
+    }
+
     //cheats
     private void addCurrencyShortCut()
     {

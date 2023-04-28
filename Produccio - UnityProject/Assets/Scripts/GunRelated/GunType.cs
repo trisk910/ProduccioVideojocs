@@ -10,8 +10,7 @@ public class GunType : MonoBehaviour
 {
     public enum WeaponType
     {
-        Pistol,
-        Shotgun
+        Pistol
     }
 
     public WeaponType currentWeapon = WeaponType.Pistol;
@@ -24,7 +23,7 @@ public class GunType : MonoBehaviour
     public Transform bulletSpawnPoint;
 
     public ParticleSystem muzzleFlash;
-    public TextMeshProUGUI currentMagazineUI;
+    
 
     public GameObject blooodEffect;
     public GameObject impactEffect;
@@ -58,6 +57,7 @@ public class GunType : MonoBehaviour
 
     [Header("UI")]
     public GameObject reloadingText;
+    public TextMeshProUGUI currentMagazineUI;
 
     void Start()
     {
@@ -69,14 +69,7 @@ public class GunType : MonoBehaviour
                 gunDammage = 24.5f;
                 fireRate = 0.25f;
                 knockBackForce = /*5f*/2f;
-                break;
-            case WeaponType.Shotgun:
-                maxAmmo = 8;
-                reloadTime = 1.5f;
-                gunDammage = 9.5f;
-                fireRate = 0.25f;
-                knockBackForce = 5f;
-                break;
+                break;            
         }
         currentAmmo = maxAmmo;
         audioS = GetComponent<AudioSource>();
@@ -216,12 +209,22 @@ public class GunType : MonoBehaviour
     {
         gunDammage += 5f;
     }
+    public float GetPistolDamage()
+    {
+        return gunDammage;
+    }
 
-    void OnDisable()
+    private void OnEnable()
+    {
+        currentMagazineUI.SetText(currentAmmo + "/" + maxAmmo);
+    }
+    void OnDisable()// cambia la funcio per a k es cridi a playerHabilities
     {
         isReloading = false;
         //currentAmmo = maxAmmo;
-        reloadingText.SetActive(false);
+        reloadingText?.SetActive(false);
+        currentMagazineUI.SetText("--/--");
     }
+
 }
 
