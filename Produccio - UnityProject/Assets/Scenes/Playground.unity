@@ -17658,6 +17658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 649860548}
   - component: {fileID: 649860549}
+  - component: {fileID: 649860550}
   m_Layer: 0
   m_Name: SpawnPointGeneral
   m_TagString: Untagged
@@ -17689,10 +17690,23 @@ SphereCollider:
   m_GameObject: {fileID: 649860547}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 49.3
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &649860550
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649860547}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 99.4, y: 10.14462, z: 99.23203}
+  m_Center: {x: 0, y: 4.57231, z: 0.36294937}
 --- !u!1001 &661745701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35823,6 +35837,7 @@ MonoBehaviour:
   enemiesAlive: 0
   totalSpwanedEnemies: 0
   UpGradeMenu: {fileID: 179499327}
+  SpawnEffect: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1, type: 3}
 --- !u!1001 &1335903022
 PrefabInstance:
   m_ObjectHideFlags: 0

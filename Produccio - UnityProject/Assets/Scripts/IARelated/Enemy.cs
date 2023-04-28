@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     public enum MonsterClass {Saltarin,Demonio,Tank};
     public MonsterClass currentClass;
 
-    public GameObject SpawnEffect;
+    
 
     [Header("Health")]
     private float Health;
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
 
     public float damageDelay = 15.0f;
 
-    private bool canDoDamage = false;   //demonio
+    private bool canDoDamage = false;   //demonio y tanke
 
    
     private int stateValue = -2;
@@ -161,7 +161,19 @@ public class Enemy : MonoBehaviour
             nav.enabled = false;
             nav.speed = 0;
 
-            StartCoroutine(EnableEnemyRespawn());
+            switch (currentClass)
+            {
+                case MonsterClass.Saltarin:
+                    StartCoroutine(EnableEnemyRespawn(0f));
+                    break;
+                case MonsterClass.Demonio:
+                    StartCoroutine(EnableEnemyRespawn(2.2f));
+                    break;
+                case MonsterClass.Tank:
+                    StartCoroutine(EnableEnemyRespawn(2f));
+                    break;
+            }
+            
         }
             if (stateValue == -1)//Death
         {
@@ -227,9 +239,9 @@ public class Enemy : MonoBehaviour
         }
         
     }
-    private IEnumerator EnableEnemyRespawn() //EnableEenmy after respawn
+    private IEnumerator EnableEnemyRespawn(float timer) //EnableEenmy after respawn
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(timer);
         stateValue = 1;
     }
     private float CalcularSaltarinSDistancia()

@@ -51,7 +51,8 @@ public class IASpawner : MonoBehaviour
     private GameObject Radar;
 
 
-   
+    [Header("ParticleEffect")]
+    public GameObject SpawnEffect;
 
     void Start()
     {
@@ -187,6 +188,54 @@ public class IASpawner : MonoBehaviour
                     case "Saltarin":
                         if (spawnedSaltarin.Count < enemies[i].maxPerRound)
                         {
+                            Vector3 spawnPosition = GetRandomSpawnPoint(spawnLocationS.transform.position, spawnLocationS.radius, transform.position.y, enemies[i].enemyPrefab.transform.localScale.magnitude);
+                            GameObject enemy = Instantiate(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
+
+                            spawnedSaltarin.Add(enemy);
+                            Currency -= enemies[i].cost;
+                            totalSpwanedEnemies++;
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.transform);
+
+                            GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
+                            spawnParticle.GetComponent<ParticleSystem>().Play();
+                            Destroy(spawnParticle, 2f);
+                        }
+                        break;
+                    case "Demonio":
+                        if (spawnedDemonio.Count < enemies[i].maxPerRound)
+                        {
+                            Vector3 spawnPosition = GetRandomSpawnPoint(spawnLocationS.transform.position, spawnLocationS.radius, transform.position.y, enemies[i].enemyPrefab.transform.localScale.magnitude);
+                            GameObject enemy = Instantiate(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
+
+                            spawnedDemonio.Add(enemy);
+                            Currency -= enemies[i].cost;
+                            totalSpwanedEnemies++;
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.transform);
+
+                            GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
+                            spawnParticle.GetComponent<ParticleSystem>().Play();
+                            Destroy(spawnParticle, 2f);
+                        }
+                        break;
+                    case "Tank":
+                        if (spawnedDemonio.Count < enemies[i].maxPerRound)
+                        {
+                            Vector3 spawnPosition = GetRandomSpawnPoint(spawnLocationS.transform.position, spawnLocationS.radius, transform.position.y, enemies[i].enemyPrefab.transform.localScale.magnitude);
+                            GameObject enemy = Instantiate(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
+
+                            spawnedTank.Add(enemy);
+                            Currency -= enemies[i].cost;
+                            totalSpwanedEnemies++;
+                            Radar.GetComponent<RadarController>().AddEnemy(enemy.transform);
+
+                            GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
+                            spawnParticle.GetComponent<ParticleSystem>().Play();
+                            Destroy(spawnParticle, 2f);
+                        }
+                        break;
+                    /*case "Saltarin":
+                        if (spawnedSaltarin.Count < enemies[i].maxPerRound)
+                        {
                             Vector3 spawnPosition = new Vector3(Random.insideUnitSphere.x * spawnLocationS.radius, transform.position.y, Random.insideUnitSphere.z * spawnLocationS.radius);
                             GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
 
@@ -225,13 +274,35 @@ public class IASpawner : MonoBehaviour
                             Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
                         }
                         break;
-
+                    */
                     default:
                         Debug.LogWarning("Unknown enemy type: " + enemies[i].enemyPrefab.name);
                         break;
                 }
             }
         }
+    }
+    private Vector3 GetRandomSpawnPoint(Vector3 center, float radius, float yLevel, float objectScale)
+    {
+        Vector3 spawnPoint = center + Random.insideUnitSphere * radius;
+        spawnPoint.y = yLevel;
+
+        Collider[] hitColliders = Physics.OverlapSphere(spawnPoint, objectScale);
+        int attempts = 0;
+        while (hitColliders.Length > 0 && attempts < 10)
+        {
+            spawnPoint = center + Random.insideUnitSphere * radius;
+            spawnPoint.y = yLevel;
+            hitColliders = Physics.OverlapSphere(spawnPoint, objectScale);
+            attempts++;
+        }
+
+        if (attempts == 10)
+        {
+            Debug.LogWarning("Could not find a suitable spawn point after 10 attempts.");
+        }
+
+        return spawnPoint;
     }
     private void countEnemiesAlive()
     {
