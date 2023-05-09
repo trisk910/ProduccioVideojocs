@@ -97,23 +97,28 @@ public class Enemy : MonoBehaviour
     //Die
     public void TakeDamage(float damageAmount, float knockbackForce)
     {
-        
-        currentHealth -= damageAmount;
 
-        if (currentHealth <= 0)
+        if (stateValue != -1)
         {
-            stateValue = -1;
-            Asc.PlayOneShot(deathSound);
-        }
+            if (currentHealth <= 0)
+            {
+                stateValue = -1;
+                Asc.PlayOneShot(deathSound);
+            }
+            else
+            {
+                currentHealth -= damageAmount;
+            }
 
-        switch (currentClass)
-        {
-            case MonsterClass.Demonio:
-                IAanim.SetTrigger("isDamaged");
-                break;
+            switch (currentClass)
+            {
+                case MonsterClass.Demonio:
+                    IAanim.SetTrigger("isDamaged");
+                    break;
+            }
+            rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
+            Asc.PlayOneShot(bulletImpact);
         }
-        rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
-        Asc.PlayOneShot(bulletImpact);
     }
     public void doDamage()
     {        
@@ -139,7 +144,8 @@ public class Enemy : MonoBehaviour
         player.GetComponent<Player>().takeDamage(attackDamage);
     }
 
-        private void Update(){
+    private void Update(){
+        
         navStates();
         switch (currentClass)
         {
@@ -173,8 +179,9 @@ public class Enemy : MonoBehaviour
             }
             
         }
-            if (stateValue == -1)//Death
+        if (stateValue == -1)//Death
         {
+            Debug.Log("Holaaaaa");
             nav.enabled = false;
             nav.speed = 0;
             switch (currentClass)
@@ -182,7 +189,7 @@ public class Enemy : MonoBehaviour
                 case MonsterClass.Saltarin:
                     IaSpawner.GetComponent<IASpawner>().substractEnemySaltarin();
                     IAanim.SetTrigger("isDead");
-                   /* this.gameObject.GetComponent<Collider>().enabled = false;
+                    /* this.gameObject.GetComponent<Collider>().enabled = false;
                     foreach (Collider c in GetComponentsInChildren<Collider>())
                     {
                         c.enabled = false;
@@ -192,10 +199,12 @@ public class Enemy : MonoBehaviour
                     break;
 
                 case MonsterClass.Demonio:
+                    this.gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");
                     BipedDeath();
                     break;
 
                 case MonsterClass.Tank:
+                    this.gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");
                     BipedDeath();
                     break;
             }
@@ -203,9 +212,9 @@ public class Enemy : MonoBehaviour
 
             this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             StartCoroutine(disableDeathDelayer());
-
-
-
+            removeFromList();
+            
+            stateValue = 99;
         }
         if (stateValue == 0)
         {
@@ -296,7 +305,7 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
         gameObject.SetActive(false);
-        removeFromList();
+        //removeFromList();
     }
 
     private void BipedDeath()
@@ -323,7 +332,7 @@ public class Enemy : MonoBehaviour
 
         //this.GetComponent<Rigidbody>().isKinematic = false;
     }
-        private void removeFromList()
+    private void removeFromList()
     {
         switch (currentClass)
         {
@@ -337,7 +346,9 @@ public class Enemy : MonoBehaviour
                 IaSpawner.GetComponent<IASpawner>().substractEnemyTank();
                 break;
         }
-        Radar.GetComponent<RadarController>().RemoveEnemy(this.gameObject.transform);
+        Debug.Log("Holaaaaa");
+        //Radar.GetComponent<RadarController>().RemoveEnemy(this.gameObject.transform);
+        Radar.GetComponent<NewRadar>().RemoveEnemy(this.gameObject.transform);
     }
     //Colisiones
     private void OnCollisionEnter(Collision collision)

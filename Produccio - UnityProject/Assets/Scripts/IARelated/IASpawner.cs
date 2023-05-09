@@ -212,7 +212,8 @@ public class IASpawner : MonoBehaviour
                             spawnedSaltarin.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;
-                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                            //Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                            Radar.GetComponent<NewRadar>().AddEnemy(enemy.gameObject.transform);
 
                             GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
                             spawnParticle.GetComponent<ParticleSystem>().Play();
@@ -232,7 +233,8 @@ public class IASpawner : MonoBehaviour
                             spawnedDemonio.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;
-                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                            //Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                            Radar.GetComponent<NewRadar>().AddEnemy(enemy.gameObject.transform);
 
                             GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
                             spawnParticle.GetComponent<ParticleSystem>().Play();
@@ -252,7 +254,8 @@ public class IASpawner : MonoBehaviour
                             spawnedTank.Add(enemy);
                             Currency -= enemies[i].cost;
                             totalSpwanedEnemies++;
-                            Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                            //Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
+                            Radar.GetComponent<NewRadar>().AddEnemy(enemy.gameObject.transform);
 
                             GameObject spawnParticle = Instantiate(SpawnEffect, spawnPosition, Quaternion.identity);
                             spawnParticle.GetComponent<ParticleSystem>().Play();
