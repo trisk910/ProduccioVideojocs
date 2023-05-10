@@ -50,7 +50,7 @@ public class RadarController : MonoBehaviour
             float distance = direction.magnitude;
 
             // Check if enemy is within the radar's range
-            if (distance <= radarImage.rectTransform.rect.width / 2)
+            if (distance <= radarImage.rectTransform.rect.width / 1.5)
             {
                 // Calculate the position of the enemy icon on the radar
                 float xPos = direction.normalized.x * distance;

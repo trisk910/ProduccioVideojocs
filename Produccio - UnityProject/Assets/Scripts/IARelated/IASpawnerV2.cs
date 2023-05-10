@@ -4,33 +4,25 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class IASpawner : MonoBehaviour
+public class IASpawnerV2 : MonoBehaviour
 {
     [System.Serializable]
     public class EnemyL
     {
         public GameObject enemyPrefab;
-        public int cost;
         public int maxPerRound;
     }
     [Header("List of Enemies")]
     public List<EnemyL> enemies = new List<EnemyL>();
-    
 
-    public Transform[] spawnLocation;
-    private int spawnIndex;
-    public BoxCollider spawnLocationS;
+
+    
 
 
     private bool canSpawn;
 
     private int spawnTimerBetweenWaves;
-    [Header("Spawner Currency")]
-    public float Currency;
-    public float InitialCurrency;
-    public float currencyMultiplyer;  
-
-    //private float multiplyerTimer;
+   
 
     [Header("Rounds")]
     public int currentRound = 1;
@@ -51,49 +43,50 @@ public class IASpawner : MonoBehaviour
     private GameObject Radar;
 
 
-    [Header("ParticleEffect")]
+    [Header("SpawnRelated")]
     public GameObject SpawnEffect;
+    public BoxCollider spawnLocationS;
 
     void Start()
     {
         canSpawn = true;
-        SpawnEnemy();
-        InitialCurrency = 25f;
-        Currency = InitialCurrency;
-        currencyMultiplyer = 1.5f;
+
+        EnableWaveSpawner();
+        //SpawnEnemy();       
         maxPerWave = 10;
         UpGradeMenu.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
         Radar = GameObject.FindGameObjectWithTag("Radar");
     }
 
+    private void EnableWaveSpawner()
+    {
+        InvokeRepeating("SpawnEnemy", 5f, 2.5f);
+    }
+
     // Update is called once per frame
     void Update()
-    {
-        //spawnIndex = Random.Range(0, count);
+    {       
 
-        if (canSpawn){
-            Currency += currencyMultiplyer * (Time.deltaTime);
-            SpawnEnemy();            
-        }
-
-
+        //if (canSpawn)
+        //{
+            //SpawnEnemy();
+        //}
+                
         currentRoundText.SetText("Round: " + currentRound);
         countEnemiesAlive();
         enemiesLeftText.SetText("Enemies alive: " + enemiesAlive);
-    
+
         //startMultiplyerTimer();
         roundStatus();
         //XrayEnabler();
-        addCurrencyShortCut();
+       
     }
 
     private void SpawnEnemy()
     {
         for (int i = 0; i < enemies.Count; i++)
-        {
-            if (Currency >= enemies[i].cost)
-            {
+        {          
                 switch (enemies[i].enemyPrefab.name)
                 {
                     case "Saltarin":
@@ -107,7 +100,7 @@ public class IASpawner : MonoBehaviour
                             );
                             GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
                             spawnedSaltarin.Add(enemy);
-                            Currency -= enemies[i].cost;
+                           
                             totalSpwanedEnemies++;
                             //Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
                             Radar.GetComponent<NewRadar>().AddEnemy(enemy.gameObject.transform);
@@ -128,7 +121,7 @@ public class IASpawner : MonoBehaviour
                             );
                             GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
                             spawnedDemonio.Add(enemy);
-                            Currency -= enemies[i].cost;
+                           
                             totalSpwanedEnemies++;
                             //Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
                             Radar.GetComponent<NewRadar>().AddEnemy(enemy.gameObject.transform);
@@ -149,7 +142,7 @@ public class IASpawner : MonoBehaviour
                             );
                             GameObject enemy = Instantiate<GameObject>(enemies[i].enemyPrefab, spawnPosition, Quaternion.identity);
                             spawnedTank.Add(enemy);
-                            Currency -= enemies[i].cost;
+                            
                             totalSpwanedEnemies++;
                             //Radar.GetComponent<RadarController>().AddEnemy(enemy.gameObject.transform);
                             Radar.GetComponent<NewRadar>().AddEnemy(enemy.gameObject.transform);
@@ -163,7 +156,7 @@ public class IASpawner : MonoBehaviour
                         Debug.LogWarning("Unknown enemy type: " + enemies[i].enemyPrefab.name);
                         break;
                 }
-            }
+            
         }
     }
     private Vector3 GetRandomSpawnPoint(Vector3 center, float radius, float yLevel, float objectScale)
@@ -178,7 +171,7 @@ public class IASpawner : MonoBehaviour
             spawnPoint = center + Random.insideUnitSphere * radius;
             spawnPoint.y = yLevel;
             hitColliders = Physics.OverlapSphere(spawnPoint, objectScale);
-           // attempts++;
+            // attempts++;
         }
 
         if (attempts == 10)
@@ -194,9 +187,10 @@ public class IASpawner : MonoBehaviour
     }
     private void roundStatus()
     {
-        if(totalSpwanedEnemies>= maxPerWave)
+        if (totalSpwanedEnemies >= maxPerWave)
         {
-            canSpawn= false;
+            CancelInvoke();
+            canSpawn = false;
             if (enemiesAlive < 1)
             {
                 increaseMaxPerRound();
@@ -212,7 +206,7 @@ public class IASpawner : MonoBehaviour
             //maxPerWave += 12;
             totalSpwanedEnemies = 0;
             currentRound++;
-            Currency = 0;
+           
             for (int x = 0; x < enemies.Count; x++)
             {
                 enemies[x].maxPerRound += 2;
@@ -221,16 +215,16 @@ public class IASpawner : MonoBehaviour
             enemies[1].maxPerRound =+ 5; //demonio
             enemies[2].maxPerRound =+ 4; //tank*/
 
-            float addCurrencyMultiplyer = currencyMultiplyer;
-            currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
-            StartCoroutine(roundFinish());
+            //StartCoroutine(roundFinish());
+            
             ShowUpgradeMenu();
+            EnableWaveSpawner();
         }
         else
         {
             EndGame();
         }
-       
+
     }
     public void ShowUpgradeMenu()
     {
@@ -246,29 +240,12 @@ public class IASpawner : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    private IEnumerator roundFinish()
+   /* private IEnumerator roundFinish()
     {
         yield return new WaitForSeconds(5);
         canSpawn = true;
-    }
-    /*private void startMultiplyerTimer()
-    {
-        if (canSpawn)
-        {
-            multiplyerTimer += Time.deltaTime;
-
-            if (multiplyerTimer > 30f)
-            {
-                float addCurrencyMultiplyer = currencyMultiplyer;
-                currencyMultiplyer = addCurrencyMultiplyer + 0.5f;
-                resetMultiplyerTimer();
-            }
-        }
     }*/
-    /*private void resetMultiplyerTimer()
-    {
-        multiplyerTimer = 0;
-    }*/
+   
 
     public void substractEnemySaltarin()
     {
@@ -276,7 +253,7 @@ public class IASpawner : MonoBehaviour
         {
             spawnedSaltarin.RemoveAt(spawnedSaltarin.Count - 1);
             enemiesAlive--;
-        }       
+        }
     }
     public void substractEnemyDemonio()
     {
@@ -295,18 +272,12 @@ public class IASpawner : MonoBehaviour
         }
     }
 
-    
-
+  
 
     private void EndGame()
     {
 
     }
 
-    //cheats
-    private void addCurrencyShortCut()
-    {
-        if (Input.GetKeyUp(KeyCode.P))
-            Currency += 10f;
-    }
+   
 }

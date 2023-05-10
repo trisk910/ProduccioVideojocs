@@ -55,12 +55,13 @@ public class Enemy : MonoBehaviour
     private AudioSource Asc;
     public AudioClip deathSound;
     public AudioClip bulletImpact;
+    private bool HitCD = false;
 
     [Header("Ui")]
     public GameObject Xray;
 
 
-
+    private bool deathSoundOnce;
     private int targetLayer;
 
     private void Start(){
@@ -102,8 +103,7 @@ public class Enemy : MonoBehaviour
         {
             if (currentHealth <= 0)
             {
-                stateValue = -1;
-                Asc.PlayOneShot(deathSound);
+                stateValue = -1;                
             }
             else
             {
@@ -117,10 +117,21 @@ public class Enemy : MonoBehaviour
                     break;
             }
             rb.AddForce(-transform.forward * knockbackForce, ForceMode.Impulse);
-            Asc.PlayOneShot(bulletImpact);
+            if (!HitCD)
+            {
+                Asc.PlayOneShot(bulletImpact);
+                StartCoroutine(FixTakeDamageSound());
+                HitCD = true;
+            }
+           
         }
     }
-    public void doDamage()
+    private IEnumerator FixTakeDamageSound() 
+    {
+        yield return new WaitForSeconds(0.5f);
+        HitCD= false;
+    }
+     public void doDamage()
     {        
         switch (currentClass)
         {
@@ -181,9 +192,10 @@ public class Enemy : MonoBehaviour
         }
         if (stateValue == -1)//Death
         {
-            Debug.Log("Holaaaaa");
-            nav.enabled = false;
             nav.speed = 0;
+            nav.velocity = Vector3.zero;
+            nav.enabled = false;
+            
             switch (currentClass)
             {
                 case MonsterClass.Saltarin:
@@ -208,13 +220,16 @@ public class Enemy : MonoBehaviour
                     BipedDeath();
                     break;
             }
-                   
-
-            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            StartCoroutine(disableDeathDelayer());
-            removeFromList();
             
-            stateValue = 99;
+            Radar.GetComponent<NewRadar>().RemoveEnemy(this.gameObject.transform);
+            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            if (!deathSoundOnce)
+            {
+                Asc.PlayOneShot(deathSound);
+                deathSoundOnce = true;
+            }
+            StartCoroutine(disableDeathDelayer());
+            
         }
         if (stateValue == 0)
         {
@@ -301,11 +316,13 @@ public class Enemy : MonoBehaviour
                 break;            
         }
     }
+   
     private IEnumerator disableDeathDelayer()
-    {
-        yield return new WaitForSeconds(4f);
+    {        
+        yield return new WaitForSeconds(4f);        
+        removeFromList();
         gameObject.SetActive(false);
-        //removeFromList();
+        
     }
 
     private void BipedDeath()
@@ -337,18 +354,21 @@ public class Enemy : MonoBehaviour
         switch (currentClass)
         {
             case MonsterClass.Saltarin:
-                IaSpawner.GetComponent<IASpawner>().substractEnemySaltarin();
+                //IaSpawner.GetComponent<IASpawner>().substractEnemySaltarin();
+                IaSpawner.GetComponent<IASpawnerV2>().substractEnemySaltarin();
                 break;
             case MonsterClass.Demonio:
-                IaSpawner.GetComponent<IASpawner>().substractEnemyDemonio();
+                //IaSpawner.GetComponent<IASpawner>().substractEnemyDemonio();
+                IaSpawner.GetComponent<IASpawnerV2>().substractEnemyDemonio();
                 break;
             case MonsterClass.Tank:
-                IaSpawner.GetComponent<IASpawner>().substractEnemyTank();
+                //IaSpawner.GetComponent<IASpawner>().substractEnemyTank();
+                IaSpawner.GetComponent<IASpawnerV2>().substractEnemyTank();
                 break;
         }
-        Debug.Log("Holaaaaa");
+        
         //Radar.GetComponent<RadarController>().RemoveEnemy(this.gameObject.transform);
-        Radar.GetComponent<NewRadar>().RemoveEnemy(this.gameObject.transform);
+        
     }
     //Colisiones
     private void OnCollisionEnter(Collision collision)
