@@ -96,7 +96,7 @@ public class IASpawner : MonoBehaviour
             {
                 switch (enemies[i].enemyPrefab.name)
                 {
-                    case "Saltarin":
+                    case "SaltarinV1":
                         if (spawnedSaltarin.Count < enemies[i].maxPerRound)
                         {
                             BoxCollider spawnArea = spawnLocationS.GetComponent<BoxCollider>();
@@ -117,7 +117,7 @@ public class IASpawner : MonoBehaviour
                             Destroy(spawnParticle, 2f);
                         }
                         break;
-                    case "Demonio":
+                    case "DemonioV1":
                         if (spawnedDemonio.Count < enemies[i].maxPerRound)
                         {
                             BoxCollider spawnArea = spawnLocationS.GetComponent<BoxCollider>();
@@ -138,7 +138,7 @@ public class IASpawner : MonoBehaviour
                             Destroy(spawnParticle, 2f);
                         }
                         break;
-                    case "Tank":
+                    case "TankV1":
                         if (spawnedTank.Count < enemies[i].maxPerRound)
                         {
                             BoxCollider spawnArea = spawnLocationS.GetComponent<BoxCollider>();

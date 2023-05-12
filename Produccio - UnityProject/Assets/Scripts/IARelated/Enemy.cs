@@ -7,10 +7,22 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    //Tipo Enemigo
     public enum MonsterClass {Saltarin,Demonio,Tank};
     public MonsterClass currentClass;
 
-    
+
+    //Variaciones
+    public enum RankTypeSaltarin {Null, V2, V3};
+    public RankTypeSaltarin VersionSaltarin;
+
+    public enum RankTypeDemonio { Null, V2, V3 };
+    public RankTypeDemonio VersionDemonio;
+
+    public enum RankTypeTanke { Null, V2, V3 };
+    public RankTypeTanke VersionTanke;
+
+
 
     [Header("Health")]
     private float Health;
@@ -26,7 +38,7 @@ public class Enemy : MonoBehaviour
 
     public float SaltarinChargeForce;
     private float SaltarinDistance;
-    public float SaltarinChargeDistance = 5f;
+    private float SaltarinChargeDistance;
     private bool isCharging;
     private bool canCharge = true;
 
@@ -76,6 +88,7 @@ public class Enemy : MonoBehaviour
                 Health = 50f;
                 Speed = 3.5f;
                 attackDamage = 16f;
+                SaltarinChargeDistance = 5f;
                 break;
             case MonsterClass.Demonio:
                 Health = 100f;
@@ -86,6 +99,47 @@ public class Enemy : MonoBehaviour
                 Health = 400f;
                 Speed = 1.5f;
                 attackDamage = 35f;
+                break;
+        }
+        switch (VersionSaltarin)
+        {
+            case RankTypeSaltarin.V2:
+                Health += 25f;
+                //Speed += 1.15f;
+                attackDamage += 4f;
+                SaltarinChargeDistance = 7f;
+                break;
+            case RankTypeSaltarin.V3:
+                Health += 35f;
+                //Speed += 1.15f;
+                attackDamage += 7f;
+                SaltarinChargeDistance = 10f;
+                break;
+        }
+        switch (VersionDemonio)
+        {
+            case RankTypeDemonio.V2:
+                Health += 30f;
+                Speed += 0.5f;
+                attackDamage += 25f;
+                break;
+            case RankTypeDemonio.V3:
+                Health += 40f;
+                Speed += 1.0f;
+                attackDamage += 30f;
+                break;
+        }
+        switch (VersionTanke)
+        {
+            case RankTypeTanke.V2:
+                Health += 200f;
+                Speed -= 0.5f;
+                attackDamage += 20f;
+                break;
+            case RankTypeTanke.V3:
+                Health += 400f;
+                Speed -= 1.0f;
+                attackDamage += 65f;
                 break;
         }
         currentHealth = Health;
@@ -443,4 +497,5 @@ public class Enemy : MonoBehaviour
             SetLayerRecursively(child.gameObject, newLayer);
         }
     }
+
 }
