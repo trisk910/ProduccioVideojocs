@@ -10,7 +10,7 @@ public class GunType : MonoBehaviour
 {
     public enum WeaponType
     {
-        Pistol
+        Pistol,Revolver
     }
 
     public WeaponType currentWeapon = WeaponType.Pistol;
@@ -28,7 +28,11 @@ public class GunType : MonoBehaviour
     public GameObject blooodEffect;
     public GameObject impactEffect;
 
+    [Header("Sounds")]
     private AudioSource audioS;
+    public AudioClip GunShot;
+    public AudioClip CritSound;
+
 
 
 
@@ -46,9 +50,9 @@ public class GunType : MonoBehaviour
     public float bulletForce = 22000f;
     private float knockBackForce;
 
-    [Header("Shotgun")]
+    /*[Header("Shotgun")]
     public int pelletCount = 10;
-    public float spread = 10f;
+    public float spread = 10f;*/
 
     private Animator ac;
 
@@ -69,7 +73,14 @@ public class GunType : MonoBehaviour
                 gunDammage = 24.5f;
                 fireRate = 0.25f;
                 knockBackForce = /*5f*/2f;
-                break;            
+                break;
+            case WeaponType.Revolver:
+                maxAmmo = 6;
+                reloadTime = 1.0f;
+                gunDammage = 50f;
+                fireRate = 0.5f;
+                knockBackForce = /*5f*/2f;
+                break;
         }
         currentAmmo = maxAmmo;
         audioS = GetComponent<AudioSource>();
@@ -107,31 +118,30 @@ public class GunType : MonoBehaviour
             StartCoroutine(Reload());
             return;
         }
-        audioS.Play();
+        audioS.PlayOneShot(GunShot, 0.7F);
         muzzleFlash.Play();
         ac.SetTrigger("Shoot");
         //ac.SetBool("Shoot", true);
         //ac.GetComponent<Animator>().SetBool("Shoot", true);
         currentAmmo--;
-        switch (currentWeapon)
+        FireGun();
+        /*switch (currentWeapon)
         {
             case WeaponType.Pistol:              
                 FirePistol();
                 break;
-           /* case WeaponType.Shotgun:              
-                FireShotgun();
+            
+            case WeaponType.Revolver:
+                FireRevolver();
                 break;
-            case WeaponType.Rifle:                
-                FireRifle();
-                break;*/
-        }
+        }*/
         ac.SetTrigger("Shoot");
        
         //ac.GetComponent<Animator>().SetBool("Shoot", false);
     }
   
 
-    void FirePistol()
+    void FireGun()
     {
         GameObject currentBullet = getBulletPool();
         currentBullet.transform.position = bulletSpawnPoint.position;
@@ -153,13 +163,23 @@ public class GunType : MonoBehaviour
                 weakSpotMultiplyer = 1.0f;
                 if (hit.collider.tag == "WeakSpot")
                 {
-                    weakSpotMultiplyer = 2.0f;
+                    audioS.PlayOneShot(CritSound, 0.7F);
+                    switch (currentWeapon)
+                    {
+                        case WeaponType.Revolver:
+                            weakSpotMultiplyer = 3.5f;
+                            break;
+                        case WeaponType.Pistol:
+                            weakSpotMultiplyer = 2.0f;
+                            break;
+                    }
+                   
                     //Debug.Log("Crit");
 
                 }
                 float totalDamage = gunDammage * weakSpotMultiplyer;
                 
-                hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(gunDammage, knockBackForce);
+                hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(totalDamage, knockBackForce);
 
                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 bloodParticle.GetComponent<ParticleSystem>().Play();
@@ -175,6 +195,7 @@ public class GunType : MonoBehaviour
 
         }
     }
+   
 
     private GameObject getBulletPool()
     {
@@ -193,6 +214,13 @@ public class GunType : MonoBehaviour
 
     IEnumerator Reload()
     {
+        switch (currentWeapon)
+        {
+            case WeaponType.Revolver:
+                ac.SetTrigger("Reload");
+                break;
+        }
+        
         isReloading = true;
         reloadingText.SetActive(true);
         yield return new WaitForSeconds(reloadTime);

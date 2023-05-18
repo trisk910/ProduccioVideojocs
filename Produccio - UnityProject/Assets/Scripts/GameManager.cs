@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-  
+    public int CharacterSelected;
+
+
+    public void SetTemplar()
+    {
+        CharacterSelected = 1;
+    }
+    public void SetNun()
+    {
+        CharacterSelected = 2;
+    }
 }

@@ -89,9 +89,9 @@ public class Player : MonoBehaviour
         SpeedControl();
 
         // handle drag
-        /*if (grounded)
+        //if (grounded)
             rb.drag = groundDrag;
-        else
+        /*else
             rb.drag = 0;*/
         if(enableRegen)
             regenHP();
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
 
         // on ground
        // if(grounded)
-        //    rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
         // in air
        // else if(!grounded)

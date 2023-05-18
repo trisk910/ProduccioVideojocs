@@ -17,28 +17,46 @@ public class PlayerHabilities : MonoBehaviour
     private float SecondSkillUseTime ;
     private float SecondSkillCooldown;
 
-    public GameObject pistol;
-
-    public GameObject templarShotgun;
-   
-    public GameObject shotgunSkillIcon;
-    private bool shotgunIconrecover = false;
-    private bool shotgunActive = false;
-    private bool shotgunIsInCD = false;
-
-    public GameObject sword;
-    public GameObject swordSkillIcon;
-    private bool swordIconrecover = false;
-    private bool swordActive = false;
-    private bool swordIsInCD = false;
-
-
     private float elapsedTime = 0;
 
     [Header("UI")]
     public GameObject QSkill;
     public GameObject ESkill;
 
+    [Header("Templar Skills")]
+    public GameObject templarPistol;
+    public GameObject shotgunSkillIcon;
+    public GameObject swordSkillIcon;
+    public GameObject templarShotgun;
+
+    private bool shotgunIconrecover = false;
+    private bool shotgunActive = false;
+    private bool shotgunIsInCD = false;
+
+    public GameObject sword;
+
+    private bool swordIconrecover = false;
+    private bool swordActive = false;
+    private bool swordIsInCD = false;
+
+    [Header("Nun Skill")]   
+    public GameObject CrossBowSkillIcon;
+    public GameObject NadeSkillIcon;
+
+    public GameObject nunRevolver;
+    public GameObject nunCrossBow;
+    public GameObject nunNade;
+
+    private bool crossBowIconrecover = false;
+    private bool crossBowActive = false;
+    private bool crossIsInCD = false;
+
+    private Animator nunAc;
+    
+
+    private bool nadeIconrecover = false;
+    private bool nadeActive = false;
+    private bool nadeIsInCD = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +68,13 @@ public class PlayerHabilities : MonoBehaviour
                 SecondSkillUseTime = 0.3f;
                 SecondSkillCooldown = 8.0f;
                 break;
+            case HabilitiesClassSet.Nun:
+                FirstSkillUseTime = 2.0f;
+                FirstSkillCooldown = 0.5f;
+                SecondSkillUseTime = 0.3f;
+                SecondSkillCooldown = 8.0f;
+                nunAc = GetComponent<Animator>();               
+                break;
         }
         templarShotgun.SetActive(false);
         sword.SetActive(false);
@@ -58,38 +83,58 @@ public class PlayerHabilities : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerSkill();
         switch (currentSet)
-        {
-            case HabilitiesClassSet.Templar:
-                shotgunSkill();
+        {            
+            case HabilitiesClassSet.Templar:                
                 if (shotgunIconrecover)
                     shotgunIconRecovery();
                 swordSkill();
                 if (swordIconrecover)
                     swordIconRecovery();
                 break;
+            case HabilitiesClassSet.Nun:               
+                if (crossBowIconrecover)
+                    crossbowIconRecovery();
+                /*nadeSkill();
+                if (nadeIconrecover)
+                    nadeIconRecovery();*/
+                break;
         }
     }
 
-    private void shotgunSkill()
+    private void PlayerSkill()
     {
         if (Input.GetKeyDown(KeyCode.Q) && !shotgunActive && !shotgunIsInCD)
         {
-            pistol.SetActive(false);
-           //crida funcio de disable de guntype
-            templarShotgun.SetActive(true);
-            shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
-            shotgunActive = true;
-            StartCoroutine(useShotgunTimeOut());
-            QSkill.SetActive(false);
+            switch (currentSet)
+            {
+                case HabilitiesClassSet.Templar:
+                    templarPistol.SetActive(false);
+                    //crida funcio de disable de guntype
+                    templarShotgun.SetActive(true);
+                    shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    shotgunActive = true;
+                    StartCoroutine(useShotgunTimeOut());
+                    QSkill.SetActive(false);
+                    break;
+                case HabilitiesClassSet.Nun:
+                    nunRevolver.SetActive(false);
+                    nunCrossBow.SetActive(true);
+                    shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;//Aqui s'ha de canviar als altres icones
+                    crossBowActive= true;
+                    StartCoroutine(useCrossBowTimeOut());
+                    QSkill.SetActive(false);
+                    break;
+            }
         }
     }
-    
+    //Templar
     private IEnumerator useShotgunTimeOut()
     {
         yield return new WaitForSeconds(FirstSkillUseTime);
         templarShotgun.SetActive(false);
-        pistol.SetActive(true);
+        templarPistol.SetActive(true);
         shotgunIsInCD = true;
         shotgunActive = false;
         StartCoroutine(shotgunCooldown());
@@ -117,20 +162,25 @@ public class PlayerHabilities : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && !shotgunActive && !swordActive && !swordIsInCD)
         {
-            pistol.SetActive(false);
-            sword.SetActive(true);
-            swordActive = true;
-            swordSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
-            StartCoroutine(useSwordTimeOut());
-            elapsedTime = 0f;
-            ESkill.SetActive(false);
+            switch (currentSet)
+            {
+                case HabilitiesClassSet.Templar:
+                    templarPistol.SetActive(false);
+                    sword.SetActive(true);
+                    swordActive = true;
+                    swordSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    StartCoroutine(useSwordTimeOut());
+                    elapsedTime = 0f;
+                    ESkill.SetActive(false);
+                    break;
+            }
         }
     }
     private IEnumerator useSwordTimeOut()
     {
         yield return new WaitForSeconds(SecondSkillUseTime);
         sword.SetActive(false);
-        pistol.SetActive(true);
+        templarPistol.SetActive(true);
         swordIsInCD = true;
         swordActive = false;
         StartCoroutine(swordCooldown());
@@ -152,7 +202,37 @@ public class PlayerHabilities : MonoBehaviour
         else
             swordIconrecover = false;
     }
+    //Nun
+    private IEnumerator useCrossBowTimeOut()
+    {
+        yield return new WaitForSeconds(FirstSkillUseTime);
+        nunCrossBow.SetActive(false);
+        nunRevolver.SetActive(true);
+        crossIsInCD = true;
+        crossBowActive = false;
+        StartCoroutine(crossbowCooldown());
+        crossBowIconrecover = true;
+        elapsedTime = 0f;
+    }
+    private IEnumerator crossbowCooldown()
+    {
+        yield return new WaitForSeconds(FirstSkillCooldown);
+        crossIsInCD = false;
+        QSkill.SetActive(true);
+    }
+    private void crossbowIconRecovery()
+    {
+        if (CrossBowSkillIcon.GetComponent<CanvasGroup>().alpha < 1)
+        {
+            // shotgunSkillIcon.GetComponent<CanvasGroup>().alpha += Time.deltaTime * timeRecoverMultiplyer;
+            CrossBowSkillIcon.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, elapsedTime / FirstSkillCooldown);
+            elapsedTime += Time.deltaTime;
+        }
+        else
+            crossBowIconrecover = false;
+    }
 
+    //Upgrades
     public void reduceCD()
     {
         if(FirstSkillCooldown > 5f) //limite the cd, hay que ajustarlo y desactivar la opcion cuando sea inferior

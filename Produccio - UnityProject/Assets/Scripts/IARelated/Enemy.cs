@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -432,9 +433,12 @@ public class Enemy : MonoBehaviour
             switch (currentClass)
             {
                 case MonsterClass.Saltarin:
-                    stateValue = 0;
-                    doDamage();
-                    StartCoroutine(MoveDelay(moveDelaySaltarin));
+                    if (stateValue != -1)
+                    {
+                        stateValue = 0;
+                        doDamage();
+                        StartCoroutine(MoveDelay(moveDelaySaltarin));
+                    }
                     break;
             }           
         }
@@ -498,4 +502,5 @@ public class Enemy : MonoBehaviour
         }
     }
 
+   
 }

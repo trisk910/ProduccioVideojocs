@@ -71,7 +71,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerEvents.cs" />
     <Compile Include="Assets\Mobile\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
-    <Compile Include="Assets\Scripts\CharacterSelection\SelectTemplarButton.cs" />
+    <Compile Include="Assets\Scripts\CharacterSelection\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\GunRelated\GunRaycast.cs" />
     <Compile Include="Assets\Scripts\Player\New Player\CameraMovement.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
@@ -130,7 +130,9 @@
     <Compile Include="Assets\Scripts\UI\UIPlayerStats.cs" />
     <Compile Include="Assets\Scripts\IARelated\Enemy.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
-    <Compile Include="Assets\Scripts\CharacterSelection\CharacterSelectionManager.cs" />
+    <Compile Include="Assets\Scripts\CharacterSelection\CharacterSelectorController.cs" />
+    <Compile Include="Assets\Scripts\Player\NunPlayerHabilities.cs" />
+    <Compile Include="Assets\Scripts\GunRelated\CrossBowSkill.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TutorialsLINKS\Nuevo Documento de texto.txt" />
@@ -411,12 +413,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Android.Types">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Android.Gradle">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>

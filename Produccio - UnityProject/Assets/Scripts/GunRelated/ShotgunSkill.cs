@@ -10,8 +10,9 @@ public class ShotgunSkill : MonoBehaviour
     private AudioSource audioS;
 
     public int pelletCount = 10;
-    public float fireRate;
+    
     public float spread = 10f;
+    public float fireRate;
     private float nextFireTime = 0f;
     public float damagePerPellet;
     public float maxDistance = 50f;
@@ -42,39 +43,14 @@ public class ShotgunSkill : MonoBehaviour
        
         audioS.Play();
         muzzleFlash.Play();
-        //ac.SetBool("Shoot", true);
         for (int i = 0; i < pelletCount; i++)
         {
            Vector3 bulletDirection = bulletSpawnPoint.forward;
             bulletDirection = Quaternion.Euler(Random.Range(-spread, spread), Random.Range(-spread, spread), 0) * bulletDirection;
-            /*GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(bulletDirection));
-            bullet.GetComponent<Rigidbody>().AddForce(bulletDirection * bulletForce);*/
-
+         
             float remainingDistance = maxDistance;
             RaycastHit hit;
-            /*if (mainCamera != null && Physics.Raycast(mainCamera.transform.position, bulletDirection, out hit))
-            {
-                Debug.DrawLine(mainCamera.transform.position, hit.point, Color.red, 2f);
-
-                if (hit.collider.gameObject.GetComponentInParent<Enemy>() != null)
-                {
-                    float weakSpotMultiplyer = 1.0f;
-                    if (hit.collider.tag == "WeakSpot")
-                    {
-                        weakSpotMultiplyer = 1.5f;
-                        Debug.Log("Crit");
-
-                    }
-
-                    float totalDamage = damagePerPellet * weakSpotMultiplyer;
-                    //enemy.TakeDamage(totalDamage, knockBackForce);
-                    hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(damagePerPellet, knockBackForce);
-
-                    GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
-                    bloodParticle.GetComponent<ParticleSystem>().Play();
-                    Destroy(bloodParticle, 2f);
-                }
-            }*/
+          
             while (remainingDistance > 0f && Physics.Raycast(mainCamera.transform.position, bulletDirection, out hit, remainingDistance))
             {
                 Debug.DrawLine(mainCamera.transform.position, hit.point, Color.red, 2f);
