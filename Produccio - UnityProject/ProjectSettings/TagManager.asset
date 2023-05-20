@@ -11,6 +11,9 @@ TagManager:
   - Radar
   - WeakSpot
   - TriggerDamage
+  - MainGun
+  - PlayerSkills
+  - MenuManager
   layers:
   - Default
   - TransparentFX

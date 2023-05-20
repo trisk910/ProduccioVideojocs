@@ -39,8 +39,7 @@ public class ShotgunSkill : MonoBehaviour
         }
     }
     void Fire()
-    {
-       
+    {       
         audioS.Play();
         muzzleFlash.Play();
         for (int i = 0; i < pelletCount; i++)
@@ -97,5 +96,8 @@ public class ShotgunSkill : MonoBehaviour
         //ac.SetBool("Shoot", false);
 
     }
-  
+    public void UpgradeDamage()
+    {
+        damagePerPellet += 5f;
+    }
 }

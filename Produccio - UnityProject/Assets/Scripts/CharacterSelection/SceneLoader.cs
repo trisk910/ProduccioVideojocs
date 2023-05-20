@@ -7,23 +7,14 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-   
+    private GameManager gameManager;
     private void Start()
     {
-        GameObject gameManager = GameObject.Find("GameManager"); // Assuming your GameManager object is named "GameManager"
-        DontDestroyOnLoad(gameManager);
+        GameObject gameManager = GameObject.Find("GameManager");
+        DontDestroyOnLoad(gameManager);       
     }
-
-  
     public void LoadNextScene()
-    {
-        //SceneManager.LoadSceneAsync("Playground");
-        SceneManager.LoadScene("Playground");
-       
-    }
-   /* public void Scene1()
-    {
-        SceneManager.LoadScene("Playground");
-    }*/
-   
+    {        
+        SceneManager.LoadScene("Playground");       
+    }   
 }

@@ -12,14 +12,14 @@ public class CharacterSelectorController : MonoBehaviour
     public GameObject NunCharacter;
     public GameObject CrossbowSkillIcon;
     public GameObject NadeSkillIcon;
+
+    
     // Start is called before the first frame update
     private void Start()
     {
-        GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); // Assuming your GameManager object is named "GameManager"
-
+        GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); 
         // Access the variable value
         int variableValue = gameManager.CharacterSelected;
-
         switch (variableValue)
         {
             case 1:
@@ -29,6 +29,7 @@ public class CharacterSelectorController : MonoBehaviour
                 ShotgunSkillIcon.SetActive(true);
                 CrossbowSkillIcon.SetActive(false);
                 NadeSkillIcon.SetActive(false);
+                //radar.SetTemplar();
                 break;
             case 2:
                 TemplarCharacter.SetActive(false);
@@ -37,13 +38,15 @@ public class CharacterSelectorController : MonoBehaviour
                 ShotgunSkillIcon.SetActive(false);
                 CrossbowSkillIcon.SetActive(true);
                 NadeSkillIcon.SetActive(true);
+               //radar.SetNun();
                 break;
             case 0:
                 Debug.Log("ERROR: No Character was Loaded");
                 break;
         }
-
+        
+        
     }
+    
 
-  
 }

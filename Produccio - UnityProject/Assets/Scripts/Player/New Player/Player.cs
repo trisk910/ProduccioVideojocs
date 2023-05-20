@@ -47,6 +47,10 @@ public class Player : MonoBehaviour
     public float regenRate;
     public bool enableRegen = false;
 
+    [Header("UI")]
+    public GameObject DamageFeedBack;
+    private float elapsedTime = 0;
+    private bool hitRecover = false;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -78,6 +82,7 @@ public class Player : MonoBehaviour
         currentHP = maxHP;
         healthbar.maxValue = maxHP;
         healthbar.value = healthbar.maxValue;
+        DamageFeedBack.GetComponent<CanvasGroup>().alpha = 0.0f;
     }
 
     private void Update()
@@ -101,6 +106,8 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        if (hitRecover)
+            BloodEffectRecovery();
     }
 
     private void MyInput()
@@ -165,6 +172,11 @@ public class Player : MonoBehaviour
             Die();
         }
         currentHP -= damage;
+        if(DamageFeedBack.GetComponent<CanvasGroup>().alpha <= 1f)
+            DamageFeedBack.GetComponent<CanvasGroup>().alpha += 0.5f;
+        else
+            DamageFeedBack.GetComponent<CanvasGroup>().alpha = 1f;
+        hitRecover = true;
     }  
 
     private void Die()
@@ -182,6 +194,18 @@ public class Player : MonoBehaviour
         Cursor.visible = true;
         Time.timeScale = 1f;
     }
+    private void BloodEffectRecovery()
+    {
+        if (DamageFeedBack.GetComponent<CanvasGroup>().alpha > 0)
+        {
+            DamageFeedBack.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1f, 0f, elapsedTime / 5f);
+            elapsedTime += Time.deltaTime;
+        }
+        else
+            hitRecover = false;
+       
+    }
+
 
     //Upgrades
     public void EnablePassiveRegen()

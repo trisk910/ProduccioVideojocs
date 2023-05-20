@@ -13,22 +13,28 @@ public class UIPlayerStats : MonoBehaviour
     public TextMeshProUGUI Skill2UI;
 
 
-    private GunType weaponStats;
-    private Player playerStats;
-    private PlayerHabilities habilitiesStats;
+    //private GunType weaponStats;
+    private GameObject weaponStats;
+    //private Player playerStats;
+    private GameObject playerStats;
+    //private PlayerHabilities habilitiesStats;
+    private GameObject habilitiesStats;
 
     private float HP;
     private float Regen;
-    private float Damage;
+    private float Damage;    
     private float Speed;
     private float Skill1;
     private float Skill2;
 
     private void Start()
     {
-        playerStats = Object.FindObjectOfType<Player>();
-        weaponStats = Object.FindObjectOfType<GunType>();
-        habilitiesStats = Object.FindObjectOfType<PlayerHabilities>();
+        //playerStats = Object.FindObjectOfType<Player>();
+        //weaponStats = Object.FindObjectOfType<GunType>();
+
+        playerStats  = GameObject.FindGameObjectWithTag("Player");
+        weaponStats = GameObject.FindGameObjectWithTag("MainGun");
+        habilitiesStats = GameObject.FindGameObjectWithTag("PlayerSkills");
 
     }
 
@@ -36,18 +42,19 @@ public class UIPlayerStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-        HP = playerStats.GetComponent<Player>().GetHP();
+        HP = playerStats.GetComponent<Player>().GetHP();        
         Regen = playerStats.GetComponent<Player>().GetRegenRate();
-        Damage = weaponStats.GetComponent<GunType>().GetPistolDamage();
         Speed = playerStats.GetComponent<Player>().GetBaseSpeed();
+
+        Damage = weaponStats.GetComponent<GunType>().GetPistolDamage();        
+        
         Skill1 = habilitiesStats.GetComponent<PlayerHabilities>().GetCooldownValue1();
         Skill2 = habilitiesStats.GetComponent<PlayerHabilities>().GetCooldownValue2();
 
         HPUI.SetText("HP: " + HP);
         RegenUI.SetText("Regen: " + Regen);
-        DamageUI.SetText("Damage: " + Damage);
+        DamageUI.SetText("Main Gun Damage: " + Damage);
+
         SpeedUI.SetText("Speed: " + Speed);
         Skill1UI.SetText("1st Skill CD: " + Skill1);
         Skill2UI.SetText("2nd Skill CD: " + Skill2);

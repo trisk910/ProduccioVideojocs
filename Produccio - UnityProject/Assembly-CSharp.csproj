@@ -62,14 +62,17 @@
     <Compile Include="Assets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\InputSystem\StarterAssetsInputs.cs" />
     <Compile Include="Assets\Scripts\IARelated\IASpawnerV2.cs" />
+    <Compile Include="Assets\Scripts\GunRelated\NadeSkill.cs" />
     <Compile Include="Assets\Scripts\GunRelated\SwordSkill.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\DecalDestroyer.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
+    <Compile Include="Assets\Scripts\CharacterSelection\CharacterSelectorController.cs" />
     <Compile Include="Assets\Scripts\Player\FirstPersonController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerEvents.cs" />
+    <Compile Include="Assets\Scripts\GunRelated\CrossBowSkill.cs" />
     <Compile Include="Assets\Mobile\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
     <Compile Include="Assets\Scripts\CharacterSelection\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\GunRelated\GunRaycast.cs" />
@@ -83,9 +86,11 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\Scripts\GunRelated\ShotgunSkill.cs" />
+    <Compile Include="Assets\Scripts\Player\NunPlayerHabilities.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
+    <Compile Include="Assets\Scripts\GunRelated\NadeSkillDamage.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\Scripts\Player\New Player\MoveCamera.cs" />
@@ -126,13 +131,11 @@
     <Compile Include="Assets\Scripts\UI\RadarController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\Scripts\PauseMenu.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\Scripts\UI\UIPlayerStats.cs" />
     <Compile Include="Assets\Scripts\IARelated\Enemy.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
-    <Compile Include="Assets\Scripts\CharacterSelection\CharacterSelectorController.cs" />
-    <Compile Include="Assets\Scripts\Player\NunPlayerHabilities.cs" />
-    <Compile Include="Assets\Scripts\GunRelated\CrossBowSkill.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TutorialsLINKS\Nuevo Documento de texto.txt" />

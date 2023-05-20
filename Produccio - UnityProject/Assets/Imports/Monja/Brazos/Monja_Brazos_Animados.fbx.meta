@@ -63,7 +63,7 @@ ModelImporter:
       - time: 0.9369369
         functionName: NewEvent
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 2140371900313500246, guid: f4f5b0a09dbd4dc4daa549b34b0458e9, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

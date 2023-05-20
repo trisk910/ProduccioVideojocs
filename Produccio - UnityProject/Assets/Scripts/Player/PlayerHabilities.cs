@@ -57,6 +57,8 @@ public class PlayerHabilities : MonoBehaviour
     private bool nadeIconrecover = false;
     private bool nadeActive = false;
     private bool nadeIsInCD = false;
+    public Transform nadeSpawnPoint;
+    public GameObject nadePrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,61 +72,100 @@ public class PlayerHabilities : MonoBehaviour
                 break;
             case HabilitiesClassSet.Nun:
                 FirstSkillUseTime = 2.0f;
-                FirstSkillCooldown = 0.5f;
-                SecondSkillUseTime = 0.3f;
+                FirstSkillCooldown = 7f;
+                SecondSkillUseTime = 1.0f;
                 SecondSkillCooldown = 8.0f;
                 nunAc = GetComponent<Animator>();               
                 break;
         }
         templarShotgun.SetActive(false);
         sword.SetActive(false);
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerSkill();
+        PlayerSkills();
         switch (currentSet)
         {            
             case HabilitiesClassSet.Templar:                
                 if (shotgunIconrecover)
                     shotgunIconRecovery();
-                swordSkill();
+                //swordSkill();
                 if (swordIconrecover)
                     swordIconRecovery();
                 break;
             case HabilitiesClassSet.Nun:               
                 if (crossBowIconrecover)
-                    crossbowIconRecovery();
-                /*nadeSkill();
+                    crossbowIconRecovery();                
                 if (nadeIconrecover)
-                    nadeIconRecovery();*/
+                    nadeIconRecovery();
                 break;
         }
     }
 
-    private void PlayerSkill()
+    private void PlayerSkills()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && !shotgunActive && !shotgunIsInCD)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             switch (currentSet)
             {
                 case HabilitiesClassSet.Templar:
-                    templarPistol.SetActive(false);
-                    //crida funcio de disable de guntype
-                    templarShotgun.SetActive(true);
-                    shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    shotgunActive = true;
-                    StartCoroutine(useShotgunTimeOut());
-                    QSkill.SetActive(false);
+                    if (!shotgunActive && !shotgunIsInCD)
+                    {
+                        templarPistol.SetActive(false);
+                        //crida funcio de disable de guntype
+                        templarShotgun.SetActive(true);
+                        shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
+                        shotgunActive = true;
+                        StartCoroutine(useShotgunTimeOut());
+                        QSkill.SetActive(false);
+                    }
                     break;
                 case HabilitiesClassSet.Nun:
-                    nunRevolver.SetActive(false);
-                    nunCrossBow.SetActive(true);
-                    shotgunSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;//Aqui s'ha de canviar als altres icones
-                    crossBowActive= true;
-                    StartCoroutine(useCrossBowTimeOut());
-                    QSkill.SetActive(false);
+                    if (!crossBowActive && !crossIsInCD)
+                    {
+                        nunRevolver.SetActive(false);
+                        nunCrossBow.SetActive(true);
+                        CrossBowSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;//Aqui s'ha de canviar als altres icones
+                        crossBowActive = true;
+                        StartCoroutine(useCrossBowTimeOut());
+                        QSkill.SetActive(false);
+                        nunAc.SetTrigger("Crossbow");
+                    }
+                    break;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            switch (currentSet)
+            {
+                case HabilitiesClassSet.Templar:
+                    if(!shotgunActive && !swordActive && !swordIsInCD)
+                    {
+                        templarPistol.SetActive(false);
+                        sword.SetActive(true);
+                        swordActive = true;
+                        swordSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
+                        StartCoroutine(useSwordTimeOut());
+                        elapsedTime = 0f;
+                        ESkill.SetActive(false);
+                    }                    
+                    break;
+                case HabilitiesClassSet.Nun:
+                    if (!crossBowActive && !nadeActive && !nadeIsInCD)
+                    {
+                        nunRevolver.SetActive(false);
+                        nunNade.SetActive(true);
+                        nadeActive = true;
+                        NadeSkillIcon.GetComponent<CanvasGroup>().alpha = 0.0f;
+                        StartCoroutine(useNadeTimeOut());
+                        elapsedTime = 0f;
+                        ESkill.SetActive(false);
+                        nunAc.SetTrigger("ThrowNade");
+                        StartCoroutine(nadeInst());
+                    }
                     break;
             }
         }
@@ -158,7 +199,7 @@ public class PlayerHabilities : MonoBehaviour
         else
             shotgunIconrecover = false;
     }
-    private void swordSkill()
+    /*private void swordSkill()
     {
         if (Input.GetKeyDown(KeyCode.E) && !shotgunActive && !swordActive && !swordIsInCD)
         {
@@ -175,7 +216,7 @@ public class PlayerHabilities : MonoBehaviour
                     break;
             }
         }
-    }
+    }*/
     private IEnumerator useSwordTimeOut()
     {
         yield return new WaitForSeconds(SecondSkillUseTime);
@@ -230,6 +271,47 @@ public class PlayerHabilities : MonoBehaviour
         }
         else
             crossBowIconrecover = false;
+    }
+
+    private IEnumerator useNadeTimeOut()
+    {
+        yield return new WaitForSeconds(SecondSkillUseTime);
+        nunNade.SetActive(false);
+        nunRevolver.SetActive(true);
+        nadeIsInCD = true;
+        nadeActive = false;
+        StartCoroutine(nadeCooldown());
+        nadeIconrecover = true;
+    }
+    private IEnumerator nadeCooldown()
+    {
+        yield return new WaitForSeconds(SecondSkillCooldown);
+        nadeIsInCD = false;
+        ESkill.SetActive(true);
+    }
+    private void nadeIconRecovery()
+    {
+        if (NadeSkillIcon.GetComponent<CanvasGroup>().alpha < 1)
+        {
+            NadeSkillIcon.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, elapsedTime / SecondSkillCooldown);
+            elapsedTime += Time.deltaTime;
+        }
+        else
+            nadeIconrecover = false;
+    }
+    private IEnumerator nadeInst()
+    {
+        yield return new WaitForSeconds(.8f);
+        ThrowNade();
+        nunNade.SetActive(false);
+    }
+
+   public void ThrowNade()
+    {
+        GameObject nade = Instantiate(nadePrefab, nadeSpawnPoint.position, nadeSpawnPoint.rotation);       
+        Rigidbody rb = nade.GetComponent<Rigidbody>();
+        rb.AddForce(nadeSpawnPoint.forward * 10f, ForceMode.Impulse);
+    
     }
 
     //Upgrades

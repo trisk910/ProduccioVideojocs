@@ -80,4 +80,11 @@ public class CrossBowSkill : MonoBehaviour
 
 
     }
+    //upgrades
+
+    public void IncreaseDamage()
+    {
+        damage += 5f;
+    }
+  
 }

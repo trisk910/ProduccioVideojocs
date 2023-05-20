@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int CharacterSelected;
-
-
+    public int CharacterSelected = 0;
+    public float mouseSens;
     public void SetTemplar()
     {
         CharacterSelected = 1;
@@ -14,5 +13,14 @@ public class GameManager : MonoBehaviour
     public void SetNun()
     {
         CharacterSelected = 2;
+    }
+
+    public void ResetVar()
+    {
+        CharacterSelected = 0;
+    }
+    public void UpdateSensitivityCamera(float value)
+    {
+        mouseSens = value;  
     }
 }

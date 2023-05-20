@@ -43,16 +43,17 @@ public class IASpawnerV2 : MonoBehaviour
     public GameObject SpawnEffect;
     public BoxCollider spawnLocationS;
 
+    private GameObject pm;
+
     void Start()
     {
-       
-
         EnableWaveSpawner();
         //SpawnEnemy();       
         maxPerWave = 10;
         UpGradeMenu.SetActive(false);
         Player = GameObject.FindGameObjectWithTag("Player");
         Radar = GameObject.FindGameObjectWithTag("Radar");
+        pm = GameObject.FindGameObjectWithTag("MenuManager");
     }
 
     private void EnableWaveSpawner()
@@ -323,7 +324,7 @@ public class IASpawnerV2 : MonoBehaviour
         }
     }
    
-    public void ShowUpgradeMenu()
+    /*public void ShowUpgradeMenu()
     {
         Time.timeScale = 0f;
         UpGradeMenu.SetActive(true);
@@ -332,15 +333,13 @@ public class IASpawnerV2 : MonoBehaviour
     }
     public void ResumeGame()
     {
-        UpGradeMenu.SetActive(false);
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-   /* private IEnumerator roundFinish()
-    {
-        yield return new WaitForSeconds(5);
-        canSpawn = true;
+        /*if (Time.timeScale == 0.0f)
+        {
+            UpGradeMenu.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Time.timeScale = 1f;
+        }
     }*/
    
 
@@ -463,9 +462,10 @@ public class IASpawnerV2 : MonoBehaviour
             }
 
 
-                //StartCoroutine(roundFinish());
-
-                ShowUpgradeMenu();
+            //StartCoroutine(roundFinish());
+            
+            pm.GetComponent<PauseMenu>().ShowUpgradeMenu(); 
+           
             EnableWaveSpawner();
         }
         else
