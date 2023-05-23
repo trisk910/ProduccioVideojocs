@@ -9,8 +9,9 @@ public class CrossBowSkill : MonoBehaviour
     public Camera mainCamera;
 
     [Header("CrossbowStats")]
-    public float damage = 300f;
+    public float damage;
     public int maxPenetratedObjects = 8; // Maximum number of game objects the ray can penetrate
+    public float knockback;
 
 
     [Header("Sounds")]
@@ -64,7 +65,7 @@ public class CrossBowSkill : MonoBehaviour
 
                 float totalDamage = damage * weakSpotMultiplier;
 
-                hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(totalDamage, 0);
+                hit.collider.gameObject.GetComponentInParent<Enemy>().TakeDamage(totalDamage, knockback);
 
                 GameObject bloodParticle = Instantiate(blooodEffect, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal));
                 bloodParticle.GetComponent<ParticleSystem>().Play();

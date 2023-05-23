@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class NadeSkillDamage : MonoBehaviour
 {
-    public float damage = 100f;
+    public float damage;
     //public ParticleSystem explosionEffect;
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(this.gameObject,2f);
+        Destroy(this.gameObject,1.9f);
     }
 
     // Update is called once per frame

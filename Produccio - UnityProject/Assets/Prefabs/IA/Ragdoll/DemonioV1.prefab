@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1324827199, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324827199, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: m_Center.z
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 346246121445233775, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
       propertyPath: m_Name
       value: DemonioV1

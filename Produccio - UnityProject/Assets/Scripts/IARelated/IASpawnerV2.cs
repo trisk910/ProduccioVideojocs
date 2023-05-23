@@ -379,7 +379,6 @@ public class IASpawnerV2 : MonoBehaviour
     {
         if (currentRound <= 20)
         {
-            maxPerWave += 6;
             totalSpawnedEnemies = 0;
             currentRound++;
             /*
@@ -393,81 +392,168 @@ public class IASpawnerV2 : MonoBehaviour
             7 = tv2
             8 = tv3
             */
-            if (currentRound <= 3)//[0:3]
+            switch (currentRound)
             {
-                enemies[0].maxPerRound =+ 2;//demoniov1
-                enemies[3].maxPerRound =+ 2;//saltarinv1
-                enemies[6].maxPerRound =+ 2;//tankev1
-            }
-            if(currentRound >= 4 && currentRound <= 8 )//[4:8]
-            {
-                enemies[0].maxPerRound =- 2;//dv1
-                if(currentRound <= 6)
-                    enemies[3].maxPerRound =+ 2;//sv1
-                else
-                    enemies[3].maxPerRound =- 2;
-                enemies[6].maxPerRound =+ 2; //tv1
-
-               enemies[1].maxPerRound =+ 4; //dv2
-
-                if(currentRound >=7)
-                    enemies[4].maxPerRound =+ 4; //sv2
-
-            }
-            if (currentRound >= 9 && currentRound <= 13)//[9:13]
-            {
-                enemies[3].maxPerRound =- 2; //sv1
-                if(currentRound == 9)
-                    enemies[6].maxPerRound =+ 2; //tv1
-                else
-                    enemies[6].maxPerRound =- 2; //tv1
-                if(currentRound >= 9 && currentRound <= 12)
-                    enemies[1].maxPerRound =+ 2; //dv2
-                else
-                    enemies[1].maxPerRound =- 2; //dv2
-
-                enemies[4].maxPerRound =+ 4; //sv2
-                if(currentRound >= 10)
-                    enemies[7].maxPerRound =+ 4; //tv2
-                if(currentRound == 13)
-                    enemies[2].maxPerRound =+ 4; //dv3
-            }
-            if (currentRound >= 14 && currentRound <= 18)//[14:18]
-            {
-                if (currentRound <= 17)
-                {
-                    enemies[6].maxPerRound =- 2; //tv1
-                    enemies[7].maxPerRound =+ 4; //tv2
-                }
-                enemies[1].maxPerRound =- 2; //dv2
-                if (currentRound <= 15)
-                    enemies[4].maxPerRound =+ 2 ; //sv2
-                else
-                    enemies[4].maxPerRound =- 2; //sv2
-                if (currentRound == 18)
-                    enemies[7].maxPerRound =+ 2; //tv2
-                enemies[2].maxPerRound =+ 4; //dv3
-                if(currentRound >= 16)
-                    enemies[5].maxPerRound =+ 4; //sv3
-
-            }
-            if(currentRound >= 19 && currentRound <= 20)
-            {
-                enemies[1].maxPerRound =- 2; //dv2
-                enemies[4].maxPerRound =- 2; //sv2
-                enemies[7].maxPerRound =- 2; //tv2
-                enemies[2].maxPerRound =+ 4; //dv3
-                enemies[5].maxPerRound =+  4; //sv3
-                enemies[8].maxPerRound = +4; //tv3
+                case 1:
+                    maxPerWave = 10;
+                    enemies[0].maxPerRound = 6;
+                    enemies[3].maxPerRound = 4;
+                    break;
+                case 2:
+                    maxPerWave = 16;
+                    enemies[0].maxPerRound = 8;
+                    enemies[3].maxPerRound = 6;
+                    enemies[6].maxPerRound = 2;
+                    break;
+                case 3:
+                    maxPerWave = 22;
+                    enemies[0].maxPerRound = 10;
+                    enemies[3].maxPerRound = 8;
+                    enemies[6].maxPerRound = 4;
+                    break;
+                case 4:
+                    maxPerWave = 28;
+                    enemies[0].maxPerRound = 8;
+                    enemies[3].maxPerRound = 10;
+                    enemies[6].maxPerRound = 6;
+                    enemies[1].maxPerRound = 4;
+                    break;
+                case 5:
+                    maxPerWave = 34;
+                    enemies[0].maxPerRound = 6;
+                    enemies[3].maxPerRound = 12;
+                    enemies[6].maxPerRound = 8;
+                    enemies[1].maxPerRound = 8;
+                    break;
+                case 6:
+                    maxPerWave = 40;
+                    enemies[0].maxPerRound = 4;
+                    enemies[3].maxPerRound = 14;
+                    enemies[6].maxPerRound = 10;
+                    enemies[1].maxPerRound = 12;
+                    break;
+                case 7:
+                    maxPerWave = 46;
+                    enemies[0].maxPerRound = 2;
+                    enemies[3].maxPerRound = 12;
+                    enemies[6].maxPerRound = 12;
+                    enemies[1].maxPerRound = 16;
+                    enemies[4].maxPerRound = 4;
+                    break;
+                case 8:
+                    maxPerWave = 52;
+                    enemies[3].maxPerRound = 10;
+                    enemies[6].maxPerRound = 14;
+                    enemies[1].maxPerRound = 20;
+                    enemies[4].maxPerRound = 8;
+                    break;
+                case 9:
+                    maxPerWave = 58;
+                    enemies[3].maxPerRound = 8;
+                    enemies[6].maxPerRound = 16;
+                    enemies[1].maxPerRound = 22;
+                    enemies[4].maxPerRound = 12;
+                    break;
+                case 10:
+                    maxPerWave = 64;
+                    enemies[3].maxPerRound = 6;
+                    enemies[6].maxPerRound = 14;
+                    enemies[1].maxPerRound = 24;
+                    enemies[4].maxPerRound = 16;
+                    enemies[7].maxPerRound = 4;
+                    break;
+                case 11:
+                    maxPerWave = 70;
+                    enemies[3].maxPerRound = 4;
+                    enemies[6].maxPerRound = 12;
+                    enemies[1].maxPerRound = 26;
+                    enemies[4].maxPerRound = 20;
+                    enemies[7].maxPerRound = 8;
+                    break;
+                case 12:
+                    maxPerWave = 76;
+                    enemies[3].maxPerRound = 2;
+                    enemies[6].maxPerRound = 10;
+                    enemies[1].maxPerRound = 28;
+                    enemies[4].maxPerRound = 24;
+                    enemies[7].maxPerRound = 12;
+                    break;
+                case 13:
+                    maxPerWave = 82;
+                    enemies[6].maxPerRound = 8;
+                    enemies[1].maxPerRound = 26;
+                    enemies[4].maxPerRound = 28;
+                    enemies[7].maxPerRound = 16;
+                    enemies[2].maxPerRound = 4;
+                    break;
+                case 14:
+                    maxPerWave = 88;
+                    enemies[6].maxPerRound = 6;
+                    enemies[1].maxPerRound = 24;
+                    enemies[4].maxPerRound = 30;
+                    enemies[7].maxPerRound = 20;
+                    enemies[2].maxPerRound = 8;
+                    break;
+                case 15:
+                    maxPerWave = 94;
+                    enemies[6].maxPerRound = 4;
+                    enemies[1].maxPerRound = 22;
+                    enemies[4].maxPerRound = 32;
+                    enemies[7].maxPerRound = 24;
+                    enemies[2].maxPerRound = 12;
+                    break;
+                case 16:
+                    maxPerWave = 100;
+                    enemies[6].maxPerRound = 2;
+                    enemies[1].maxPerRound = 20;
+                    enemies[4].maxPerRound = 30;
+                    enemies[7].maxPerRound = 28;
+                    enemies[2].maxPerRound = 16;
+                    enemies[5].maxPerRound = 4;
+                    break;
+                case 17:
+                    maxPerWave = 106;
+                    enemies[1].maxPerRound = 18;
+                    enemies[4].maxPerRound = 28;
+                    enemies[7].maxPerRound = 32;
+                    enemies[2].maxPerRound = 20;
+                    enemies[5].maxPerRound = 8;
+                    break;
+                case 18:
+                    maxPerWave = 112;
+                    enemies[1].maxPerRound = 16;
+                    enemies[4].maxPerRound = 26;
+                    enemies[7].maxPerRound = 34;
+                    enemies[2].maxPerRound = 24;
+                    enemies[5].maxPerRound = 12;
+                    break;
+                case 19:
+                    maxPerWave = 118;
+                    enemies[1].maxPerRound = 14;
+                    enemies[4].maxPerRound = 24;
+                    enemies[7].maxPerRound = 32;
+                    enemies[2].maxPerRound = 28;
+                    enemies[5].maxPerRound = 16;
+                    enemies[8].maxPerRound = 4;
+                    break;
+                case 20:
+                    maxPerWave = 124;
+                    enemies[1].maxPerRound = 12;
+                    enemies[4].maxPerRound = 22;
+                    enemies[7].maxPerRound = 30;
+                    enemies[2].maxPerRound = 32;
+                    enemies[5].maxPerRound = 20;
+                    enemies[8].maxPerRound = 8;
+                    break;
             }
 
 
             //StartCoroutine(roundFinish());
-            
-            pm.GetComponent<PauseMenu>().ShowUpgradeMenu(); 
-           
+
+            pm.GetComponent<PauseMenu>().ShowUpgradeMenu();
+
             EnableWaveSpawner();
-        }
+        }    
         else
         {
             EndGame();

@@ -46,6 +46,7 @@ public class Enemy : MonoBehaviour
     public float damageDelay = 15.0f;
 
     private bool canDoDamage = false;   //demonio y tanke
+    private bool animAttackOnce;
 
    
     private int stateValue = -2;
@@ -301,9 +302,14 @@ public class Enemy : MonoBehaviour
         {
             nav.enabled = false;
             nav.speed = 0;
-            IAanim.SetTrigger("isAttacking");
-            gameObject.GetComponent<SphereCollider>().enabled = false;
-            StartCoroutine(enableAttackCollider());            
+            if (!animAttackOnce)
+            {
+                IAanim.SetTrigger("isAttacking");
+                animAttackOnce = true;
+            }
+            //gameObject.GetComponent<SphereCollider>().enabled = false;
+            //StartCoroutine(enableAttackCollider());            
+            StartCoroutine(enableAttackAnim());
         }
         if(stateValue == 3)//ataque saltarin
         {
@@ -352,10 +358,15 @@ public class Enemy : MonoBehaviour
         canCharge = true;
     }
 
-        private IEnumerator enableAttackCollider() //para evitar dobles ataques
+    private IEnumerator enableAttackCollider() //para evitar dobles ataques
     {
         yield return new WaitForSeconds(5f);
         gameObject.GetComponent<SphereCollider>().enabled = true;
+    }
+    private IEnumerator enableAttackAnim() //para evitar dobles animaciones de ataques
+    {
+        yield return new WaitForSeconds(7f);
+        animAttackOnce = false;
     }
 
     private IEnumerator MoveDelay(float delay)
@@ -462,6 +473,7 @@ public class Enemy : MonoBehaviour
                     break;
             }
             StartCoroutine(MoveDelay(3f));
+            //Debug.Log("BIPED: Can Attack");
             canDoDamage = true;
         }
         if (other.gameObject.tag == "TriggerDamage")
@@ -479,6 +491,7 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             canDoDamage = false;
+            //Debug.Log("BIPED: Cannot Attack");
         }
     }
 

@@ -51,6 +51,9 @@ public class Player : MonoBehaviour
     public GameObject DamageFeedBack;
     private float elapsedTime = 0;
     private bool hitRecover = false;
+
+    private GameManager gameManager;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -83,6 +86,8 @@ public class Player : MonoBehaviour
         healthbar.maxValue = maxHP;
         healthbar.value = healthbar.maxValue;
         DamageFeedBack.GetComponent<CanvasGroup>().alpha = 0.0f;
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void Update()
@@ -189,10 +194,16 @@ public class Player : MonoBehaviour
     IEnumerator BackToMenu()
     {
         yield return new WaitForSeconds(0.15f);
-        SceneManager.LoadScene("CharacterSelection");
+        /*SceneManager.LoadScene("CharacterSelection");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 1f;*/
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 1f;
+        gameManager.ResetVar();
+        Destroy(gameManager.gameObject);
+        SceneManager.LoadScene(0);
     }
     private void BloodEffectRecovery()
     {
