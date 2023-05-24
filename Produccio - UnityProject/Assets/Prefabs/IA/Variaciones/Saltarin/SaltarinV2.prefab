@@ -12,6 +12,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3517157314224308655, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: spawnDemon
+      value: 
+      objectReference: {fileID: 8300000, guid: e8b8b8d3ecb05724d993b4412570a096, type: 3}
+    - target: {fileID: 3517157314224308655, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: spawnTanke
+      value: 
+      objectReference: {fileID: 8300000, guid: 6a5f99b9da4e532419cc6c018a129859, type: 3}
+    - target: {fileID: 3517157314224308655, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: spawnSaltarin
+      value: 
+      objectReference: {fileID: 8300000, guid: 8518c275281e948469c8b9d9275c109e, type: 3}
+    - target: {fileID: 3517157314224308655, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
       propertyPath: VersionSaltarin
       value: 1
       objectReference: {fileID: 0}
@@ -71,5 +83,29 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 467e99f5c3dc4fc42bf1721ca4f70d6a, type: 2}
+    - target: {fileID: 6461734396054067064, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: MaxDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6461734396054067064, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: rolloffMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6461734396054067064, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: DopplerLevel
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6461734396054067064, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6461734396054067064, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058399820105309966, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 773d11224dc8d5c43bfdf4b00314b3d3, type: 3}

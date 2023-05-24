@@ -59,6 +59,10 @@ public class PlayerHabilities : MonoBehaviour
     private bool nadeIsInCD = false;
     public Transform nadeSpawnPoint;
     public GameObject nadePrefab;
+
+    [Header("Sound")]
+    private AudioSource resetCd;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,7 +84,7 @@ public class PlayerHabilities : MonoBehaviour
         }
         templarShotgun.SetActive(false);
         sword.SetActive(false);
-       
+        resetCd = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -187,6 +191,7 @@ public class PlayerHabilities : MonoBehaviour
         yield return new WaitForSeconds(FirstSkillCooldown);
         shotgunIsInCD = false;
         QSkill.SetActive(true);
+        resetCd.Play();
     }
     private void shotgunIconRecovery()
     {
@@ -232,6 +237,7 @@ public class PlayerHabilities : MonoBehaviour
         yield return new WaitForSeconds(SecondSkillCooldown);
         swordIsInCD = false;
         ESkill.SetActive(true);
+        resetCd.Play();
     }
     private void swordIconRecovery()
     {
@@ -260,6 +266,7 @@ public class PlayerHabilities : MonoBehaviour
         yield return new WaitForSeconds(FirstSkillCooldown);
         crossIsInCD = false;
         QSkill.SetActive(true);
+        resetCd.Play();
     }
     private void crossbowIconRecovery()
     {
@@ -288,6 +295,7 @@ public class PlayerHabilities : MonoBehaviour
         yield return new WaitForSeconds(SecondSkillCooldown);
         nadeIsInCD = false;
         ESkill.SetActive(true);
+        resetCd.Play();
     }
     private void nadeIconRecovery()
     {

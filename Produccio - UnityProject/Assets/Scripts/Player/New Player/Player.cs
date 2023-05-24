@@ -177,11 +177,12 @@ public class Player : MonoBehaviour
             Die();
         }
         currentHP -= damage;
-        if(DamageFeedBack.GetComponent<CanvasGroup>().alpha <= 1f)
+        /*if(DamageFeedBack.GetComponent<CanvasGroup>().alpha <= 1f)
             DamageFeedBack.GetComponent<CanvasGroup>().alpha += 0.5f;
-        else
+        else*/
             DamageFeedBack.GetComponent<CanvasGroup>().alpha = 1f;
         hitRecover = true;
+        elapsedTime = 0;
     }  
 
     private void Die()
@@ -193,7 +194,7 @@ public class Player : MonoBehaviour
     }
     IEnumerator BackToMenu()
     {
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(4f);
         /*SceneManager.LoadScene("CharacterSelection");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -227,7 +228,7 @@ public class Player : MonoBehaviour
              currentHP = maxHP;*/
         if(!enableRegen)
             enableRegen = true;
-        regenRate += 0.2f;
+        regenRate += 0.1f;
     }
     private void regenHP()
     {
@@ -247,7 +248,7 @@ public class Player : MonoBehaviour
     }
     public void IncreaseMaxHP()
     {
-        maxHP =+ 10f;
+        maxHP += 10f;
     }
 
     //Get Functions For Upgrade Menu
@@ -262,6 +263,6 @@ public class Player : MonoBehaviour
     }
     public float GetBaseSpeed()
     {
-           return moveSpeed;
+        return moveSpeed;
     }
 }

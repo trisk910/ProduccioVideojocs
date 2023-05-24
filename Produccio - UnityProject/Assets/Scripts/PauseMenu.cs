@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+using UnityEditor;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -86,6 +86,11 @@ public class PauseMenu : MonoBehaviour
     }
     public void QuitGame()
     {
+        Debug.Log("Quitting");
+        Time.timeScale = 1f;
+    #if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+    #endif
         Application.Quit();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class IASpawnerV2 : MonoBehaviour
 {
@@ -45,6 +46,8 @@ public class IASpawnerV2 : MonoBehaviour
 
     private GameObject pm;
 
+    private GameManager gameManager;
+
     void Start()
     {
         EnableWaveSpawner();
@@ -54,6 +57,7 @@ public class IASpawnerV2 : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         Radar = GameObject.FindGameObjectWithTag("Radar");
         pm = GameObject.FindGameObjectWithTag("MenuManager");
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void EnableWaveSpawner()
@@ -284,7 +288,7 @@ public class IASpawnerV2 : MonoBehaviour
             
         }
     }
-    private Vector3 GetRandomSpawnPoint(Vector3 center, float radius, float yLevel, float objectScale)
+   /* private Vector3 GetRandomSpawnPoint(Vector3 center, float radius, float yLevel, float objectScale)
     {
         Vector3 spawnPoint = center + Random.insideUnitSphere * radius;
         spawnPoint.y = yLevel;
@@ -305,7 +309,7 @@ public class IASpawnerV2 : MonoBehaviour
         }
 
         return spawnPoint;
-    }
+    }*/
     private void countEnemiesAlive()
     {
         enemiesAlive = spawnedDemonio.Count + spawnedSaltarin.Count + spawnedTank.Count;
@@ -318,7 +322,10 @@ public class IASpawnerV2 : MonoBehaviour
             
             if (enemiesAlive < 1)
             {
-                increaseMaxPerRound();
+                if(currentRound<21)
+                    increaseMaxPerRound();
+                else
+                    EndGame();
                 enemiesAlive = 0;
             }
         }
@@ -372,7 +379,9 @@ public class IASpawnerV2 : MonoBehaviour
 
     private void EndGame()
     {
-
+        gameManager.ResetVar();
+        Destroy(gameManager.gameObject);
+        SceneManager.LoadScene(0);
     }
 
     private void increaseMaxPerRound()
@@ -544,6 +553,9 @@ public class IASpawnerV2 : MonoBehaviour
                     enemies[2].maxPerRound = 32;
                     enemies[5].maxPerRound = 20;
                     enemies[8].maxPerRound = 8;
+                    break;
+               case 21:
+                    EndGame();
                     break;
             }
 

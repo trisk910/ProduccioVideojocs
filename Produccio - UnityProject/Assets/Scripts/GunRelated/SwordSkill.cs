@@ -35,7 +35,7 @@ public class SwordSkill : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             // Call TakeDamage() function on enemy
-            other.GetComponentInParent<Enemy>().TakeDamage(swordDamage, knockBackForce);
+            other.GetComponentInParent<Enemy>().TakeDamage(swordDamage, 0);
 
             // Instantiate blood hit particle effect at the contact point
             Vector3 contactPoint = other.ClosestPointOnBounds(transform.position);
@@ -51,7 +51,7 @@ public class SwordSkill : MonoBehaviour
     public void UpgradeSword()
     {
         swordDamage += 5f;
-        knockBackForce += 2f;
+        //knockBackForce += 2f;
     }
    
 }

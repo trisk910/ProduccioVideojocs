@@ -7,10 +7,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2012533643, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: 0.0000007301427
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012533643, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0.3723522
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012533643, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: -0.0000022053723
+      objectReference: {fileID: 0}
+    - target: {fileID: 1589240560182388270, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: spawnDemon
+      value: 
+      objectReference: {fileID: 8300000, guid: e8b8b8d3ecb05724d993b4412570a096, type: 3}
+    - target: {fileID: 1589240560182388270, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: spawnTanke
+      value: 
+      objectReference: {fileID: 8300000, guid: 6a5f99b9da4e532419cc6c018a129859, type: 3}
     - target: {fileID: 1589240560182388270, guid: aa6f9906556aa234fabc185139048108, type: 3}
       propertyPath: VersionTanke
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1589240560182388270, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: spawnSaltarin
+      value: 
+      objectReference: {fileID: 8300000, guid: 8518c275281e948469c8b9d9275c109e, type: 3}
     - target: {fileID: 1589240561362348935, guid: aa6f9906556aa234fabc185139048108, type: 3}
       propertyPath: m_Camera
       value: 
@@ -26,6 +50,18 @@ PrefabInstance:
     - target: {fileID: 4321940878638951807, guid: aa6f9906556aa234fabc185139048108, type: 3}
       propertyPath: m_Center.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706093942797281671, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: MaxDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706093942797281671, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: rolloffMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706093942797281671, guid: aa6f9906556aa234fabc185139048108, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6169335650147257076, guid: aa6f9906556aa234fabc185139048108, type: 3}
       propertyPath: m_RootOrder

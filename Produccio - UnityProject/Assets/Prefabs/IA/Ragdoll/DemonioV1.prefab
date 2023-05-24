@@ -71,6 +71,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3402603173924743635, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: MaxDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402603173924743635, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: rolloffMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402603173924743635, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: DopplerLevel
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402603173924743635, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4474860128227735877, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
       propertyPath: m_TagString
       value: WeakSpot
@@ -87,6 +103,18 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9222058076697028854, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: spawnDemon
+      value: 
+      objectReference: {fileID: 8300000, guid: e8b8b8d3ecb05724d993b4412570a096, type: 3}
+    - target: {fileID: 9222058076697028854, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: spawnTanke
+      value: 
+      objectReference: {fileID: 8300000, guid: 6a5f99b9da4e532419cc6c018a129859, type: 3}
+    - target: {fileID: 9222058076697028854, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
+      propertyPath: spawnSaltarin
+      value: 
+      objectReference: {fileID: 8300000, guid: 8518c275281e948469c8b9d9275c109e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cca0d81fdf115a24f8cdfe51d7f24af8, type: 3}
 --- !u!1 &934547864552740418 stripped

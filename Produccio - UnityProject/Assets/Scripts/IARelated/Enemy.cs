@@ -70,6 +70,9 @@ public class Enemy : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip bulletImpact;
     private bool HitCD = false;
+    public AudioClip spawnDemon;
+    public AudioClip spawnTanke;
+    public AudioClip spawnSaltarin;
 
     [Header("Ui")]
     public GameObject Xray;
@@ -84,6 +87,7 @@ public class Enemy : MonoBehaviour
         IAanim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rbs = transform.GetComponentsInChildren<Rigidbody>();//
+        Asc = GetComponent<AudioSource>();
         switch (currentClass)
         {
             case MonsterClass.Saltarin:
@@ -91,16 +95,19 @@ public class Enemy : MonoBehaviour
                 Speed = 3.5f;
                 attackDamage = 16f;
                 SaltarinChargeDistance = 5f;
+                Asc.PlayOneShot(spawnSaltarin);
                 break;
             case MonsterClass.Demonio:
                 Health = 100f;
                 Speed = 2.5f;
                 attackDamage = 20f;
+                Asc.PlayOneShot(spawnDemon);
                 break;
             case MonsterClass.Tank:
                 Health = 400f;
                 Speed = 1.5f;
                 attackDamage = 35f;
+                Asc.PlayOneShot(spawnTanke);
                 break;
         }
         switch (VersionSaltarin)
@@ -148,7 +155,7 @@ public class Enemy : MonoBehaviour
         IaSpawner = GameObject.FindGameObjectWithTag("Spawner");
         Xray.SetActive(false);
         Radar = GameObject.FindGameObjectWithTag("Radar");
-        Asc = GetComponent<AudioSource>();
+        
     }
 
     //Die
@@ -208,7 +215,7 @@ public class Enemy : MonoBehaviour
     }
     public void ChargeDamage()//Saltarin
     {
-        player.GetComponent<Player>().takeDamage(attackDamage);
+        player.GetComponent<Player>().takeDamage(attackDamage * 1.2f);
     }
 
     private void Update(){
@@ -349,7 +356,8 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(1f);
         //rb.AddForce(transform.forward * SaltarinChargeForce, ForceMode.Impulse);
         rb.AddForce(transform.forward * SaltarinChargeForce, ForceMode.VelocityChange);
-        this.gameObject.layer = 8;
+        //this.gameObject.layer = 8;
+       
         StartCoroutine(MoveDelay(moveDelaySaltarin));  
     }
     private IEnumerator resetChargeSkill()
@@ -481,7 +489,9 @@ public class Enemy : MonoBehaviour
             switch (currentClass)
             {
                 case MonsterClass.Saltarin:
-                    ChargeDamage();
+                    //ChargeDamage();
+                    if(isCharging)
+                        rb.AddForce(-transform.forward * recoil, ForceMode.Impulse);
                     break;
             }
         }
