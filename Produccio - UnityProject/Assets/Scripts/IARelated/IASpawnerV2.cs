@@ -381,7 +381,7 @@ public class IASpawnerV2 : MonoBehaviour
     {
         gameManager.ResetVar();
         Destroy(gameManager.gameObject);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 
     private void increaseMaxPerRound()

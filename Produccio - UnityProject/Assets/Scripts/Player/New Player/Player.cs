@@ -189,8 +189,7 @@ public class Player : MonoBehaviour
     {
         //deathScreen.SetActive(true);
         Time.timeScale = 0.02f;
-        StartCoroutine(BackToMenu());
-        
+        StartCoroutine(BackToMenu());        
     }
     IEnumerator BackToMenu()
     {
@@ -214,8 +213,7 @@ public class Player : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
         else
-            hitRecover = false;
-       
+            hitRecover = false;       
     }
 
 
