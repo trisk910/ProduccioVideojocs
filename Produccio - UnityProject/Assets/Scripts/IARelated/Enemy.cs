@@ -373,7 +373,7 @@ public class Enemy : MonoBehaviour
     }
     private IEnumerator enableAttackAnim() //para evitar dobles animaciones de ataques
     {
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(7f);//7
         animAttackOnce = false;
     }
 
@@ -480,7 +480,7 @@ public class Enemy : MonoBehaviour
                     stateValue = 2;
                     break;
             }
-            StartCoroutine(MoveDelay(3f));
+            StartCoroutine(MoveDelay(5f));
             //Debug.Log("BIPED: Can Attack");
             canDoDamage = true;
         }

@@ -13,19 +13,21 @@ public class PauseMenu : MonoBehaviour
     public GameObject PauseMenuUI;
     public GameObject UpGradeMenu;
     private GameManager gameManager;
-
-   
+    private GameObject player;
+    private bool playerIsDead;
     //private bool isUpgradeMenu;
     // Start is called before the first frame update
     void Start()
     {
         PauseMenuUI.SetActive(false);
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        player = GameObject.FindGameObjectWithTag("Player");//GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerIsDead = player.GetComponent<Player>().isDeadPlayer();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             //PauseGame();          
@@ -38,14 +40,14 @@ public class PauseMenu : MonoBehaviour
     }
     void PauseGame()
     {
-        if (isPaused && !isUpgradeMenu)
+        if (isPaused && !isUpgradeMenu && !playerIsDead)
         {
             PauseMenuUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0f;
         }
-        if (!isPaused && !isUpgradeMenu)
+        if (!isPaused && !isUpgradeMenu && !playerIsDead)
         {
             PauseMenuUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;

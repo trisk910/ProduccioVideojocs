@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public GameObject mainMenu;
-    private int menuIndex = -1;
+    private int menuIndex;
     public GameObject CaracterSelector;
     private AudioSource asc;
     public GameObject flashScreen;
@@ -24,6 +24,8 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(false);
         Logo.SetActive(true);
         StartCoroutine(InitialCanvas());
+        menuIndex = -1;
+        Time.timeScale= 1f;
     }
 
     // Update is called once per frame

@@ -46,11 +46,16 @@ public class Player : MonoBehaviour
     public float currentHP;
     public float regenRate;
     public bool enableRegen = false;
+    private bool isDead = false;
 
     [Header("UI")]
     public GameObject DamageFeedBack;
     private float elapsedTime = 0;
     private bool hitRecover = false;
+
+    public GameObject blackOut;
+    private float elapsedTimeb = 0;
+    private bool isBlackout = false;
 
     private GameManager gameManager;
 
@@ -86,6 +91,7 @@ public class Player : MonoBehaviour
         healthbar.maxValue = maxHP;
         healthbar.value = healthbar.maxValue;
         DamageFeedBack.GetComponent<CanvasGroup>().alpha = 0.0f;
+        blackOut.GetComponent<CanvasGroup>().alpha = 0.0f;
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
@@ -106,6 +112,11 @@ public class Player : MonoBehaviour
         if(enableRegen)
             regenHP();
         healthbar.value = currentHP;
+
+        if (currentHP <= 0)
+        {
+            Die();
+        }
     }
 
     private void FixedUpdate()
@@ -172,10 +183,10 @@ public class Player : MonoBehaviour
 
     public void takeDamage(float damage)
     {
-        if (currentHP <= 0)
+        /*if (currentHP <= 0)
         {
             Die();
-        }
+        }*/
         currentHP -= damage;
         /*if(DamageFeedBack.GetComponent<CanvasGroup>().alpha <= 1f)
             DamageFeedBack.GetComponent<CanvasGroup>().alpha += 0.5f;
@@ -188,12 +199,14 @@ public class Player : MonoBehaviour
     private void Die()
     {
         //deathScreen.SetActive(true);
-        Time.timeScale = 0.02f;
+        isDead = true;
+        BlackOut();
+        Time.timeScale = 0.05f;
         StartCoroutine(BackToMenu());        
     }
     IEnumerator BackToMenu()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(0.3f);
         /*SceneManager.LoadScene("CharacterSelection");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -214,6 +227,12 @@ public class Player : MonoBehaviour
         }
         else
             hitRecover = false;       
+    }
+    private void BlackOut()
+    {
+        blackOut.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, elapsedTimeb / 0.2f);
+        elapsedTimeb += Time.deltaTime;
+    
     }
 
 
@@ -262,5 +281,11 @@ public class Player : MonoBehaviour
     public float GetBaseSpeed()
     {
         return moveSpeed;
+    }
+
+    //other
+    public bool isDeadPlayer()
+    {
+        return isDead;
     }
 }
